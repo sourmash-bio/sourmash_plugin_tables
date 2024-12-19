@@ -1,14 +1,35 @@
-"""xyz plugin description"""
+"""\
+The tables plugin for sourmash output files
+
+    Reads and processes any number of sourmash output files to create a table of values for `match_name` per `query_name`.
+
+    Parameters:
+        filename (str): Path to the sourmash file (gather or prefetch CSV file).
+        taxononmy_file (str): Path to the taxonomy file containing the lineage ranks for the sourmash files.
+        lineage_rank (str): The column header that corresponds to the lineage rank for compressing the sourmash files.
+        column (str): The column header of the sourmash files to populate the values of the table.
+        output (str): The output file name.
+        gzip: Use for compressed file type.
+        output_format (str): Either "dense" or "sparse" to specify the output format.
+
+    Returns:
+        pl.DataFrame converted to CSV file:
+            - output_format:
+                - Dense: A DataFrame with `query_name` as rows and `match_name` as columns.
+                - Sparse: A DataFrame with rows indicating `query_name`, `match_name`, and their value.
+            - taxonomy_file and lineage_rank:
+                - A summation of the values for all lower order lineages that populate that row.
+"""
 
 usage="""
-   sourmash scripts xyz
+  sourmash scripts gather_tables gather-dir/*.gather.csv --output gather.csv
+  sourmash scripts prefetch_tables  prefetch-dir/*.prefetch.csv --output prefetch.csv
 """
 
 epilog="""
-See https://github.com/xyz for more examples.
+See https://github.com/sourmash-bio/sourmash_plugin_tables for more examples.
 
 Need help? Have questions? Ask at http://github.com/sourmash-bio/sourmash/issues!
-        p = argparse.ArgumentParser(description="Combine sourmash output files using Polars.")
 """
 
 import argparse
