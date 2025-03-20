@@ -8,6 +8,16 @@ import polars as pl
 
 import sourmash_utils
 
+def read_file_and_separate(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    header = lines[0].strip()
+    idx = [line.strip() for line in lines[1:]]
+
+    return header, idx
+
+
 def main():
     p = argparse.ArgumentParser()
 
@@ -25,6 +35,8 @@ def main():
     # Choose output format: CSV or Parquet
     p.add_argument('--format', choices=['csv', 'parquet'], default='csv',
                    help="Output file format: 'csv' or 'parquet' (default: csv)")
+
+    p.add_argument('-c','--collapse-columns', nargs="*", help='Collapse the polars dataframe by the header of each text file')
 
     sourmash_utils.add_standard_minhash_args(p)
 
@@ -130,6 +142,77 @@ def main():
     #print(presence_data)
     # Merge all presence/absence dataframes
     #presence_df = pl.concat(presence_data, how="align")
+
+    if args.collapse_columns:
+        collapse_df = pl.DataFrame({"hashval": hashvals_l})
+        print(f"Processing the following files: {args.collapse_columns}")
+        for file in args.collapse_columns:
+            print(f"Processing: {file}")
+            h, i = read_file_and_separate(file)
+            print(f"First Line: {h}")
+            print(f"Remaining Lines: {i}")
+
+            # Check that all `i` columns exist in presence_df
+            existing_columns = [col for col in i if col in presence_df.columns]
+            print(existing_columns) 
+#            # Sum the values across the selected columns (ignoring `hashval`)
+#            new_column = pl.col(existing_columns).sum().alias(f"{h}")
+#            
+#            # Add the new summed column to the dataframe
+#            collapse_df = presence_df.with_columns(new_column)
+#    
+#            print(f"Updated DataFrame with {h}:")
+#            print(collapse_df)
+ 
+            # Only proceed if matching columns exist
+            if existing_columns:
+                # Sum values of matching columns
+                new_column = (
+                    presence_df.select(
+                        sum(pl.col(col) for col in existing_columns).alias(f"{h}")
+                    ).to_series()
+                )
+
+                print(new_column)   
+                collapse_df = collapse_df.with_columns(new_column)
+
+                print(f"Updated DataFrame with {h}:")
+                print(collapse_df)
+            else:
+                print(f"No matching columns found for {file}, skipping...")
+   
+        # Print final dataframe after processing all files
+        print("Final collapse_df:")
+        print(collapse_df)
+
+        sum_df = collapse_df.select([
+            pl.col(col).sum().alias(col) for col in collapse_df.columns if col != "hashval"
+        ])
+        print(sum_df)
+    
+        print(pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal'))
+    
+        # Count values > 0 in numeric columns i.e what is the total count of genome across samples
+        hor_sum_df = collapse_df.with_columns(
+            pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
+        )
+    
+        print(hor_sum_df)
+    
+        df = pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal')
+    
+        collapse_df = pl.concat([collapse_df.with_columns(pl.col("hashval").cast(pl.String)), df])
+    
+        hor_sum_df = collapse_df.with_columns(
+            pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
+        )
+    
+        print(hor_sum_df)
+
+
+    else:
+        print("No files provided. Nothing to process.")
+
 
     # Remove duplicate `hashval` columns after horizontal concatenation
 #    presence_df = presence_df.unique(subset=["hashval"], keep="first")
