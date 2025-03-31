@@ -131,6 +131,9 @@ def process_file(filename, taxdb, output_format="dense", column_selection='inter
             has_header=True
         )
 
+        if 'name' in df.columns:
+            df = df.rename({'name': 'match_name'})
+
         # check for and select the columns of interest for the table
         required_columns = [column_selection, 'query_name', 'match_name']
         if not all(col in df.columns for col in required_columns):
