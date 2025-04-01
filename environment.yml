@@ -1,4 +1,4 @@
-name: sourmash_plugin_tables
+name: testtable
 channels:
     - conda-forge
     - bioconda

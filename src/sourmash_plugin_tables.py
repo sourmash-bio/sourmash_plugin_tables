@@ -48,7 +48,7 @@ import argparse
 from concurrent.futures import ProcessPoolExecutor
 import gzip
 import io
-
+print('is this working')
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 class Command_Prefetch_Tables(CommandLinePlugin):
@@ -74,7 +74,7 @@ class Command_Prefetch_Tables(CommandLinePlugin):
 
     def main(self, args):
         super().main(args)
-
+        print('testing edit')
         tables_main(args)
 
         print('RUNNING cmd', self, args)
@@ -102,7 +102,7 @@ class Command_Gather_Tables(CommandLinePlugin):
 
     def main(self, args):
         super().main(args)
-
+        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAH')
         tables_main(args)
 
         print('RUNNING cmd', self, args)
@@ -188,11 +188,7 @@ def process_file_with_format(args):
     A wrapper for process_file function to allow multiprocessing with additional arguments.
     """
     filename, taxdb, output_format, column_selection, rank = args
-    return process_file(filename, taxdb, output_format=output_format, column_selection=column_selection, lineage_rank=rank)
-
-def tables_main(args):
-
-    args
+    print(f"[START] Processing file: {filename}")
 
     if args.taxonomy_file:
         print(f"loading taxonomies from {args.taxonomy_file}")
@@ -200,18 +196,40 @@ def tables_main(args):
         taxdb = pl.read_csv(args.taxonomy_file, separator=',', has_header=True)
         print(f"found {len(taxdb)} identifiers in taxdb.")
         print(taxdb)
+ 
+
+    return process_file(filename, taxdb, output_format=output_format, column_selection=column_selection, lineage_rank=rank)
+
+def tables_main(args):
+
+    print('what do i do')
+    
+    args
+
+    if args.taxonomy_file:
+    #    print(f"loading taxonomies from {args.taxonomy_file}")
+        #taxdb = sourmash.tax.tax_utils.MultiLineageDB.load([args.taxonomy_file])
+     #   taxdb = pl.read_csv(args.taxonomy_file, separator=',', has_header=True)
+     #   print(f"found {len(taxdb)} identifiers in taxdb.")
+      #  print(taxdb)
         #ident_set = set(taxdb["ident"].to_list())
         #print(len(ident_set))
 
         # Parallel processing all files (list a tuple of filename with output structure, send that list to process_file_with_format which runs the process_file function)
-        file_format_args = [(filename, taxdb, args.format, args.column, args.lineage_rank) for filename in args.filenames]
+        file_format_args = [(filename, args.taxonomy_file, args.format, args.column, args.lineage_rank) for filename in args.filenames]
+
+        total_files = len(file_format_args)
+        print(f"[INFO] Starting parallel processing of {total_files} file(s)...")
 
         with ProcessPoolExecutor() as executor:
-            dfs = list(executor.map(process_file_with_format, file_format_args))
+            dfs = list(executor.submit(process_file_with_format, file_format_args))
 
     else:
         # Parallel processing all files (list a tuple of filename with output structure, send that list to process_file_with_format which runs the process_file function)
         file_format_args = [(filename, args.taxonomy_file, args.format, args.column, args.lineage_rank) for filename in args.filenames]
+
+        total_files = len(file_format_args)
+        print(f"[INFO] Starting parallel processing of {total_files} file(s)...")
 
         with ProcessPoolExecutor() as executor:
             dfs = list(executor.map(process_file_with_format, file_format_args))
