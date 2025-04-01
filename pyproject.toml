@@ -17,5 +17,5 @@ license = { text = "BSD 3-Clause License" }
 # any particular type are perfectly fine too!
 
 [project.entry-points."sourmash.cli_script"]
-pretables = "sourmash_plugin_tables:Command_Prefetch_Tables"
-gatables = "sourmash_plugin_tables:Command_Gather_Tables"
+prefetch_tables = "sourmash_plugin_tables:Command_Prefetch_Tables"
+gather_tables = "sourmash_plugin_tables:Command_Gather_Tables"
