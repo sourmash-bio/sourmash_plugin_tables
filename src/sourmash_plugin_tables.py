@@ -1,4 +1,4 @@
-"""\
+"""
 The tables plugin for sourmash output files
 
     Reads and processes any number of sourmash output files to create a table of values for `match_name` per `query_name`.
@@ -48,7 +48,7 @@ import argparse
 from concurrent.futures import ProcessPoolExecutor
 import gzip
 import io
-print('is this working')
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 class Command_Prefetch_Tables(CommandLinePlugin):
@@ -64,20 +64,21 @@ class Command_Prefetch_Tables(CommandLinePlugin):
         # Subparser for 'prefetch'
         parser_prefetch.add_argument('filenames', nargs='+', help="List of input sourmash prefetch files to combine.")
         parser_prefetch.add_argument('-t', '--taxonomy-file', '--taxonomy', nargs='?', metavar='FILE', default=None, help="The Sourmash taxonomy file that corresponds with the database that generated the sourmash prefetch files.")
-        parser_prefetch.add_argument('-l', '--lineage-rank', '--lineage', default='s__species', help="Compress the tables by user-defined taxonomic lineage rank associated with sourmash taxonomic file")
-        parser_prefetch.add_argument('-c', '--column', type=str, default='jaccard', help="The numerical column from 'prefetch' to populate the table values (default: 'jaccard').\nVisit https://sourmash.readthedocs.io/en/latest/classifying-signatures.html#id23 for more information.")
+        parser_prefetch.add_argument('-l', '--lineage-rank', '--lineage', default='species', help="Compress the tables by user-defined taxonomic lineage rank associated with sourmash taxonomic file")
+        parser_prefetch.add_argument('-c', '--column', type=str, default='intersect_bp', help="The numerical column from 'prefetch' to populate the table values (Suggestion: 'jaccard').\nVisit https://sourmash.readthedocs.io/en/latest/classifying-signatures.html#id23 for more information.")
+        parser_prefetch.add_argument('-p', '--presence', action='store_true', help="For whatever value selected by `--column` convert to a binary opposition. I.e. Presence or Abseence, 1 or 0")
         parser_prefetch.add_argument('-o', '--output', required=True, help="Path to save the combined output CSV file.")
         parser_prefetch.add_argument('-f', '--format', choices=['dense', 'sparse'], default='dense', help="Output file structure: dense or sparse OTU.")
         parser_prefetch.add_argument('-z', '--gzip', action='store_true', help="Compress the output file into a .gz file type.")
+        parser_prefetch.add_argument('-v', '--verbose', action='store_true', help="Please flood my terminal with output. Thx.")
 
         debug_literal('RUNNING cmd_prefetch_tables.__init__')
 
     def main(self, args):
         super().main(args)
-        print('testing edit')
+
         tables_main(args)
 
-        print('RUNNING cmd', self, args)
 
 class Command_Gather_Tables(CommandLinePlugin):
     command = 'gather_tables'             # 'scripts <command>'
@@ -92,23 +93,23 @@ class Command_Gather_Tables(CommandLinePlugin):
         # Subparser for 'gather'
         parser_gather.add_argument('filenames', nargs='+', help="List of input sourmash gather files to combine.")
         parser_gather.add_argument('-t', '--taxonomy-file', '--taxonomy', nargs='?', metavar='FILE', default=None, help="The Sourmash taxonomy file that corresponds with the database that generated the sourmash gather files.")
-        parser_gather.add_argument('-l', '--lineage-rank', '--lineage', default='s__species', help="Compress the tables by user-defined taxonomic lineage rank associated with sourmash taxonomic file")
-        parser_gather.add_argument('-c', '--column', type=str, default='f_unique_weighted', help="The numerical column from 'gather' to poplate the table values (default: 'f_unique_weighted').\nVisit https://sourmash.readthedocs.io/en/latest/classifying-signatures.html#id22 for more information.")
+        parser_gather.add_argument('-l', '--lineage-rank', '--lineage', default='species', help="Compress the tables by user-defined taxonomic lineage rank associated with sourmash taxonomic file")
+        parser_gather.add_argument('-c', '--column', type=str, default='intersect_bp', help="The numerical column from 'gather' to poplate the table values (Suggestion: 'f_unique_weighted').\nVisit https://sourmash.readthedocs.io/en/latest/classifying-signatures.html#id22 for more information.")
+        parser_gather.add_argument('-p', '--presence', action='store_true', help="For whatever value selected by `--column` convert to a binary opposition. I.e. Presence or Abseence, 1 or 0")
         parser_gather.add_argument('-o', '--output', required=True, help="Path to save the combined output CSV file.")
         parser_gather.add_argument('-f', '--format', choices=['dense', 'sparse'], default='dense', help="Output file structure: dense or sparse OTU.")
         parser_gather.add_argument('-z', '--gzip', action='store_true', help="Compress the output file into a .gz file type.")
+        parser_gather.add_argument('-v', '--verbose', action='store_true', help="Please flood my terminal with output. Thx.")
 
         debug_literal('RUNNING cmd_gather_tables.__init__')
 
     def main(self, args):
         super().main(args)
-        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAH')
+
         tables_main(args)
 
-        print('RUNNING cmd', self, args)
 
-
-def process_file(filename, taxdb, output_format="dense", column_selection='intersect_bp', lineage_rank='species'):
+def process_file(filename, taxdb, output_format="dense", column_selection='intersect_bp', lineage_rank='species', presence=False):
     """
     Reads and processes any number of sourmash files to create a matrix of `match_name` values per `query_name`.
 
@@ -139,8 +140,18 @@ def process_file(filename, taxdb, output_format="dense", column_selection='inter
         if not all(col in df.columns for col in required_columns):
             raise ValueError(f"Missing required columns in file: {filename}")
 
-        column_names = ['query_name', 'match_name', column_selection]
-        df = df.select(column_names)
+        if presence:
+            df = (
+                 df
+                 .select(required_columns)
+                 .with_columns(
+                     pl.when(pl.col(column_selection) > 0)
+                     .then(1)
+                     .otherwise(0)
+                     .alias(column_selection)
+                     )
+                 )
+        else: df = df.select(required_columns)
 
         if taxdb is not None:
             # find match_name that is in tax 
@@ -150,19 +161,17 @@ def process_file(filename, taxdb, output_format="dense", column_selection='inter
             merged_df = df.join(taxdb, left_on='match_ident', right_on='ident', how='left')
             missing_df = merged_df.filter(pl.col(lineage_rank).is_null()).drop(['match_ident', lineage_rank])
 
-            column_names.append(lineage_rank)
+            required_columns.append(lineage_rank)
 
-            tax_df = (merged_df
-                    .select(column_names)
-                    .rename({lineage_rank: f'match_name_{lineage_rank}'})
-                    .drop_nulls()
-                    .group_by([f'match_name_{lineage_rank}', 'query_name'])
-                    .agg(pl.sum(column_selection))
-                    )
+            tax_df = (
+                     merged_df
+                     .select(required_columns)
+                     .rename({lineage_rank: f'match_name_{lineage_rank}'})
+                     .drop_nulls()
+                     .group_by([f'match_name_{lineage_rank}', 'query_name'])
+                     .agg(pl.sum(column_selection))
+                      )
             df = tax_df
-
-
-        #print(df, merged_df, missing_df, tax_df)
 
         # create the table for a dense or sparse format
         if output_format == "dense" :
@@ -170,7 +179,7 @@ def process_file(filename, taxdb, output_format="dense", column_selection='inter
                 values = column_selection,
                 index = f"match_name_{lineage_rank}" if taxdb is not None and f"match_name_{lineage_rank}" in df.columns else "match_name",
                 columns = "query_name",
-            ).fill_null(0)  # replace null values with 0
+            ).fill_null(0)
             return dense_matrix
 
         elif output_format == "sparse":
@@ -187,53 +196,34 @@ def process_file_with_format(args):
     """
     A wrapper for process_file function to allow multiprocessing with additional arguments.
     """
-    filename, taxdb, output_format, column_selection, rank = args
-    print(f"[START] Processing file: {filename}")
+    filename, tax_file, output_format, column_selection, rank, verbose, presence = args
+    if verbose: print(f"[START] Processing file: {filename}")
 
-    if args.taxonomy_file:
-        print(f"loading taxonomies from {args.taxonomy_file}")
+    if tax_file:
+        print(f"\nLoading taxonomies from {tax_file}")
         #taxdb = sourmash.tax.tax_utils.MultiLineageDB.load([args.taxonomy_file])
-        taxdb = pl.read_csv(args.taxonomy_file, separator=',', has_header=True)
-        print(f"found {len(taxdb)} identifiers in taxdb.")
-        print(taxdb)
- 
+        taxdb = pl.read_csv(tax_file, separator=',', has_header=True)
+        print(f"Found {len(taxdb)} identifiers in taxdb.")
+        if verbose: print(taxdb)
+    else:
+        taxdb=None
 
-    return process_file(filename, taxdb, output_format=output_format, column_selection=column_selection, lineage_rank=rank)
+    return process_file(filename, taxdb, output_format=output_format, column_selection=column_selection, lineage_rank=rank, presence=presence)
 
 def tables_main(args):
 
-    print('what do i do')
-    
     args
 
-    if args.taxonomy_file:
-    #    print(f"loading taxonomies from {args.taxonomy_file}")
-        #taxdb = sourmash.tax.tax_utils.MultiLineageDB.load([args.taxonomy_file])
-     #   taxdb = pl.read_csv(args.taxonomy_file, separator=',', has_header=True)
-     #   print(f"found {len(taxdb)} identifiers in taxdb.")
-      #  print(taxdb)
-        #ident_set = set(taxdb["ident"].to_list())
-        #print(len(ident_set))
+    # Parallel processing all files (list a tuple of filename with output structure, send that list to process_file_with_format which runs the process_file function)
+    file_format_args = [(filename, args.taxonomy_file, args.format, args.column, args.lineage_rank, args.verbose, args.presence) for filename in args.filenames]
 
-        # Parallel processing all files (list a tuple of filename with output structure, send that list to process_file_with_format which runs the process_file function)
-        file_format_args = [(filename, args.taxonomy_file, args.format, args.column, args.lineage_rank) for filename in args.filenames]
+    total_files = len(file_format_args)
+    print(f"[INFO] Starting parallel processing of {total_files} file(s)...")
 
-        total_files = len(file_format_args)
-        print(f"[INFO] Starting parallel processing of {total_files} file(s)...")
+    with ProcessPoolExecutor() as executor:
+        dfs = list(executor.map(process_file_with_format, file_format_args))
 
-        with ProcessPoolExecutor() as executor:
-            dfs = list(executor.submit(process_file_with_format, file_format_args))
-
-    else:
-        # Parallel processing all files (list a tuple of filename with output structure, send that list to process_file_with_format which runs the process_file function)
-        file_format_args = [(filename, args.taxonomy_file, args.format, args.column, args.lineage_rank) for filename in args.filenames]
-
-        total_files = len(file_format_args)
-        print(f"[INFO] Starting parallel processing of {total_files} file(s)...")
-
-        with ProcessPoolExecutor() as executor:
-            dfs = list(executor.map(process_file_with_format, file_format_args))
-    print(dfs)
+    if args.verbose: print("Listing each individual dataframe...\n", dfs, '\nList of DataFrames completed.')
 
     # Combine all DataFrames
     if args.format == "dense":
@@ -283,32 +273,25 @@ def tables_main(args):
 
         with gzip.open(output, 'wt', encoding='UTF-8') as fp:
             combined_df.write_csv(fp)
-       # # Test datasets
-       # combined_df = pl.DataFrame({
-       #     "match_name": ["apple", "banana", "orange", "grape", "melon"]
-       # })
-       # combined_df = pl.DataFrame({
-       #     "match_name": ["apple,banana", "orange", "grape,kiwi", "melon"]
-       # })
 
         # Print something to help look at the output in the terminal
         if combined_df["match_name"].str.contains(",").any() or combined_df[f"match_name_{args.lineage_rank}"].str.contains(",").any():
-            print(f"""Consider running `gzip -cd {output} | sed -E 's/"([^"]*),([^"]*)"/"\\1|\\2"/g' | column -s, -t | less -S` to see the full table.""")
+            print(f"""\n\nConsider running `gzip -cd {output} | sed -E 's/"([^"]*),([^"]*)"/"\\1|\\2"/g' | column -s, -t | less -S` to see the full table.\n""")
         else:
-            print(f"Consider running `gzip -cd {output} | column -s, -t | less -S` to see full table.")
+            print(f"\n\nConsider running `gzip -cd {output} | column -s, -t | less -S` to see full table.\n")
 
     else:
         combined_df.write_csv(args.output)
 
         if "match_name" in combined_df.columns:
             if combined_df["match_name"].str.contains(",").any():
-                print(f"""Consider running `sed -E 's/"([^"]*),([^"]*)"/"\\1|\\2"/g' {args.output} | column -s, -t | less -S` to see the full table.""")
+                print(f"""\n\nConsider running `sed -E 's/"([^"]*),([^"]*)"/"\\1|\\2"/g' {args.output} | column -s, -t | less -S` to see the full table.\n""")
             else:
-                print(f"Consider running `cat {args.output} | column -s, -t | less -S` to see full table.")
+                print(f"\n\nConsider running `cat {args.output} | column -s, -t | less -S` to see full table.\n")
 
         elif f"match_name_{args.lineage_rank}" in combined_df.columns:
             if combined_df[f"match_name_{args.lineage_rank}"].str.contains(",").any():
-                print(f"""Consider running `sed -E 's/"([^"]*),([^"]*)"/"\\1|\\2"/g' {args.output} | column -s, -t | less -S` to see the full table.""")
+                print(f"""\n\nConsider running `sed -E 's/"([^"]*),([^"]*)"/"\\1|\\2"/g' {args.output} | column -s, -t | less -S` to see the full table.\n""")
             else:
-                print(f"Consider running `cat {args.output} | column -s, -t | less -S` to see full table.")
+                print(f"\n\nConsider running `cat {args.output} | column -s, -t | less -S` to see full table.\n")
 
