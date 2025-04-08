@@ -130,6 +130,7 @@ class Command_Hash_Tables(CommandLinePlugin):
                                  help="Output file format: 'csv' or 'parquet' (default: csv)")
         parser_hash.add_argument('-c','--collapse-columns', nargs="*", help='Collapse the polars dataframe by the header of each text file')
         parser_hash.add_argument('-v', '--verbose', action='store_true', help="Please flood my terminal with output. Thx.")
+        parser_hash.add_argument('--total_count', action='store_true', help='Sum all the presence information.')
 
         sourmash_utils.add_standard_minhash_args(parser_hash)
 
