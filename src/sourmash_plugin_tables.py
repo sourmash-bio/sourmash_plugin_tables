@@ -22,8 +22,10 @@ The tables plugin for sourmash output files
 """
 
 usage="""
-  sourmash scripts gather_tables gather-dir/*.gather.csv --output gather.csv
-  sourmash scripts prefetch_tables  prefetch-dir/*.prefetch.csv --output prefetch.csv
+    sourmash scripts gather_tables gather-dir/*.gather.csv --output gather.csv
+    sourmash scripts prefetch_tables  prefetch-dir/*.prefetch.csv --output prefetch.csv
+    sourmash scripts hash_tables 
+        - Allows downsampling
 """
 
 epilog="""
@@ -48,6 +50,7 @@ import argparse
 from concurrent.futures import ProcessPoolExecutor
 import gzip
 import io
+import sourmash_utils
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -102,12 +105,145 @@ class Command_Gather_Tables(CommandLinePlugin):
         parser_gather.add_argument('-v', '--verbose', action='store_true', help="Please flood my terminal with output. Thx.")
 
         debug_literal('RUNNING cmd_gather_tables.__init__')
-
+ 
     def main(self, args):
         super().main(args)
 
         tables_main(args)
 
+class Command_Hash_Tables(CommandLinePlugin):
+    command = 'hash_tables'
+    description = __doc__
+    usage = usage
+    epilog = epilog
+    formatter_class = argparse.RawTextHelpFormatter
+
+    def __init__(self, parser_hash):
+        super().__init__(parser_hash)
+
+        #Subparser for 'hash'
+        parser_hash.add_argument('ranktable', help="Input csv containing classified hashes for specified organism")
+        parser_hash.add_argument('sketches', help="Input file with sketches to process")
+        parser_hash.add_argument('-o', '--output', required=True, help="Output CSV/Parquet file")
+        parser_hash.add_argument('--filter-samples', default=None, help="Optional file with sample names to include")
+        parser_hash.add_argument('--format', choices=['csv', 'parquet'], default='csv',
+                                 help="Output file format: 'csv' or 'parquet' (default: csv)")
+        parser_hash.add_argument('-c','--collapse-columns', nargs="*", help='Collapse the polars dataframe by the header of each text file')
+        parser_hash.add_argument('-v', '--verbose', action='store_true', help="Please flood my terminal with output. Thx.")
+
+        sourmash_utils.add_standard_minhash_args(parser_hash)
+
+        debug_literal('RUNNING cmd_hash_tables.__init__')
+ 
+    def main(self, args):
+        super().main(args)
+
+        print(f"Loading rabktable CSV '{args.ranktable}'...")
+        ranktable_df = pl.read_csv(args.ranktable)
+        if args.verbose: print(ranktable_df)
+
+        hashvals_l = ranktable_df['hashval']
+        print(f"Loaded {len(hashvals_l)} hashvals...")
+        if args.verbose: print(hashvals_l)
+
+        select_mh = sourmash_utils.create_minhash_from_args(args)
+        print(f"Selecting sketches: {select_mh}")
+
+        print("Loading sketches from file '{args.sketches}'...")
+        idx = sourmash_utils.load_index_and_select(args.sketches, select_mh)
+        print(f"    Found {len(idx)} samples")
+
+        query_minhash = next(iter(idx.signatures())).minhash.copy_and_clear()
+        if args.scaled != query_minhash.scaled:
+            print(f'Downsampling to {args.scaled}...')
+            query_minhash = query_minhash.downsample(scaled=args.scaled)
+            hashvals_l = pl.Series('hashval', list(query_minhash.hashes.keys()))
+            print(f"Loaded {len(hashvals_l)} hashvals...")
+            if args.verbose: print(hashvals_l)
+
+        filter_by_name = None
+        if args.filter_samples:
+            filter_by_name = set([x.strip() for x in open(args.filter_samples)])
+
+        print("\nBeginning hash presence mapping across all sketches")
+        presence_df = pl.DataFrame({'hashval': hashvals_l})
+        n_skipped = 0
+
+        for n, metag_ss in enumerate(idx.signatures()):
+            metag_name = metag_ss.name
+
+            if n and n % 10 == 0:
+                print('...', n, 'of', len(idx), f'({n/len(idx) * 100:.2f}%)')
+
+            if filter_by_name and metag_name not in filter_by_name:
+                n_skipped += 1
+                continue
+
+            metag_mh = metag_ss.minhash.downsample(scaled=args.scaled)
+            metag_hashes = pl.Series(list(metag_mh.hashes))
+
+            presence_column = hashvals_l.is_in(metag_hashes).cast(pl.Int32).alias(metag_name)
+            presence_df = presence_df.with_columns(presence_column)
+
+        if args.filter_samples: print(f"Skipped {n_skipped} samples.")
+
+        if args.collapse_columns:
+            print(f"Processing the following files: {args.collapse_columns}")
+            collapse_df = pl.DataFrame({"hashval": hashvals_l})
+
+            for fp in args.collapse_columns:
+                print(f"Processing: {fp}")
+                h, i = read_file_and_separate(fp)
+                if args.verbose: print(f"First line: {h}")
+                if args.verbose: print(f"Remaining lines: {i}")
+
+                existing_columns = [col for col in i if col in presence_df.columns]
+                if args.verbose: print(exsting_columns)
+
+                if existing_columns:
+                    new_column = (
+                            presence_df.select(
+                                sum(pl.col(col) for col in existing_columns).alias(f"{h}")
+                                ).to_series()
+                            )
+                    collapse_df = collapse_df.with_columns(new_column)
+                    print(f"... Updating DataFrame with {h}")
+                    if args.verbose: print(collapse_df)
+                else:
+                    print(f"No matching columns found for {fp}, skipping...")
+
+            if args.verbose: print("Final collapsed DataFrame:\n", collapse_df)
+            final_df = collapse_df
+        else:
+            final_df = presence_df
+
+        if args.total_count:
+            sum_df = collapse_df.select([
+                pl.col(col).sum().alias(col) for col in collapse_df.columns if col != "hashval"
+            ])
+            sum_df = pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal')
+            sum_df = sum_df.with_columns(
+                pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
+            )
+            if args.verbose: print(sum_df)
+
+        if args.format == 'csv':
+            final_df.write_csv(args.output)
+        elif args.format == 'parquet':
+            final_df.write_parquet(args.output)
+
+        print(f"Results written to {args.output}")
+
+
+
+def read_file_and_separate(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    header = lines[0].strip()
+    idx = [line.strip() for line in lines[1:]]
+
+    return header, idx
 
 def process_file(filename, taxdb, output_format="dense", column_selection='intersect_bp', lineage_rank='species', presence=False):
     """
