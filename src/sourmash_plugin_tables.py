@@ -43,14 +43,17 @@ from sourmash.plugins import CommandLinePlugin
 
 from sourmash.save_load import (Base_SaveSignaturesToLocation,
                                 _get_signatures_from_rust)
+import sourmash_utils
+#from sourmash_args import load_file_as_index
+from sourmash.index import LinearIndex
 
 import sys
+import os
 import polars as pl
 import argparse
 from concurrent.futures import ProcessPoolExecutor
 import gzip
 import io
-import sourmash_utils
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -123,14 +126,14 @@ class Command_Hash_Tables(CommandLinePlugin):
 
         #Subparser for 'hash'
         parser_hash.add_argument('ranktable', help="Input csv containing classified hashes for specified organism")
-        parser_hash.add_argument('sketches', help="Input file with sketches to process")
+        parser_hash.add_argument('sketches', nargs="+", help="Input file with sketches to process")
         parser_hash.add_argument('-o', '--output', required=True, help="Output CSV/Parquet file")
         parser_hash.add_argument('--filter-samples', default=None, help="Optional file with sample names to include")
         parser_hash.add_argument('--format', choices=['csv', 'parquet'], default='csv',
                                  help="Output file format: 'csv' or 'parquet' (default: csv)")
         parser_hash.add_argument('-c','--collapse-columns', nargs="*", help='Collapse the polars dataframe by the header of each text file')
         parser_hash.add_argument('-v', '--verbose', action='store_true', help="Please flood my terminal with output. Thx.")
-        parser_hash.add_argument('--total_count', action='store_true', help='Sum all the presence information.')
+        parser_hash.add_argument('--total-count', action='store_true', help='Sum all the presence information.')
 
         sourmash_utils.add_standard_minhash_args(parser_hash)
 
@@ -150,12 +153,23 @@ class Command_Hash_Tables(CommandLinePlugin):
         select_mh = sourmash_utils.create_minhash_from_args(args)
         print(f"Selecting sketches: {select_mh}")
 
-        print("Loading sketches from file '{args.sketches}'...")
-        idx = sourmash_utils.load_index_and_select(args.sketches, select_mh)
+        if args.verbose: print(f"Loading sketches from file '{args.sketches}'...")
+        print(f"Loading {len(args.sketches)} files...")
+        combined_idx = LinearIndex()
+        for filename in args.sketches:
+            idx = sourmash.load_file_as_index(filename)
+            idx = idx.select(ksize=select_mh.ksize,
+                             moltype=select_mh.moltype,
+                             scaled=select_mh.scaled,
+                             abund=select_mh.track_abundance)
+            if len(args.sketches) > 1:
+                for sig in idx.signatures():
+                    combined_idx.insert(sig)
+                idx = combined_idx
         print(f"    Found {len(idx)} samples")
 
         query_minhash = next(iter(idx.signatures())).minhash.copy_and_clear()
-        if args.scaled != query_minhash.scaled:
+        if args.scaled and args.scaled != query_minhash.scaled:
             print(f'Downsampling to {args.scaled}...')
             query_minhash = query_minhash.downsample(scaled=args.scaled)
             hashvals_l = pl.Series('hashval', list(query_minhash.hashes.keys()))
@@ -219,23 +233,23 @@ class Command_Hash_Tables(CommandLinePlugin):
             final_df = presence_df
 
         if args.total_count:
-            sum_df = collapse_df.select([
-                pl.col(col).sum().alias(col) for col in collapse_df.columns if col != "hashval"
+            sum_df = final_df.select([
+                pl.col(col).sum().alias(col) for col in final_df.columns if col != "hashval"
             ])
             sum_df = pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal')
             sum_df = sum_df.with_columns(
                 pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
             )
+            final_df = sum_df
             if args.verbose: print(sum_df)
 
+        print(final_df)
         if args.format == 'csv':
             final_df.write_csv(args.output)
         elif args.format == 'parquet':
             final_df.write_parquet(args.output)
 
         print(f"Results written to {args.output}")
-
-
 
 def read_file_and_separate(file_path):
     with open(file_path, 'r') as file:
