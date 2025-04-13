@@ -5,7 +5,7 @@ name = "sourmash_plugin_tables"
 description = "sourmash plugin to do tables."
 readme = "README.md"
 requires-python = ">=3.10"
-version = "0.4"
+version = "0.5"
 
 dependencies = ["sourmash>=4.8.11,<5", "polars", "sourmash_utils"]
 
@@ -20,3 +20,4 @@ license = { text = "BSD 3-Clause License" }
 prefetch_tables = "sourmash_plugin_tables:Command_Prefetch_Tables"
 gather_tables = "sourmash_plugin_tables:Command_Gather_Tables"
 hash_tables = "sourmash_plugin_tables:Command_Hash_Tables"
+compare_rows = "sourmash_plugin_tables:Command_Compare_Rows"

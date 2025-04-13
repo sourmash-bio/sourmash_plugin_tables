@@ -251,6 +251,80 @@ class Command_Hash_Tables(CommandLinePlugin):
 
         print(f"Results written to {args.output}")
 
+class Command_Compare_Rows(CommandLinePlugin):
+    command = 'compare_rows'             # 'scripts <command>'
+    description = __doc__       # output with -h
+    usage = usage               # output with no args/bad args as well as -h
+    epilog = epilog             # output with -h
+    formatter_class = argparse.RawTextHelpFormatter # do not reformat multiline
+
+    def __init__(self, parser_compare):
+        super().__init__(parser_compare)
+
+        parser_compare.add_argument('datafile_1', nargs='?', metavar='FILE', help="A file that has the structure of the output from gather_tables, prefetch_tables, or hash_tables.")
+        parser_compare.add_argument('datafile_2', nargs='?', metavar='FILE', help="A file that has the structure of the output from gather_tables, prefetch_tables, or hash_tables.")
+        parser_compare.add_argument('-s', '--sort', action='store_true', help="Sort the column and rows.")
+        parser_compare.add_argument('-v', '--verbose', action='store_true', help="Please flood my terminal with output. Thx.")
+
+        debug_literal('RUNNING cmd_compare_rows.__init__')
+
+    def main(self, args):
+        super().main(args)
+
+        print(f"Loading Data Files '{args.datafile_1}' and {args.datafile_2}...")
+        df1 = pl.read_csv(args.datafile_1)
+        df2 = pl.read_csv(args.datafile_2)
+       
+        if args.verbose: print(df1, '\n', df2)
+
+        df1_index = df1.columns[0]
+        df2_index = df2.columns[0]
+        if df1_index and df2_index not in ["hashval", "match_name"]:
+            raise ValueError("First column must be 'hashval' or 'match_name'.")
+
+        assert df1_index == df2_index
+        index = df1_index
+        df1_values = [col for col in df1.columns if col != df1_index]
+        df2_values = [col for col in df2.columns if col != df2_index]
+
+        print(f"Melting data...")
+        melted_df1 = df1.unpivot(
+            index=index,
+            on=df1_values,
+            variable_name="Identifier_1",
+            value_name="val1"
+        )
+
+        melted_df2 = df2.unpivot(
+            index=index,
+            on=df2_values,
+            variable_name="Identifier_2",
+            value_name="val2"
+        )
+        if args.verbose: print(melted_df1, '\n', melted_df2)
+
+        print("Finding all matches from presence data...")
+        matches = (
+            melted_df1
+            .join(melted_df2, on=index, how="full") #should this be inner join?
+            .filter((pl.col("val1") > 0) & (pl.col("val2") > 0))
+        )
+        if args.verbose: print(matches)
+
+        print("Reporting all matches for sample cross...")
+        result = (
+            matches
+            .group_by(["Identifier_1", "Identifier_2"])
+            .agg(pl.col(index).alias("matches"))
+            #.with_columns(pl.col("matches").list.join(",").fill_null("0"))
+            .pivot(values="matches", index="Identifier_1", on="Identifier_2")
+            .fill_null("0")
+        )
+
+        if args.sort: result = result.sort("Identifier_1").select(["Identifier_1"] + sorted(result.columns[1:]))
+        if args.verbose: print(result)
+
+
 def read_file_and_separate(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
