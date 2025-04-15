@@ -70,7 +70,6 @@ def main():
 
     print(f"found {len(idx)} metagenomes")
 
-    print(idx)
 
     # Create an empty MinHash to hold hashes for query
     query_minhash = next(iter(idx.signatures())).minhash.copy_and_clear()
@@ -78,10 +77,16 @@ def main():
     print(query_minhash)
     # Add all hashes from ranktable_df to the query MinHash
     query_minhash.add_many(hashvals_l.to_list())
-    print(query_minhash)
+    print(query_minhash.scaled)
     # Downsample query MinHash if `scaled` is provided
+    s = query_minhash.scaled
     if args.scaled:
-        query_minhash = query_minhash.downsample(scaled=args.scaled)
+        if args.scaled != s: 
+            print(f'Downsampling to {args.scaled}')
+            query_minhash = query_minhash.downsample(scaled=args.scaled)
+            print(hashvals_l)
+            print(pl.Series("hashval", list(query_minhash.hashes.keys())))
+            hashvals_l = pl.Series("hashval", list(query_minhash.hashes.keys()))
     else:
         args.scaled = query_minhash.scaled
 
@@ -105,7 +110,7 @@ def main():
 
         # Print progress every 10 sketches
         if n and n % 10 == 0:
-            print('...', n, 'and', sys.getsizeof(presence_df), 'bytes')
+            print('...', n, "of", len(idx), f'{n/len(idx) * 100:.2f}%', 'and', sys.getsizeof(presence_df), 'bytes')
 
         # Skip sketches if not in the filter list
         if filter_by_name and metag_name not in filter_by_name:
@@ -154,7 +159,7 @@ def main():
 
             # Check that all `i` columns exist in presence_df
             existing_columns = [col for col in i if col in presence_df.columns]
-            print(existing_columns) 
+            print("existing",existing_columns) 
 #            # Sum the values across the selected columns (ignoring `hashval`)
 #            new_column = pl.col(existing_columns).sum().alias(f"{h}")
 #            
@@ -173,7 +178,7 @@ def main():
                     ).to_series()
                 )
 
-                print(new_column)   
+                print("new",new_column)   
                 collapse_df = collapse_df.with_columns(new_column)
 
                 print(f"Updated DataFrame with {h}:")
@@ -188,25 +193,33 @@ def main():
         sum_df = collapse_df.select([
             pl.col(col).sum().alias(col) for col in collapse_df.columns if col != "hashval"
         ])
+        print('first sum dataframe')
         print(sum_df)
     
+        print('concatination dataframe')
         print(pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal'))
-    
+        sum_df = pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal')    
+        sum_df = sum_df.with_columns(
+            pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
+        )
+        print(sum_df)
+
+
         # Count values > 0 in numeric columns i.e what is the total count of genome across samples
         hor_sum_df = collapse_df.with_columns(
             pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
         )
-    
+        print('first horizontal sum dataframe')
         print(hor_sum_df)
     
-        df = pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal')
+#        df = pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal')
     
-        collapse_df = pl.concat([collapse_df.with_columns(pl.col("hashval").cast(pl.String)), df])
+ #       collapse_df = pl.concat([collapse_df.with_columns(pl.col("hashval").cast(pl.String)), df])
     
         hor_sum_df = collapse_df.with_columns(
             pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
         )
-    
+        print('second horizontal sum dataframe')
         print(hor_sum_df)
 
 
@@ -214,33 +227,34 @@ def main():
         print("No files provided. Nothing to process.")
 
 
-    # Remove duplicate `hashval` columns after horizontal concatenation
-#    presence_df = presence_df.unique(subset=["hashval"], keep="first")
-    print(presence_df)
-
-    sum_df = presence_df.select([
-        pl.col(col).sum().alias(col) for col in presence_df.columns if col != "hashval"
-    ])
-    print(sum_df)
-
-    print(pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal'))
-
-    # Count values > 0 in numeric columns i.e what is the total count of genome across samples
-    hor_sum_df = presence_df.with_columns(
-        pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
-    )
-
-    print(hor_sum_df)
-
-    df = pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal')
-
-    presence_df = pl.concat([presence_df.with_columns(pl.col("hashval").cast(pl.String)), df])
-
-    hor_sum_df = presence_df.with_columns(
-        pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
-    )
-
-    print(hor_sum_df)
+#    # Remove duplicate `hashval` columns after horizontal concatenation
+##    presence_df = presence_df.unique(subset=["hashval"], keep="first")
+#    print(presence_df)
+#
+#    sum_df = presence_df.select([
+#        pl.col(col).sum().alias(col) for col in presence_df.columns if col != "hashval"
+#    ])
+#    print(sum_df)
+#
+#    print(pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal'))
+#
+#    # Count values > 0 in numeric columns i.e what is the total count of genome across samples
+#    hor_sum_df = presence_df.with_columns(
+#        pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
+#    )
+#
+#    print(hor_sum_df)
+#
+#    print("Add a count row for each column")
+#    df = pl.concat([pl.DataFrame({'hashval': ['count']}), sum_df], how='horizontal')
+#    presence_df = pl.concat([presence_df.with_columns(pl.col("hashval").cast(pl.String)), df])
+#
+#
+#    hor_sum_df = presence_df.with_columns(
+#        pl.sum_horizontal((pl.col(pl.Int32)).cast(pl.Int64)).alias("count")
+#    )
+#
+#    print(hor_sum_df)
 
 
     # Save the presence/absence matrix to the specified format
