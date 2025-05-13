@@ -51,7 +51,7 @@ import sys
 import os
 import polars as pl
 import argparse
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 import gzip
 import io
 
@@ -72,7 +72,10 @@ class Command_Prefetch_Tables(CommandLinePlugin):
         parser_prefetch.add_argument('-t', '--taxonomy-file', '--taxonomy', nargs='?', metavar='FILE', default=None, help="The Sourmash taxonomy file that corresponds with the database that generated the sourmash prefetch files.")
         parser_prefetch.add_argument('-l', '--lineage-rank', '--lineage', default='species', help="Compress the tables by user-defined taxonomic lineage rank associated with sourmash taxonomic file")
         parser_prefetch.add_argument('-c', '--column', type=str, default='intersect_bp', help="The numerical column from 'prefetch' to populate the table values (Suggestion: 'jaccard').\nVisit https://sourmash.readthedocs.io/en/latest/classifying-signatures.html#id23 for more information.")
+        parser_prefetch.add_argument('--collapse-columns', nargs="*", help='Collapse the polars dataframe by the header of each text file and sum the presence information (Requires "-p" argument)')
+        parser_prefetch.add_argument('--extract-columns', nargs="*", help='Extract the columns from the polars dataframe by the values of each text file')
         parser_prefetch.add_argument('-p', '--presence', action='store_true', help="For whatever value selected by `--column` convert to a binary opposition. I.e. Presence or Abseence, 1 or 0")
+        parser_prefetch.add_argument('--filter', type=numeric_type, default=1000, help="For whatever value selected by `--column` ignore any value below this filter cutoff. 'intersect_bp' <= 1000 will be ignored as default.")
         parser_prefetch.add_argument('-o', '--output', required=True, help="Path to save the combined output CSV file.")
         parser_prefetch.add_argument('-f', '--format', choices=['dense', 'sparse'], default='dense', help="Output file structure: dense or sparse OTU.")
         parser_prefetch.add_argument('-z', '--gzip', action='store_true', help="Compress the output file into a .gz file type.")
@@ -101,7 +104,10 @@ class Command_Gather_Tables(CommandLinePlugin):
         parser_gather.add_argument('-t', '--taxonomy-file', '--taxonomy', nargs='?', metavar='FILE', default=None, help="The Sourmash taxonomy file that corresponds with the database that generated the sourmash gather files.")
         parser_gather.add_argument('-l', '--lineage-rank', '--lineage', default='species', help="Compress the tables by user-defined taxonomic lineage rank associated with sourmash taxonomic file")
         parser_gather.add_argument('-c', '--column', type=str, default='intersect_bp', help="The numerical column from 'gather' to poplate the table values (Suggestion: 'f_unique_weighted').\nVisit https://sourmash.readthedocs.io/en/latest/classifying-signatures.html#id22 for more information.")
+        parser_gather.add_argument('--collapse-columns', nargs="*", help='Collapse the polars dataframe by the header of each text file and sum the presence information (Requires "-p" argument)')
+        parser_gather.add_argument('--extract-columns', nargs="*", help='Extract the columns from the polars dataframe by the values of each text file')
         parser_gather.add_argument('-p', '--presence', action='store_true', help="For whatever value selected by `--column` convert to a binary opposition. I.e. Presence or Abseence, 1 or 0")
+        parser_gather.add_argument('--filter', type=numeric_type, default=1000, help="For whatever value selected by `--column` ignore any value below this filter cutoff. 'intersect_bp' <= 1000 will be ignored as default.")
         parser_gather.add_argument('-o', '--output', required=True, help="Path to save the combined output CSV file.")
         parser_gather.add_argument('-f', '--format', choices=['dense', 'sparse'], default='dense', help="Output file structure: dense or sparse OTU.")
         parser_gather.add_argument('-z', '--gzip', action='store_true', help="Compress the output file into a .gz file type.")
@@ -131,7 +137,7 @@ class Command_Hash_Tables(CommandLinePlugin):
         parser_hash.add_argument('--filter-samples', default=None, help="Optional file with sample names to include")
         parser_hash.add_argument('--format', choices=['csv', 'parquet'], default='csv',
                                  help="Output file format: 'csv' or 'parquet' (default: csv)")
-        parser_hash.add_argument('-c','--collapse-columns', nargs="*", help='Collapse the polars dataframe by the header of each text file')
+        parser_hash.add_argument('--collapse-columns', nargs="*", help='Collapse the polars dataframe by the header of each text file')
         parser_hash.add_argument('-v', '--verbose', action='store_true', help="Please flood my terminal with output. Thx.")
         parser_hash.add_argument('--total-count', action='store_true', help='Sum all the presence information.')
 
@@ -325,6 +331,12 @@ class Command_Compare_Rows(CommandLinePlugin):
         if args.verbose: print(result)
 
 
+def numeric_type(x):
+    try:
+        return int(x)
+    except ValueError:
+        return float(x)
+
 def read_file_and_separate(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -334,7 +346,7 @@ def read_file_and_separate(file_path):
 
     return header, idx
 
-def process_file(filename, taxdb, output_format="dense", column_selection='intersect_bp', lineage_rank='species', presence=False):
+def process_file(filename, column_selection, output_format="dense", lineage_rank='species', filter_rows=None, presence=False, taxdb=None):
     """
     Reads and processes any number of sourmash files to create a matrix of `match_name` values per `query_name`.
 
@@ -351,32 +363,36 @@ def process_file(filename, taxdb, output_format="dense", column_selection='inter
     """
 
     try:
-        df = pl.read_csv(
+        df = pl.scan_csv(
             filename,
             separator=',',
             has_header=True
         )
 
-        if 'name' in df.columns:
+        schema = df.collect_schema()
+        if 'name' in schema:
             df = df.rename({'name': 'match_name'})
 
         # check for and select the columns of interest for the table
         required_columns = [column_selection, 'query_name', 'match_name']
-        if not all(col in df.columns for col in required_columns):
+        if not all(col in schema for col in required_columns):
             raise ValueError(f"Missing required columns in file: {filename}")
+
+        df = df.select(required_columns)
+
+        if filter_rows:
+            df = df.filter(pl.col(column_selection) >= filter_rows)
 
         if presence:
             df = (
-                 df
-                 .select(required_columns)
-                 .with_columns(
+                 df.with_columns(
                      pl.when(pl.col(column_selection) > 0)
                      .then(1)
                      .otherwise(0)
                      .alias(column_selection)
                      )
+                 .rename({column_selection: f"{column_selection}_presence"})
                  )
-        else: df = df.select(required_columns)
 
         if taxdb is not None:
             # find match_name that is in tax 
@@ -399,54 +415,51 @@ def process_file(filename, taxdb, output_format="dense", column_selection='inter
             df = tax_df
 
         # create the table for a dense or sparse format
-        if output_format == "dense" :
-            dense_matrix = df.pivot(
-                values = column_selection,
-                index = f"match_name_{lineage_rank}" if taxdb is not None and f"match_name_{lineage_rank}" in df.columns else "match_name",
-                columns = "query_name",
-            ).fill_null(0)
-            return dense_matrix
+#        if output_format == "dense" :
+#            dense_matrix = df.pivot(
+#                values = column_selection,
+#                index = f"match_name_{lineage_rank}" if taxdb is not None and f"match_name_{lineage_rank}" in df.columns else "match_name",
+#                columns = "query_name",
+#            ).fill_null(0)
+#            return dense_matrix
+#
+#        elif output_format == "sparse":
+        return df
 
-        elif output_format == "sparse":
-            return df
-
-        else:
-            raise ValueError(f"Invalid output_format: {output_format}. Use 'dense' or 'sparse'.")
+    #    else:
+     #       raise ValueError(f"Invalid output_format: {output_format}. Use 'dense' or 'sparse'.")
 
     # What specific exceptions should I expect?
     except Exception as e:
         raise RuntimeError(f"Error processing file {filename}: {e}")
 
-def process_file_with_format(args):
-    """
-    A wrapper for process_file function to allow multiprocessing with additional arguments.
-    """
-    filename, tax_file, output_format, column_selection, rank, verbose, presence = args
-    if verbose: print(f"[START] Processing file: {filename}")
-
-    if tax_file:
-        print(f"\nLoading taxonomies from {tax_file}")
-        #taxdb = sourmash.tax.tax_utils.MultiLineageDB.load([args.taxonomy_file])
-        taxdb = pl.read_csv(tax_file, separator=',', has_header=True)
-        print(f"Found {len(taxdb)} identifiers in taxdb.")
-        if verbose: print(taxdb)
-    else:
-        taxdb=None
-
-    return process_file(filename, taxdb, output_format=output_format, column_selection=column_selection, lineage_rank=rank, presence=presence)
-
 def tables_main(args):
 
     args
 
-    # Parallel processing all files (list a tuple of filename with output structure, send that list to process_file_with_format which runs the process_file function)
-    file_format_args = [(filename, args.taxonomy_file, args.format, args.column, args.lineage_rank, args.verbose, args.presence) for filename in args.filenames]
+    if args.taxonomy_file:
+        print(f"[INFO] Loading taxonomy file...")
+        taxdb_lazy = pl.read_csv(args.taxonomy_file).lazy()     
+        print(f"    Found {len(taxdb_lazy)} identifiers in taxonomy file.")
+    else: 
+        taxdb_lazy = None
 
-    total_files = len(file_format_args)
+
+    total_files = len(args.filenames)
     print(f"[INFO] Starting parallel processing of {total_files} file(s)...")
 
-    with ProcessPoolExecutor() as executor:
-        dfs = list(executor.map(process_file_with_format, file_format_args))
+    lazy_frames = [
+        process_file(
+            filename=file,
+            column_selection=args.column,
+            presence=args.presence,
+            output_format=args.format,
+            lineage_rank=args.lineage_rank,
+            filter_rows=args.filter,
+            taxdb=taxdb_lazy
+        )
+        for file in args.filenames
+    ]
 
     if args.verbose: print("Listing each individual dataframe...\n", dfs, '\nList of DataFrames completed.')
 
@@ -454,10 +467,85 @@ def tables_main(args):
     if args.format == "dense":
         # Outer join to create a dense matrix with all 'name' columns
         # https://docs.pola.rs/api/python/dev/reference/api/polars.concat.html#polars.concat
-        combined_df = pl.concat(dfs, how='align')
+        print('attempting dense format...')
+        combined_df = pl.concat(lazy_frames).collect().pivot(
+                values = f"{args.column}_presence" if args.presence else args.column,
+                index = f"match_name_{args.lineage_rank}" if taxdb_lazy is not None and f"match_name_{args.lineage_rank}" in df.columns else "match_name",
+                columns = "query_name",
+            ).fill_null(0)
 
-        combined_df = combined_df.fill_null(0)
-        print(combined_df)
+        if args.collapse_columns and args.presence and not args.extract_columns:
+            print(f"Processing the following files: {args.collapse_columns}")
+            collapse_df = combined_df[:, [0]]
+
+            for fp in args.collapse_columns:
+                print(f"Processing: {fp}")
+                h, i = read_file_and_separate(fp)
+                if args.verbose: print(f"First line: {h}")
+                if args.verbose: print(f"Remaining lines: {i}")
+
+                existing_columns = [col for col in i if col in combined_df.columns]
+                if args.verbose: print(exsting_columns)
+
+                if existing_columns:
+                    new_column = (
+                            combined_df.select(
+                                sum(pl.col(col) for col in existing_columns).alias(f"{h}")
+                                ).to_series()
+                            )
+                    collapse_df = collapse_df.with_columns(new_column)
+                    print(f"... Updating DataFrame with {h}")
+                    if args.verbose: print(collapse_df)
+                else:
+                    print(f"No matching columns found for {fp}, skipping...")
+
+            if args.verbose: print("Final collapsed DataFrame:\n", collapse_df)
+            combined_df = collapse_df
+
+        if args.extract_columns and not args.collapse_columns:
+            print(f"Processing the following files: {args.extract_columns}")
+            extract_df = combined_df[:, [0]]  # keep first column as key/index
+        
+            for fp in args.extract_columns:
+                print(f"Processing: {fp}")
+                h, i = read_file_and_separate(fp)
+                if args.verbose: print(f"First line: {h}")
+                if args.verbose: print(f"Remaining lines: {i}")
+        
+                existing_columns = [col for col in i if col in combined_df.columns]
+                if args.verbose: print(existing_columns)
+        
+                if existing_columns:
+                    # Select only the existing columns and optionally rename them
+                    new_columns = combined_df.select(existing_columns)
+                    extract_df = extract_df.with_columns(new_columns)
+                    print(f"... Updating DataFrame with columns from {h}")
+                    if args.verbose: print(extract_df)
+                else:
+                    print(f"No matching columns found for {fp}, skipping...")
+
+            if args.verbose: print("Final extracted DataFrame:\n", extract_df)
+            combined_df = extract_df
+
+            numeric_types = {
+                pl.Int8, pl.Int16, pl.Int32, pl.Int64,
+                pl.UInt8, pl.UInt16, pl.UInt32, pl.UInt64,
+                pl.Float32, pl.Float64
+            }
+            def get_numeric_columns(df: pl.DataFrame) -> pl.DataFrame:
+                numeric_cols = [col for col, dtype in zip(df.columns, df.dtypes) if dtype in numeric_types]
+                return df.select(numeric_cols)
+
+            numeric_df = get_numeric_columns(extract_df)
+            
+            # Filter out rows where all numeric values are zero
+            extract_df = extract_df.filter(
+                pl.any_horizontal(numeric_df.cast(pl.Float64) != 0)
+            )
+
+
+
+        #print(combined_df)
         # Create a list of data and numeric columns
         #data_cols = [col for col in combined_df.columns if col not in {'match_name', f'match_name_{args.lineage_rank}'}]
         numeric_cols = combined_df.select(pl.col(pl.Int64) | pl.col(pl.Float64) | pl.col(pl.UInt64)).columns
@@ -479,7 +567,7 @@ def tables_main(args):
 
     else:  # Sparse format
         # Concatenate DataFrames without merging on 'name' to maintain sparse format
-        combined_df = pl.concat(dfs)
+        combined_df = pl.concat(lazy_frames).collect()
     
         # Optionally sort by the percentage column ('percent' or similar)
         if 'f_unique_weighted' in combined_df.columns:
@@ -488,8 +576,8 @@ def tables_main(args):
     # What should be the final output upon completion?
     print(combined_df)
 
-    print(combined_df.shape)
-    print(combined_df.schema)
+#    print(combined_df.shape)
+#    print(combined_df.schema)
     #print(combined_df.describe())
     print(combined_df.sample(fraction=0.01))
 
