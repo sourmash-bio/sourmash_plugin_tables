@@ -5,7 +5,7 @@ name = "sourmash_plugin_tables"
 description = "sourmash plugin to do tables."
 readme = "README.md"
 requires-python = ">=3.10"
-version = "0.5"
+version = "0.6"
 
 dependencies = ["sourmash>=4.8.11,<5", "polars", "sourmash_utils"]
 
