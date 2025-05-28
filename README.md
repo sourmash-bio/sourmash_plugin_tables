@@ -1,4 +1,6 @@
-# sourmash_plugin_tables
+# tables
+
+Tables! We all love them and couldn't function without them in our daily lives. Now sourmash has tables too!
 
 ## Installation
 
@@ -8,7 +10,8 @@ pip install sourmash_plugin_tables
 
 ## Usage
 
-non-xyz info goes here!
+
+
 
 ## Support
 
@@ -24,6 +27,8 @@ Run:
 ```
 pytest tests
 ```
+
+Example/test data located in `tests/test-data` (shocking, I know)
 
 ### Generating a release
 

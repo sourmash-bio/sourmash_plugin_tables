@@ -363,6 +363,9 @@ def process_file(filename, column_selection, output_format="dense", lineage_rank
     """
 
     try:
+        if os.path.getsize(filename) == 0:
+            return None
+
         df = pl.scan_csv(
             filename,
             separator=',',
@@ -372,6 +375,7 @@ def process_file(filename, column_selection, output_format="dense", lineage_rank
         schema = df.collect_schema()
         if 'name' in schema:
             df = df.rename({'name': 'match_name'})
+            schema = df.collect_schema()
 
         # check for and select the columns of interest for the table
         required_columns = [column_selection, 'query_name', 'match_name']
@@ -414,31 +418,21 @@ def process_file(filename, column_selection, output_format="dense", lineage_rank
                       )
             df = tax_df
 
-        # create the table for a dense or sparse format
-#        if output_format == "dense" :
-#            dense_matrix = df.pivot(
-#                values = column_selection,
-#                index = f"match_name_{lineage_rank}" if taxdb is not None and f"match_name_{lineage_rank}" in df.columns else "match_name",
-#                columns = "query_name",
-#            ).fill_null(0)
-#            return dense_matrix
-#
-#        elif output_format == "sparse":
         return df
-
-    #    else:
-     #       raise ValueError(f"Invalid output_format: {output_format}. Use 'dense' or 'sparse'.")
 
     # What specific exceptions should I expect?
     except Exception as e:
-        raise RuntimeError(f"Error processing file {filename}: {e}")
+        if e == "empty CSV":
+            return None
+        else:
+            raise RuntimeError(f"Error processing file {filename}: {e}")
 
 def tables_main(args):
 
     args
 
     if args.taxonomy_file:
-        print(f"[INFO] Loading taxonomy file...")
+        print(f"Loading taxonomy file...")
         taxdb_lazy = pl.read_csv(args.taxonomy_file).lazy()     
         print(f"    Found {len(taxdb_lazy)} identifiers in taxonomy file.")
     else: 
@@ -446,10 +440,13 @@ def tables_main(args):
 
 
     total_files = len(args.filenames)
-    print(f"[INFO] Starting parallel processing of {total_files} file(s)...")
+    print(f"Starting parallel processing of {total_files} file(s)...")
 
-    lazy_frames = [
-        process_file(
+    lazy_frames = []
+    skipped_files = []
+
+    for file in args.filenames:
+        result = process_file(
             filename=file,
             column_selection=args.column,
             presence=args.presence,
@@ -458,8 +455,15 @@ def tables_main(args):
             filter_rows=args.filter,
             taxdb=taxdb_lazy
         )
-        for file in args.filenames
-    ]
+        if result is not None:
+            lazy_frames.append(result)
+        else:
+            skipped_files.append(file)
+
+    print(f"Successfully processed {len(lazy_frames)} file(s).")
+    print(f"Skipped {len(skipped_files)} file(s). Writing the file names to 'skipped-files.txt")
+    with open("skipped-files.txt", "wt") as fp:
+        print(f"{skipped_files}", file=fp)
 
     if args.verbose: print("Listing each individual dataframe...\n", dfs, '\nList of DataFrames completed.')
 
