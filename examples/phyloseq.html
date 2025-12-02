@@ -1,0 +1,2038 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
+<style>
+body {
+box-sizing: border-box;
+min-width: 200px;
+max-width: 980px;
+margin: 0 auto;
+padding: 45px;
+padding-top: 0px;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(phyloseq)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/dense-gather.k31-s1000-t3000.csv&#39;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>tax <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/podar-ref.tax.csv&#39;</span>)</span></code></pre></div>
+<h1 id="an-example-metadata-file-was-generated-with">an example metadata
+file was generated with:</h1>
+<h1 id="head--1-databig_metadatacsv--tiny_examplecsv">head -1
+data/big_metadata.csv &gt; tiny_example.csv</h1>
+<h1 id="tail--n-2-databig_metadatacsv--shuf--head--n-5--tiny_examplecsv">tail
+-n +2 data/big_metadata.csv | shuf | head -n 5 &gt;&gt;
+tiny_example.csv</h1>
+<h1 id="an-example-of-the-tables-plugin-operation">an example of the
+tables plugin operation</h1>
+<h1 id="sourmash-scripts-gather_tables-examplesdatagather-format-dense--o-examplesdatadense-gatherk31-s1000-t3000csv-column-f_unique_weighted-filter-0">sourmash
+scripts gather_tables examples/data/gather/* –format dense -o
+examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
+–filter 0</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    17 obs. of  6 variables:
+##  $ match_name: chr  &quot;CP000139.1 Bacteroides vulgatus ATCC 8482, complete genome&quot; &quot;AE015928.1 Bacteroides thetaiotaomicron VPI-5482, complete genome&quot; &quot;NZ_DS996397.1 Desulfovibrio piger ATCC 29098 Scfld442, whole genome shotgun sequence&quot; &quot;CP001071.1 Akkermansia muciniphila ATCC BAA-835, complete genome&quot; ...
+##  $ ERR1136663: num  8.30e-03 2.03e-03 1.08e-03 5.68e-04 2.36e-05 ...
+##  $ ERR4087400: num  5.51e-03 3.97e-04 0.00 4.12e-03 6.93e-05 ...
+##  $ ERR4562131: num  0.005823 0.000423 0.000155 0.000043 0 ...
+##  $ SRR059888 : num  3.36e-05 0.00 0.00 9.81e-06 0.00 ...
+##  $ SRR9217435: num  5.79e-05 0.00 0.00 0.00 0.00 ...</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>df[,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>##  [1] &quot;CP000139.1 Bacteroides vulgatus ATCC 8482, complete genome&quot;                                      
+##  [2] &quot;AE015928.1 Bacteroides thetaiotaomicron VPI-5482, complete genome&quot;                               
+##  [3] &quot;NZ_DS996397.1 Desulfovibrio piger ATCC 29098 Scfld442, whole genome shotgun sequence&quot;            
+##  [4] &quot;CP001071.1 Akkermansia muciniphila ATCC BAA-835, complete genome&quot;                                
+##  [5] &quot;NZ_KE136524.1 Enterococcus faecalis V583 acyDH-supercont2.1, whole genome shotgun sequence&quot;      
+##  [6] &quot;CP001472.1 Acidobacterium capsulatum ATCC 51196, complete genome&quot;                                
+##  [7] &quot;AE009951.2 Fusobacterium nucleatum subsp. nucleatum ATCC 25586, complete genome&quot;                 
+##  [8] &quot;CP001013.1 Leptothrix cholodnii SP-6, complete genome&quot;                                           
+##  [9] &quot;NZ_JGWU01000001.1 Bordetella bronchiseptica D989 ctg7180000008197, whole genome shotgun sequence&quot;
+## [10] &quot;NZ_KQ961402.1 Zymomonas mobilis strain ATCC 31823 Scaffold1, whole genome shotgun sequence&quot;      
+## [11] &quot;AP009380.1 Porphyromonas gingivalis ATCC 33277 DNA, complete genome&quot;                             
+## [12] &quot;NC_007951.1 Burkholderia xenovorans LB400 chromosome 1, complete sequence&quot;                       
+## [13] &quot;AE017226.1 Treponema denticola ATCC 35405, complete genome&quot;                                      
+## [14] &quot;CP000850.1 Salinispora arenicola CNS-205, complete genome&quot;                                       
+## [15] &quot;AE006470.1 Chlorobium tepidum TLS, complete genome&quot;                                              
+## [16] &quot;AE017221.1 Thermus thermophilus HB27, complete genome&quot;                                           
+## [17] &quot;NC_011663.1 Shewanella baltica OS223, complete genome&quot;</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">str_view</span>(<span class="fu">head</span>(df[,<span class="dv">1</span>]), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] │ CP000139&lt;.1&gt; Bacteroides vulgatus ATCC 8482, complete genome
+## [2] │ AE015928&lt;.1&gt; Bacteroides thetaiotaomicron VPI-5482, complete genome
+## [3] │ NZ_DS996397&lt;.1&gt; Desulfovibrio piger ATCC 29098 Scfld442, whole genome shotgun sequence
+## [4] │ CP001071&lt;.1&gt; Akkermansia muciniphila ATCC BAA-835, complete genome
+## [5] │ NZ_KE136524&lt;.1&gt; Enterococcus faecalis V583 acyDH-supercont2&lt;.1&gt;, whole genome shotgun sequence
+## [6] │ CP001472&lt;.1&gt; Acidobacterium capsulatum ATCC 51196, complete genome</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">word</span>(df[, <span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;CP000139.1 Bacteroides vulgatus&quot;            
+##  [2] &quot;AE015928.1 Bacteroides thetaiotaomicron&quot;    
+##  [3] &quot;NZ_DS996397.1 Desulfovibrio piger&quot;          
+##  [4] &quot;CP001071.1 Akkermansia muciniphila&quot;         
+##  [5] &quot;NZ_KE136524.1 Enterococcus faecalis&quot;        
+##  [6] &quot;CP001472.1 Acidobacterium capsulatum&quot;       
+##  [7] &quot;AE009951.2 Fusobacterium nucleatum&quot;         
+##  [8] &quot;CP001013.1 Leptothrix cholodnii&quot;            
+##  [9] &quot;NZ_JGWU01000001.1 Bordetella bronchiseptica&quot;
+## [10] &quot;NZ_KQ961402.1 Zymomonas mobilis&quot;            
+## [11] &quot;AP009380.1 Porphyromonas gingivalis&quot;        
+## [12] &quot;NC_007951.1 Burkholderia xenovorans&quot;        
+## [13] &quot;AE017226.1 Treponema denticola&quot;             
+## [14] &quot;CP000850.1 Salinispora arenicola&quot;           
+## [15] &quot;AE006470.1 Chlorobium tepidum&quot;              
+## [16] &quot;AE017221.1 Thermus thermophilus&quot;            
+## [17] &quot;NC_011663.1 Shewanella baltica&quot;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>df[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">word</span>(df[,<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>df[,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>##  [1] &quot;CP000139.1 Bacteroides vulgatus&quot;            
+##  [2] &quot;AE015928.1 Bacteroides thetaiotaomicron&quot;    
+##  [3] &quot;NZ_DS996397.1 Desulfovibrio piger&quot;          
+##  [4] &quot;CP001071.1 Akkermansia muciniphila&quot;         
+##  [5] &quot;NZ_KE136524.1 Enterococcus faecalis&quot;        
+##  [6] &quot;CP001472.1 Acidobacterium capsulatum&quot;       
+##  [7] &quot;AE009951.2 Fusobacterium nucleatum&quot;         
+##  [8] &quot;CP001013.1 Leptothrix cholodnii&quot;            
+##  [9] &quot;NZ_JGWU01000001.1 Bordetella bronchiseptica&quot;
+## [10] &quot;NZ_KQ961402.1 Zymomonas mobilis&quot;            
+## [11] &quot;AP009380.1 Porphyromonas gingivalis&quot;        
+## [12] &quot;NC_007951.1 Burkholderia xenovorans&quot;        
+## [13] &quot;AE017226.1 Treponema denticola&quot;             
+## [14] &quot;CP000850.1 Salinispora arenicola&quot;           
+## [15] &quot;AE006470.1 Chlorobium tepidum&quot;              
+## [16] &quot;AE017221.1 Thermus thermophilus&quot;            
+## [17] &quot;NC_011663.1 Shewanella baltica&quot;</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>df[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(df[,<span class="dv">1</span>], <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>df[,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>##  [1] &quot;CP000139 Bacteroides vulgatus&quot;            
+##  [2] &quot;AE015928 Bacteroides thetaiotaomicron&quot;    
+##  [3] &quot;NZ_DS996397 Desulfovibrio piger&quot;          
+##  [4] &quot;CP001071 Akkermansia muciniphila&quot;         
+##  [5] &quot;NZ_KE136524 Enterococcus faecalis&quot;        
+##  [6] &quot;CP001472 Acidobacterium capsulatum&quot;       
+##  [7] &quot;AE009951 Fusobacterium nucleatum&quot;         
+##  [8] &quot;CP001013 Leptothrix cholodnii&quot;            
+##  [9] &quot;NZ_JGWU01000001 Bordetella bronchiseptica&quot;
+## [10] &quot;NZ_KQ961402 Zymomonas mobilis&quot;            
+## [11] &quot;AP009380 Porphyromonas gingivalis&quot;        
+## [12] &quot;NC_007951 Burkholderia xenovorans&quot;        
+## [13] &quot;AE017226 Treponema denticola&quot;             
+## [14] &quot;CP000850 Salinispora arenicola&quot;           
+## [15] &quot;AE006470 Chlorobium tepidum&quot;              
+## [16] &quot;AE017221 Thermus thermophilus&quot;            
+## [17] &quot;NC_011663 Shewanella baltica&quot;</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>##                                   match_name   ERR1136663   ERR4087400
+## 1              CP000139 Bacteroides vulgatus 8.301477e-03 5.512089e-03
+## 2      AE015928 Bacteroides thetaiotaomicron 2.032678e-03 3.968704e-04
+## 3            NZ_DS996397 Desulfovibrio piger 1.076401e-03 0.000000e+00
+## 4           CP001071 Akkermansia muciniphila 5.676425e-04 4.119893e-03
+## 5          NZ_KE136524 Enterococcus faecalis 2.355363e-05 6.929483e-05
+## 6         CP001472 Acidobacterium capsulatum 1.165905e-04 0.000000e+00
+## 7           AE009951 Fusobacterium nucleatum 2.814659e-04 0.000000e+00
+## 8              CP001013 Leptothrix cholodnii 9.421452e-06 0.000000e+00
+## 9  NZ_JGWU01000001 Bordetella bronchiseptica 0.000000e+00 3.779718e-05
+## 10             NZ_KQ961402 Zymomonas mobilis 0.000000e+00 0.000000e+00
+## 11         AP009380 Porphyromonas gingivalis 0.000000e+00 0.000000e+00
+## 12         NC_007951 Burkholderia xenovorans 0.000000e+00 0.000000e+00
+## 13              AE017226 Treponema denticola 0.000000e+00 0.000000e+00
+## 14            CP000850 Salinispora arenicola 0.000000e+00 0.000000e+00
+## 15               AE006470 Chlorobium tepidum 0.000000e+00 0.000000e+00
+## 16             AE017221 Thermus thermophilus 0.000000e+00 0.000000e+00
+## 17              NC_011663 Shewanella baltica 0.000000e+00 0.000000e+00
+##      ERR4562131    SRR059888   SRR9217435
+## 1  5.823024e-03 3.356448e-05 5.792533e-05
+## 2  4.229973e-04 0.000000e+00 0.000000e+00
+## 3  1.548600e-04 0.000000e+00 0.000000e+00
+## 4  4.301667e-05 9.811156e-06 0.000000e+00
+## 5  0.000000e+00 0.000000e+00 0.000000e+00
+## 6  0.000000e+00 0.000000e+00 0.000000e+00
+## 7  0.000000e+00 3.217285e-03 5.649507e-05
+## 8  0.000000e+00 1.587858e-04 1.923693e-04
+## 9  0.000000e+00 2.793598e-04 3.983260e-04
+## 10 3.728112e-04 0.000000e+00 2.932023e-05
+## 11 5.735556e-05 2.765197e-04 8.581530e-06
+## 12 2.581000e-05 0.000000e+00 4.290765e-06
+## 13 0.000000e+00 7.255092e-05 0.000000e+00
+## 14 0.000000e+00 3.464887e-04 0.000000e+00
+## 15 0.000000e+00 7.539099e-05 0.000000e+00
+## 16 0.000000e+00 3.356448e-06 0.000000e+00
+## 17 0.000000e+00 0.000000e+00 1.623339e-04</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">rownames</span>(df) <span class="ot">&lt;-</span> df[,<span class="dv">1</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="fu">rownames</span>(df)</span></code></pre></div>
+<pre><code>##  [1] &quot;CP000139 Bacteroides vulgatus&quot;            
+##  [2] &quot;AE015928 Bacteroides thetaiotaomicron&quot;    
+##  [3] &quot;NZ_DS996397 Desulfovibrio piger&quot;          
+##  [4] &quot;CP001071 Akkermansia muciniphila&quot;         
+##  [5] &quot;NZ_KE136524 Enterococcus faecalis&quot;        
+##  [6] &quot;CP001472 Acidobacterium capsulatum&quot;       
+##  [7] &quot;AE009951 Fusobacterium nucleatum&quot;         
+##  [8] &quot;CP001013 Leptothrix cholodnii&quot;            
+##  [9] &quot;NZ_JGWU01000001 Bordetella bronchiseptica&quot;
+## [10] &quot;NZ_KQ961402 Zymomonas mobilis&quot;            
+## [11] &quot;AP009380 Porphyromonas gingivalis&quot;        
+## [12] &quot;NC_007951 Burkholderia xenovorans&quot;        
+## [13] &quot;AE017226 Treponema denticola&quot;             
+## [14] &quot;CP000850 Salinispora arenicola&quot;           
+## [15] &quot;AE006470 Chlorobium tepidum&quot;              
+## [16] &quot;AE017221 Thermus thermophilus&quot;            
+## [17] &quot;NC_011663 Shewanella baltica&quot;</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>##                                             ERR1136663   ERR4087400
+## CP000139 Bacteroides vulgatus             8.301477e-03 5.512089e-03
+## AE015928 Bacteroides thetaiotaomicron     2.032678e-03 3.968704e-04
+## NZ_DS996397 Desulfovibrio piger           1.076401e-03 0.000000e+00
+## CP001071 Akkermansia muciniphila          5.676425e-04 4.119893e-03
+## NZ_KE136524 Enterococcus faecalis         2.355363e-05 6.929483e-05
+## CP001472 Acidobacterium capsulatum        1.165905e-04 0.000000e+00
+## AE009951 Fusobacterium nucleatum          2.814659e-04 0.000000e+00
+## CP001013 Leptothrix cholodnii             9.421452e-06 0.000000e+00
+## NZ_JGWU01000001 Bordetella bronchiseptica 0.000000e+00 3.779718e-05
+## NZ_KQ961402 Zymomonas mobilis             0.000000e+00 0.000000e+00
+## AP009380 Porphyromonas gingivalis         0.000000e+00 0.000000e+00
+## NC_007951 Burkholderia xenovorans         0.000000e+00 0.000000e+00
+## AE017226 Treponema denticola              0.000000e+00 0.000000e+00
+## CP000850 Salinispora arenicola            0.000000e+00 0.000000e+00
+## AE006470 Chlorobium tepidum               0.000000e+00 0.000000e+00
+## AE017221 Thermus thermophilus             0.000000e+00 0.000000e+00
+## NC_011663 Shewanella baltica              0.000000e+00 0.000000e+00
+##                                             ERR4562131    SRR059888
+## CP000139 Bacteroides vulgatus             5.823024e-03 3.356448e-05
+## AE015928 Bacteroides thetaiotaomicron     4.229973e-04 0.000000e+00
+## NZ_DS996397 Desulfovibrio piger           1.548600e-04 0.000000e+00
+## CP001071 Akkermansia muciniphila          4.301667e-05 9.811156e-06
+## NZ_KE136524 Enterococcus faecalis         0.000000e+00 0.000000e+00
+## CP001472 Acidobacterium capsulatum        0.000000e+00 0.000000e+00
+## AE009951 Fusobacterium nucleatum          0.000000e+00 3.217285e-03
+## CP001013 Leptothrix cholodnii             0.000000e+00 1.587858e-04
+## NZ_JGWU01000001 Bordetella bronchiseptica 0.000000e+00 2.793598e-04
+## NZ_KQ961402 Zymomonas mobilis             3.728112e-04 0.000000e+00
+## AP009380 Porphyromonas gingivalis         5.735556e-05 2.765197e-04
+## NC_007951 Burkholderia xenovorans         2.581000e-05 0.000000e+00
+## AE017226 Treponema denticola              0.000000e+00 7.255092e-05
+## CP000850 Salinispora arenicola            0.000000e+00 3.464887e-04
+## AE006470 Chlorobium tepidum               0.000000e+00 7.539099e-05
+## AE017221 Thermus thermophilus             0.000000e+00 3.356448e-06
+## NC_011663 Shewanella baltica              0.000000e+00 0.000000e+00
+##                                             SRR9217435
+## CP000139 Bacteroides vulgatus             5.792533e-05
+## AE015928 Bacteroides thetaiotaomicron     0.000000e+00
+## NZ_DS996397 Desulfovibrio piger           0.000000e+00
+## CP001071 Akkermansia muciniphila          0.000000e+00
+## NZ_KE136524 Enterococcus faecalis         0.000000e+00
+## CP001472 Acidobacterium capsulatum        0.000000e+00
+## AE009951 Fusobacterium nucleatum          5.649507e-05
+## CP001013 Leptothrix cholodnii             1.923693e-04
+## NZ_JGWU01000001 Bordetella bronchiseptica 3.983260e-04
+## NZ_KQ961402 Zymomonas mobilis             2.932023e-05
+## AP009380 Porphyromonas gingivalis         8.581530e-06
+## NC_007951 Burkholderia xenovorans         4.290765e-06
+## AE017226 Treponema denticola              0.000000e+00
+## CP000850 Salinispora arenicola            0.000000e+00
+## AE006470 Chlorobium tepidum               0.000000e+00
+## AE017221 Thermus thermophilus             0.000000e+00
+## NC_011663 Shewanella baltica              1.623339e-04</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">str</span>(tax)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    64 obs. of  10 variables:
+##  $ accession   : chr  &quot;AE000782&quot; &quot;NC_000909&quot; &quot;NC_003272&quot; &quot;AE009441&quot; ...
+##  $ taxid       : int  224325 243232 103690 178306 186497 190304 188937 190192 246200 194439 ...
+##  $ superkingdom: chr  &quot;Archaea&quot; &quot;Archaea&quot; &quot;Bacteria&quot; &quot;Archaea&quot; ...
+##  $ phylum      : chr  &quot;Euryarchaeota&quot; &quot;Euryarchaeota&quot; &quot;Cyanobacteria&quot; &quot;Crenarchaeota&quot; ...
+##  $ class       : chr  &quot;Archaeoglobi&quot; &quot;Methanococci&quot; &quot;&quot; &quot;Thermoprotei&quot; ...
+##  $ order       : chr  &quot;Archaeoglobales&quot; &quot;Methanococcales&quot; &quot;Nostocales&quot; &quot;Thermoproteales&quot; ...
+##  $ family      : chr  &quot;Archaeoglobaceae&quot; &quot;Methanocaldococcaceae&quot; &quot;Nostocaceae&quot; &quot;Thermoproteaceae&quot; ...
+##  $ genus       : chr  &quot;Archaeoglobus&quot; &quot;Methanocaldococcus&quot; &quot;Nostoc&quot; &quot;Pyrobaculum&quot; ...
+##  $ species     : chr  &quot;Archaeoglobus fulgidus&quot; &quot;Methanocaldococcus jannaschii&quot; &quot;Nostoc sp. PCC 7120&quot; &quot;Pyrobaculum aerophilum&quot; ...
+##  $ strain      : chr  &quot;Archaeoglobus fulgidus DSM 4304&quot; &quot;Methanocaldococcus jannaschii DSM 2661&quot; &quot;&quot; &quot;Pyrobaculum aerophilum str. IM2&quot; ...</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>tax[,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>##  [1] &quot;AE000782&quot;        &quot;NC_000909&quot;       &quot;NC_003272&quot;       &quot;AE009441&quot;       
+##  [5] &quot;AE009950&quot;        &quot;AE009951&quot;        &quot;AE010299&quot;        &quot;AE009439&quot;       
+##  [9] &quot;NC_003911&quot;       &quot;AE006470&quot;        &quot;AE015928&quot;        &quot;AL954747&quot;       
+## [13] &quot;BX119912&quot;        &quot;BX571656&quot;        &quot;AE017180&quot;        &quot;AE017226&quot;       
+## [17] &quot;BX950229&quot;        &quot;AE017221&quot;        &quot;BA000001&quot;        &quot;BA000023&quot;       
+## [21] &quot;NC_007951&quot;       &quot;CP000492&quot;        &quot;NC_008751&quot;       &quot;CP000568&quot;       
+## [25] &quot;CP000561&quot;        &quot;CP000609&quot;        &quot;CP000607&quot;        &quot;CP000660&quot;       
+## [29] &quot;CP000667&quot;        &quot;CP000679&quot;        &quot;CP000702&quot;        &quot;CP000139&quot;       
+## [33] &quot;NC_009665&quot;       &quot;CP000816&quot;        &quot;CP000850&quot;        &quot;CP000909&quot;       
+## [37] &quot;CP000924&quot;        &quot;CP000969&quot;        &quot;CP001013&quot;        &quot;CP001071&quot;       
+## [41] &quot;AP009380&quot;        &quot;NC_010730&quot;       &quot;CP001097&quot;        &quot;CP001110&quot;       
+## [45] &quot;CP001130&quot;        &quot;NZ_CH959311&quot;     &quot;NZ_CH959317&quot;     &quot;CP001251&quot;       
+## [49] &quot;NC_011663&quot;       &quot;CP000916&quot;        &quot;NZ_DS996397&quot;     &quot;CP001230&quot;       
+## [53] &quot;CP001472&quot;        &quot;AP009153&quot;        &quot;CP001941&quot;        &quot;NC_013968&quot;      
+## [57] &quot;NZ_KE136524&quot;     &quot;NZ_KQ961402&quot;     &quot;NZ_CP015081&quot;     &quot;NZ_ABZS01000228&quot;
+## [61] &quot;NZ_JGWU01000001&quot; &quot;NZ_FWDH01000003&quot; &quot;NC_009972&quot;       &quot;NC_005213&quot;</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>tax[,<span class="dv">9</span>]</span></code></pre></div>
+<pre><code>##  [1] &quot;Archaeoglobus fulgidus&quot;              
+##  [2] &quot;Methanocaldococcus jannaschii&quot;       
+##  [3] &quot;Nostoc sp. PCC 7120&quot;                 
+##  [4] &quot;Pyrobaculum aerophilum&quot;              
+##  [5] &quot;Pyrococcus furiosus&quot;                 
+##  [6] &quot;Fusobacterium nucleatum&quot;             
+##  [7] &quot;Methanosarcina acetivorans&quot;          
+##  [8] &quot;Methanopyrus kandleri&quot;               
+##  [9] &quot;Ruegeria pomeroyi&quot;                   
+## [10] &quot;Chlorobaculum tepidum&quot;               
+## [11] &quot;Bacteroides thetaiotaomicron&quot;        
+## [12] &quot;Nitrosomonas europaea&quot;               
+## [13] &quot;Rhodopirellula baltica&quot;              
+## [14] &quot;Wolinella succinogenes&quot;              
+## [15] &quot;Geobacter sulfurreducens&quot;            
+## [16] &quot;Treponema denticola&quot;                 
+## [17] &quot;Methanococcus maripaludis&quot;           
+## [18] &quot;Thermus thermophilus&quot;                
+## [19] &quot;Pyrococcus horikoshii&quot;               
+## [20] &quot;Sulfolobus tokodaii&quot;                 
+## [21] &quot;Paraburkholderia xenovorans&quot;         
+## [22] &quot;Chlorobium phaeobacteroides&quot;         
+## [23] &quot;Desulfovibrio vulgaris&quot;              
+## [24] &quot;Ruminiclostridium thermocellum&quot;      
+## [25] &quot;Pyrobaculum calidifontis&quot;            
+## [26] &quot;Methanococcus maripaludis&quot;           
+## [27] &quot;Chlorobium phaeovibrioides&quot;          
+## [28] &quot;Pyrobaculum arsenaticum&quot;             
+## [29] &quot;Salinispora tropica&quot;                 
+## [30] &quot;Caldicellulosiruptor saccharolyticus&quot;
+## [31] &quot;Thermotoga petrophila&quot;               
+## [32] &quot;Bacteroides vulgatus&quot;                
+## [33] &quot;Shewanella baltica&quot;                  
+## [34] &quot;Ignicoccus hospitalis&quot;               
+## [35] &quot;Salinispora arenicola&quot;               
+## [36] &quot;Chloroflexus aurantiacus&quot;            
+## [37] &quot;Thermoanaerobacter pseudethanolicus&quot; 
+## [38] &quot;Thermotoga sp. RQ2&quot;                  
+## [39] &quot;Leptothrix cholodnii&quot;                
+## [40] &quot;Akkermansia muciniphila&quot;             
+## [41] &quot;Porphyromonas gingivalis&quot;            
+## [42] &quot;Sulfurihydrogenibium sp. YO3AOP1&quot;    
+## [43] &quot;Chlorobium limicola&quot;                 
+## [44] &quot;Pelodictyon phaeoclathratiforme&quot;     
+## [45] &quot;Hydrogenobaculum sp. Y04AAS1&quot;        
+## [46] &quot;Sulfitobacter sp. EE-36&quot;             
+## [47] &quot;Sulfitobacter sp. NAS-14.1&quot;          
+## [48] &quot;Dictyoglomus turgidum&quot;               
+## [49] &quot;Shewanella baltica&quot;                  
+## [50] &quot;Thermotoga neapolitana&quot;              
+## [51] &quot;Desulfovibrio piger&quot;                 
+## [52] &quot;Persephonella marina&quot;                
+## [53] &quot;Acidobacterium capsulatum&quot;           
+## [54] &quot;Gemmatimonas aurantiaca&quot;             
+## [55] &quot;Aciduliprofundum boonei&quot;             
+## [56] &quot;Haloferax volcanii&quot;                  
+## [57] &quot;Enterococcus faecalis&quot;               
+## [58] &quot;Zymomonas mobilis&quot;                   
+## [59] &quot;Deinococcus radiodurans&quot;             
+## [60] &quot;Sulfurihydrogenibium yellowstonense&quot; 
+## [61] &quot;Bordetella bronchiseptica&quot;           
+## [62] &quot;Caldicellulosiruptor bescii&quot;         
+## [63] &quot;Herpetosiphon aurantiacus&quot;           
+## [64] &quot;Nanoarchaeum equitans&quot;</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>tax <span class="ot">&lt;-</span> tax[,<span class="sc">-</span><span class="dv">2</span>]</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="fu">str_view</span>(<span class="fu">head</span>(tax<span class="sc">$</span>accession), <span class="st">&quot;.*&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] │ &lt;AE000782&gt;&lt;&gt;
+## [2] │ &lt;NC_000909&gt;&lt;&gt;
+## [3] │ &lt;NC_003272&gt;&lt;&gt;
+## [4] │ &lt;AE009441&gt;&lt;&gt;
+## [5] │ &lt;AE009950&gt;&lt;&gt;
+## [6] │ &lt;AE009951&gt;&lt;&gt;</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co">#tax$ident &lt;- str_remove_all(tax$ident, &quot;\\..*&quot;)</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="fu">rownames</span>(tax) <span class="ot">&lt;-</span> <span class="fu">str_glue_data</span>(tax, <span class="st">&quot;{accession} {species}&quot;</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>tax <span class="ot">&lt;-</span> tax[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>tax</span></code></pre></div>
+<pre><code>##                                                     superkingdom
+## AE000782 Archaeoglobus fulgidus                          Archaea
+## NC_000909 Methanocaldococcus jannaschii                  Archaea
+## NC_003272 Nostoc sp. PCC 7120                           Bacteria
+## AE009441 Pyrobaculum aerophilum                          Archaea
+## AE009950 Pyrococcus furiosus                             Archaea
+## AE009951 Fusobacterium nucleatum                        Bacteria
+## AE010299 Methanosarcina acetivorans                      Archaea
+## AE009439 Methanopyrus kandleri                           Archaea
+## NC_003911 Ruegeria pomeroyi                             Bacteria
+## AE006470 Chlorobaculum tepidum                          Bacteria
+## AE015928 Bacteroides thetaiotaomicron                   Bacteria
+## AL954747 Nitrosomonas europaea                          Bacteria
+## BX119912 Rhodopirellula baltica                         Bacteria
+## BX571656 Wolinella succinogenes                         Bacteria
+## AE017180 Geobacter sulfurreducens                       Bacteria
+## AE017226 Treponema denticola                            Bacteria
+## BX950229 Methanococcus maripaludis                       Archaea
+## AE017221 Thermus thermophilus                           Bacteria
+## BA000001 Pyrococcus horikoshii                           Archaea
+## BA000023 Sulfolobus tokodaii                             Archaea
+## NC_007951 Paraburkholderia xenovorans                   Bacteria
+## CP000492 Chlorobium phaeobacteroides                    Bacteria
+## NC_008751 Desulfovibrio vulgaris                        Bacteria
+## CP000568 Ruminiclostridium thermocellum                 Bacteria
+## CP000561 Pyrobaculum calidifontis                        Archaea
+## CP000609 Methanococcus maripaludis                       Archaea
+## CP000607 Chlorobium phaeovibrioides                     Bacteria
+## CP000660 Pyrobaculum arsenaticum                         Archaea
+## CP000667 Salinispora tropica                            Bacteria
+## CP000679 Caldicellulosiruptor saccharolyticus           Bacteria
+## CP000702 Thermotoga petrophila                          Bacteria
+## CP000139 Bacteroides vulgatus                           Bacteria
+## NC_009665 Shewanella baltica                            Bacteria
+## CP000816 Ignicoccus hospitalis                           Archaea
+## CP000850 Salinispora arenicola                          Bacteria
+## CP000909 Chloroflexus aurantiacus                       Bacteria
+## CP000924 Thermoanaerobacter pseudethanolicus            Bacteria
+## CP000969 Thermotoga sp. RQ2                             Bacteria
+## CP001013 Leptothrix cholodnii                           Bacteria
+## CP001071 Akkermansia muciniphila                        Bacteria
+## AP009380 Porphyromonas gingivalis                       Bacteria
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1              Bacteria
+## CP001097 Chlorobium limicola                            Bacteria
+## CP001110 Pelodictyon phaeoclathratiforme                Bacteria
+## CP001130 Hydrogenobaculum sp. Y04AAS1                   Bacteria
+## NZ_CH959311 Sulfitobacter sp. EE-36                     Bacteria
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1                  Bacteria
+## CP001251 Dictyoglomus turgidum                          Bacteria
+## NC_011663 Shewanella baltica                            Bacteria
+## CP000916 Thermotoga neapolitana                         Bacteria
+## NZ_DS996397 Desulfovibrio piger                         Bacteria
+## CP001230 Persephonella marina                           Bacteria
+## CP001472 Acidobacterium capsulatum                      Bacteria
+## AP009153 Gemmatimonas aurantiaca                        Bacteria
+## CP001941 Aciduliprofundum boonei                         Archaea
+## NC_013968 Haloferax volcanii                             Archaea
+## NZ_KE136524 Enterococcus faecalis                       Bacteria
+## NZ_KQ961402 Zymomonas mobilis                           Bacteria
+## NZ_CP015081 Deinococcus radiodurans                     Bacteria
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense     Bacteria
+## NZ_JGWU01000001 Bordetella bronchiseptica               Bacteria
+## NZ_FWDH01000003 Caldicellulosiruptor bescii             Bacteria
+## NC_009972 Herpetosiphon aurantiacus                     Bacteria
+## NC_005213 Nanoarchaeum equitans                          Archaea
+##                                                                  phylum
+## AE000782 Archaeoglobus fulgidus                           Euryarchaeota
+## NC_000909 Methanocaldococcus jannaschii                   Euryarchaeota
+## NC_003272 Nostoc sp. PCC 7120                             Cyanobacteria
+## AE009441 Pyrobaculum aerophilum                           Crenarchaeota
+## AE009950 Pyrococcus furiosus                              Euryarchaeota
+## AE009951 Fusobacterium nucleatum                           Fusobacteria
+## AE010299 Methanosarcina acetivorans                       Euryarchaeota
+## AE009439 Methanopyrus kandleri                            Euryarchaeota
+## NC_003911 Ruegeria pomeroyi                              Proteobacteria
+## AE006470 Chlorobaculum tepidum                                 Chlorobi
+## AE015928 Bacteroides thetaiotaomicron                     Bacteroidetes
+## AL954747 Nitrosomonas europaea                           Proteobacteria
+## BX119912 Rhodopirellula baltica                          Planctomycetes
+## BX571656 Wolinella succinogenes                          Proteobacteria
+## AE017180 Geobacter sulfurreducens                        Proteobacteria
+## AE017226 Treponema denticola                               Spirochaetes
+## BX950229 Methanococcus maripaludis                        Euryarchaeota
+## AE017221 Thermus thermophilus                       Deinococcus-Thermus
+## BA000001 Pyrococcus horikoshii                            Euryarchaeota
+## BA000023 Sulfolobus tokodaii                              Crenarchaeota
+## NC_007951 Paraburkholderia xenovorans                    Proteobacteria
+## CP000492 Chlorobium phaeobacteroides                           Chlorobi
+## NC_008751 Desulfovibrio vulgaris                         Proteobacteria
+## CP000568 Ruminiclostridium thermocellum                      Firmicutes
+## CP000561 Pyrobaculum calidifontis                         Crenarchaeota
+## CP000609 Methanococcus maripaludis                        Euryarchaeota
+## CP000607 Chlorobium phaeovibrioides                            Chlorobi
+## CP000660 Pyrobaculum arsenaticum                          Crenarchaeota
+## CP000667 Salinispora tropica                             Actinobacteria
+## CP000679 Caldicellulosiruptor saccharolyticus                Firmicutes
+## CP000702 Thermotoga petrophila                              Thermotogae
+## CP000139 Bacteroides vulgatus                             Bacteroidetes
+## NC_009665 Shewanella baltica                             Proteobacteria
+## CP000816 Ignicoccus hospitalis                            Crenarchaeota
+## CP000850 Salinispora arenicola                           Actinobacteria
+## CP000909 Chloroflexus aurantiacus                           Chloroflexi
+## CP000924 Thermoanaerobacter pseudethanolicus                 Firmicutes
+## CP000969 Thermotoga sp. RQ2                                 Thermotogae
+## CP001013 Leptothrix cholodnii                            Proteobacteria
+## CP001071 Akkermansia muciniphila                        Verrucomicrobia
+## AP009380 Porphyromonas gingivalis                         Bacteroidetes
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1                    Aquificae
+## CP001097 Chlorobium limicola                                   Chlorobi
+## CP001110 Pelodictyon phaeoclathratiforme                       Chlorobi
+## CP001130 Hydrogenobaculum sp. Y04AAS1                         Aquificae
+## NZ_CH959311 Sulfitobacter sp. EE-36                      Proteobacteria
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1                   Proteobacteria
+## CP001251 Dictyoglomus turgidum                              Dictyoglomi
+## NC_011663 Shewanella baltica                             Proteobacteria
+## CP000916 Thermotoga neapolitana                             Thermotogae
+## NZ_DS996397 Desulfovibrio piger                          Proteobacteria
+## CP001230 Persephonella marina                                 Aquificae
+## CP001472 Acidobacterium capsulatum                        Acidobacteria
+## AP009153 Gemmatimonas aurantiaca                       Gemmatimonadetes
+## CP001941 Aciduliprofundum boonei                          Euryarchaeota
+## NC_013968 Haloferax volcanii                              Euryarchaeota
+## NZ_KE136524 Enterococcus faecalis                            Firmicutes
+## NZ_KQ961402 Zymomonas mobilis                            Proteobacteria
+## NZ_CP015081 Deinococcus radiodurans                 Deinococcus-Thermus
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense           Aquificae
+## NZ_JGWU01000001 Bordetella bronchiseptica                Proteobacteria
+## NZ_FWDH01000003 Caldicellulosiruptor bescii                  Firmicutes
+## NC_009972 Herpetosiphon aurantiacus                         Chloroflexi
+## NC_005213 Nanoarchaeum equitans                           Nanoarchaeota
+##                                                                     class
+## AE000782 Archaeoglobus fulgidus                              Archaeoglobi
+## NC_000909 Methanocaldococcus jannaschii                      Methanococci
+## NC_003272 Nostoc sp. PCC 7120                                            
+## AE009441 Pyrobaculum aerophilum                              Thermoprotei
+## AE009950 Pyrococcus furiosus                                  Thermococci
+## AE009951 Fusobacterium nucleatum                            Fusobacteriia
+## AE010299 Methanosarcina acetivorans                       Methanomicrobia
+## AE009439 Methanopyrus kandleri                                Methanopyri
+## NC_003911 Ruegeria pomeroyi                           Alphaproteobacteria
+## AE006470 Chlorobaculum tepidum                                  Chlorobia
+## AE015928 Bacteroides thetaiotaomicron                         Bacteroidia
+## AL954747 Nitrosomonas europaea                         Betaproteobacteria
+## BX119912 Rhodopirellula baltica                            Planctomycetia
+## BX571656 Wolinella succinogenes                     Epsilonproteobacteria
+## AE017180 Geobacter sulfurreducens                     Deltaproteobacteria
+## AE017226 Treponema denticola                                 Spirochaetia
+## BX950229 Methanococcus maripaludis                           Methanococci
+## AE017221 Thermus thermophilus                                  Deinococci
+## BA000001 Pyrococcus horikoshii                                Thermococci
+## BA000023 Sulfolobus tokodaii                                 Thermoprotei
+## NC_007951 Paraburkholderia xenovorans                  Betaproteobacteria
+## CP000492 Chlorobium phaeobacteroides                            Chlorobia
+## NC_008751 Desulfovibrio vulgaris                      Deltaproteobacteria
+## CP000568 Ruminiclostridium thermocellum                        Clostridia
+## CP000561 Pyrobaculum calidifontis                            Thermoprotei
+## CP000609 Methanococcus maripaludis                           Methanococci
+## CP000607 Chlorobium phaeovibrioides                             Chlorobia
+## CP000660 Pyrobaculum arsenaticum                             Thermoprotei
+## CP000667 Salinispora tropica                               Actinobacteria
+## CP000679 Caldicellulosiruptor saccharolyticus                  Clostridia
+## CP000702 Thermotoga petrophila                                Thermotogae
+## CP000139 Bacteroides vulgatus                                 Bacteroidia
+## NC_009665 Shewanella baltica                          Gammaproteobacteria
+## CP000816 Ignicoccus hospitalis                               Thermoprotei
+## CP000850 Salinispora arenicola                             Actinobacteria
+## CP000909 Chloroflexus aurantiacus                            Chloroflexia
+## CP000924 Thermoanaerobacter pseudethanolicus                   Clostridia
+## CP000969 Thermotoga sp. RQ2                                   Thermotogae
+## CP001013 Leptothrix cholodnii                          Betaproteobacteria
+## CP001071 Akkermansia muciniphila                         Verrucomicrobiae
+## AP009380 Porphyromonas gingivalis                             Bacteroidia
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1                      Aquificae
+## CP001097 Chlorobium limicola                                    Chlorobia
+## CP001110 Pelodictyon phaeoclathratiforme                        Chlorobia
+## CP001130 Hydrogenobaculum sp. Y04AAS1                           Aquificae
+## NZ_CH959311 Sulfitobacter sp. EE-36                   Alphaproteobacteria
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1                Alphaproteobacteria
+## CP001251 Dictyoglomus turgidum                               Dictyoglomia
+## NC_011663 Shewanella baltica                          Gammaproteobacteria
+## CP000916 Thermotoga neapolitana                               Thermotogae
+## NZ_DS996397 Desulfovibrio piger                       Deltaproteobacteria
+## CP001230 Persephonella marina                                   Aquificae
+## CP001472 Acidobacterium capsulatum                         Acidobacteriia
+## AP009153 Gemmatimonas aurantiaca                         Gemmatimonadetes
+## CP001941 Aciduliprofundum boonei                                         
+## NC_013968 Haloferax volcanii                                 Halobacteria
+## NZ_KE136524 Enterococcus faecalis                                 Bacilli
+## NZ_KQ961402 Zymomonas mobilis                         Alphaproteobacteria
+## NZ_CP015081 Deinococcus radiodurans                            Deinococci
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense             Aquificae
+## NZ_JGWU01000001 Bordetella bronchiseptica              Betaproteobacteria
+## NZ_FWDH01000003 Caldicellulosiruptor bescii                    Clostridia
+## NC_009972 Herpetosiphon aurantiacus                          Chloroflexia
+## NC_005213 Nanoarchaeum equitans                                          
+##                                                                      order
+## AE000782 Archaeoglobus fulgidus                            Archaeoglobales
+## NC_000909 Methanocaldococcus jannaschii                    Methanococcales
+## NC_003272 Nostoc sp. PCC 7120                                   Nostocales
+## AE009441 Pyrobaculum aerophilum                            Thermoproteales
+## AE009950 Pyrococcus furiosus                                Thermococcales
+## AE009951 Fusobacterium nucleatum                           Fusobacteriales
+## AE010299 Methanosarcina acetivorans                      Methanosarcinales
+## AE009439 Methanopyrus kandleri                              Methanopyrales
+## NC_003911 Ruegeria pomeroyi                                Rhodobacterales
+## AE006470 Chlorobaculum tepidum                                Chlorobiales
+## AE015928 Bacteroides thetaiotaomicron                        Bacteroidales
+## AL954747 Nitrosomonas europaea                            Nitrosomonadales
+## BX119912 Rhodopirellula baltica                           Planctomycetales
+## BX571656 Wolinella succinogenes                          Campylobacterales
+## AE017180 Geobacter sulfurreducens                       Desulfuromonadales
+## AE017226 Treponema denticola                                Spirochaetales
+## BX950229 Methanococcus maripaludis                         Methanococcales
+## AE017221 Thermus thermophilus                                    Thermales
+## BA000001 Pyrococcus horikoshii                              Thermococcales
+## BA000023 Sulfolobus tokodaii                                  Sulfolobales
+## NC_007951 Paraburkholderia xenovorans                      Burkholderiales
+## CP000492 Chlorobium phaeobacteroides                          Chlorobiales
+## NC_008751 Desulfovibrio vulgaris                        Desulfovibrionales
+## CP000568 Ruminiclostridium thermocellum                      Clostridiales
+## CP000561 Pyrobaculum calidifontis                          Thermoproteales
+## CP000609 Methanococcus maripaludis                         Methanococcales
+## CP000607 Chlorobium phaeovibrioides                           Chlorobiales
+## CP000660 Pyrobaculum arsenaticum                           Thermoproteales
+## CP000667 Salinispora tropica                             Micromonosporales
+## CP000679 Caldicellulosiruptor saccharolyticus       Thermoanaerobacterales
+## CP000702 Thermotoga petrophila                               Thermotogales
+## CP000139 Bacteroides vulgatus                                Bacteroidales
+## NC_009665 Shewanella baltica                               Alteromonadales
+## CP000816 Ignicoccus hospitalis                           Desulfurococcales
+## CP000850 Salinispora arenicola                           Micromonosporales
+## CP000909 Chloroflexus aurantiacus                           Chloroflexales
+## CP000924 Thermoanaerobacter pseudethanolicus        Thermoanaerobacterales
+## CP000969 Thermotoga sp. RQ2                                  Thermotogales
+## CP001013 Leptothrix cholodnii                              Burkholderiales
+## CP001071 Akkermansia muciniphila                        Verrucomicrobiales
+## AP009380 Porphyromonas gingivalis                            Bacteroidales
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1                     Aquificales
+## CP001097 Chlorobium limicola                                  Chlorobiales
+## CP001110 Pelodictyon phaeoclathratiforme                      Chlorobiales
+## CP001130 Hydrogenobaculum sp. Y04AAS1                          Aquificales
+## NZ_CH959311 Sulfitobacter sp. EE-36                        Rhodobacterales
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1                     Rhodobacterales
+## CP001251 Dictyoglomus turgidum                              Dictyoglomales
+## NC_011663 Shewanella baltica                               Alteromonadales
+## CP000916 Thermotoga neapolitana                              Thermotogales
+## NZ_DS996397 Desulfovibrio piger                         Desulfovibrionales
+## CP001230 Persephonella marina                                  Aquificales
+## CP001472 Acidobacterium capsulatum                        Acidobacteriales
+## AP009153 Gemmatimonas aurantiaca                          Gemmatimonadales
+## CP001941 Aciduliprofundum boonei                                          
+## NC_013968 Haloferax volcanii                                 Haloferacales
+## NZ_KE136524 Enterococcus faecalis                          Lactobacillales
+## NZ_KQ961402 Zymomonas mobilis                             Sphingomonadales
+## NZ_CP015081 Deinococcus radiodurans                          Deinococcales
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense            Aquificales
+## NZ_JGWU01000001 Bordetella bronchiseptica                  Burkholderiales
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         Thermoanaerobacterales
+## NC_009972 Herpetosiphon aurantiacus                      Herpetosiphonales
+## NC_005213 Nanoarchaeum equitans                             Nanoarchaeales
+##                                                                                                family
+## AE000782 Archaeoglobus fulgidus                                                      Archaeoglobaceae
+## NC_000909 Methanocaldococcus jannaschii                                         Methanocaldococcaceae
+## NC_003272 Nostoc sp. PCC 7120                                                             Nostocaceae
+## AE009441 Pyrobaculum aerophilum                                                      Thermoproteaceae
+## AE009950 Pyrococcus furiosus                                                          Thermococcaceae
+## AE009951 Fusobacterium nucleatum                                                     Fusobacteriaceae
+## AE010299 Methanosarcina acetivorans                                                Methanosarcinaceae
+## AE009439 Methanopyrus kandleri                                                        Methanopyraceae
+## NC_003911 Ruegeria pomeroyi                                                          Rhodobacteraceae
+## AE006470 Chlorobaculum tepidum                                                          Chlorobiaceae
+## AE015928 Bacteroides thetaiotaomicron                                                  Bacteroidaceae
+## AL954747 Nitrosomonas europaea                                                      Nitrosomonadaceae
+## BX119912 Rhodopirellula baltica                                                     Planctomycetaceae
+## BX571656 Wolinella succinogenes                                                     Helicobacteraceae
+## AE017180 Geobacter sulfurreducens                                                      Geobacteraceae
+## AE017226 Treponema denticola                                                          Spirochaetaceae
+## BX950229 Methanococcus maripaludis                                                   Methanococcaceae
+## AE017221 Thermus thermophilus                                                              Thermaceae
+## BA000001 Pyrococcus horikoshii                                                        Thermococcaceae
+## BA000023 Sulfolobus tokodaii                                                            Sulfolobaceae
+## NC_007951 Paraburkholderia xenovorans                                                Burkholderiaceae
+## CP000492 Chlorobium phaeobacteroides                                                    Chlorobiaceae
+## NC_008751 Desulfovibrio vulgaris                                                  Desulfovibrionaceae
+## CP000568 Ruminiclostridium thermocellum                                               Ruminococcaceae
+## CP000561 Pyrobaculum calidifontis                                                    Thermoproteaceae
+## CP000609 Methanococcus maripaludis                                                   Methanococcaceae
+## CP000607 Chlorobium phaeovibrioides                                                     Chlorobiaceae
+## CP000660 Pyrobaculum arsenaticum                                                     Thermoproteaceae
+## CP000667 Salinispora tropica                                                       Micromonosporaceae
+## CP000679 Caldicellulosiruptor saccharolyticus       Thermoanaerobacterales Family III. Incertae Sedis
+## CP000702 Thermotoga petrophila                                                         Thermotogaceae
+## CP000139 Bacteroides vulgatus                                                          Bacteroidaceae
+## NC_009665 Shewanella baltica                                                           Shewanellaceae
+## CP000816 Ignicoccus hospitalis                                                     Desulfurococcaceae
+## CP000850 Salinispora arenicola                                                     Micromonosporaceae
+## CP000909 Chloroflexus aurantiacus                                                     Chloroflexaceae
+## CP000924 Thermoanaerobacter pseudethanolicus                                  Thermoanaerobacteraceae
+## CP000969 Thermotoga sp. RQ2                                                            Thermotogaceae
+## CP001013 Leptothrix cholodnii                                                                        
+## CP001071 Akkermansia muciniphila                                                      Akkermansiaceae
+## AP009380 Porphyromonas gingivalis                                                  Porphyromonadaceae
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1                                        Hydrogenothermaceae
+## CP001097 Chlorobium limicola                                                            Chlorobiaceae
+## CP001110 Pelodictyon phaeoclathratiforme                                                Chlorobiaceae
+## CP001130 Hydrogenobaculum sp. Y04AAS1                                                    Aquificaceae
+## NZ_CH959311 Sulfitobacter sp. EE-36                                                  Rhodobacteraceae
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1                                               Rhodobacteraceae
+## CP001251 Dictyoglomus turgidum                                                        Dictyoglomaceae
+## NC_011663 Shewanella baltica                                                           Shewanellaceae
+## CP000916 Thermotoga neapolitana                                                        Thermotogaceae
+## NZ_DS996397 Desulfovibrio piger                                                   Desulfovibrionaceae
+## CP001230 Persephonella marina                                                     Hydrogenothermaceae
+## CP001472 Acidobacterium capsulatum                                                  Acidobacteriaceae
+## AP009153 Gemmatimonas aurantiaca                                                    Gemmatimonadaceae
+## CP001941 Aciduliprofundum boonei                                                                     
+## NC_013968 Haloferax volcanii                                                           Haloferacaceae
+## NZ_KE136524 Enterococcus faecalis                                                     Enterococcaceae
+## NZ_KQ961402 Zymomonas mobilis                                                       Sphingomonadaceae
+## NZ_CP015081 Deinococcus radiodurans                                                    Deinococcaceae
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense                               Hydrogenothermaceae
+## NZ_JGWU01000001 Bordetella bronchiseptica                                              Alcaligenaceae
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         Thermoanaerobacterales Family III. Incertae Sedis
+## NC_009972 Herpetosiphon aurantiacus                                                Herpetosiphonaceae
+## NC_005213 Nanoarchaeum equitans                                                       Nanoarchaeaceae
+##                                                                    genus
+## AE000782 Archaeoglobus fulgidus                            Archaeoglobus
+## NC_000909 Methanocaldococcus jannaschii               Methanocaldococcus
+## NC_003272 Nostoc sp. PCC 7120                                     Nostoc
+## AE009441 Pyrobaculum aerophilum                              Pyrobaculum
+## AE009950 Pyrococcus furiosus                                  Pyrococcus
+## AE009951 Fusobacterium nucleatum                           Fusobacterium
+## AE010299 Methanosarcina acetivorans                       Methanosarcina
+## AE009439 Methanopyrus kandleri                              Methanopyrus
+## NC_003911 Ruegeria pomeroyi                                     Ruegeria
+## AE006470 Chlorobaculum tepidum                             Chlorobaculum
+## AE015928 Bacteroides thetaiotaomicron                        Bacteroides
+## AL954747 Nitrosomonas europaea                              Nitrosomonas
+## BX119912 Rhodopirellula baltica                           Rhodopirellula
+## BX571656 Wolinella succinogenes                                Wolinella
+## AE017180 Geobacter sulfurreducens                              Geobacter
+## AE017226 Treponema denticola                                   Treponema
+## BX950229 Methanococcus maripaludis                         Methanococcus
+## AE017221 Thermus thermophilus                                    Thermus
+## BA000001 Pyrococcus horikoshii                                Pyrococcus
+## BA000023 Sulfolobus tokodaii                                  Sulfolobus
+## NC_007951 Paraburkholderia xenovorans                   Paraburkholderia
+## CP000492 Chlorobium phaeobacteroides                          Chlorobium
+## NC_008751 Desulfovibrio vulgaris                           Desulfovibrio
+## CP000568 Ruminiclostridium thermocellum                Ruminiclostridium
+## CP000561 Pyrobaculum calidifontis                            Pyrobaculum
+## CP000609 Methanococcus maripaludis                         Methanococcus
+## CP000607 Chlorobium phaeovibrioides                           Chlorobium
+## CP000660 Pyrobaculum arsenaticum                             Pyrobaculum
+## CP000667 Salinispora tropica                                 Salinispora
+## CP000679 Caldicellulosiruptor saccharolyticus       Caldicellulosiruptor
+## CP000702 Thermotoga petrophila                                Thermotoga
+## CP000139 Bacteroides vulgatus                                Bacteroides
+## NC_009665 Shewanella baltica                                  Shewanella
+## CP000816 Ignicoccus hospitalis                                Ignicoccus
+## CP000850 Salinispora arenicola                               Salinispora
+## CP000909 Chloroflexus aurantiacus                           Chloroflexus
+## CP000924 Thermoanaerobacter pseudethanolicus          Thermoanaerobacter
+## CP000969 Thermotoga sp. RQ2                                   Thermotoga
+## CP001013 Leptothrix cholodnii                                 Leptothrix
+## CP001071 Akkermansia muciniphila                             Akkermansia
+## AP009380 Porphyromonas gingivalis                          Porphyromonas
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1          Sulfurihydrogenibium
+## CP001097 Chlorobium limicola                                  Chlorobium
+## CP001110 Pelodictyon phaeoclathratiforme                     Pelodictyon
+## CP001130 Hydrogenobaculum sp. Y04AAS1                   Hydrogenobaculum
+## NZ_CH959311 Sulfitobacter sp. EE-36                        Sulfitobacter
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1                     Sulfitobacter
+## CP001251 Dictyoglomus turgidum                              Dictyoglomus
+## NC_011663 Shewanella baltica                                  Shewanella
+## CP000916 Thermotoga neapolitana                               Thermotoga
+## NZ_DS996397 Desulfovibrio piger                            Desulfovibrio
+## CP001230 Persephonella marina                              Persephonella
+## CP001472 Acidobacterium capsulatum                        Acidobacterium
+## AP009153 Gemmatimonas aurantiaca                            Gemmatimonas
+## CP001941 Aciduliprofundum boonei                        Aciduliprofundum
+## NC_013968 Haloferax volcanii                                   Haloferax
+## NZ_KE136524 Enterococcus faecalis                           Enterococcus
+## NZ_KQ961402 Zymomonas mobilis                                  Zymomonas
+## NZ_CP015081 Deinococcus radiodurans                          Deinococcus
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense Sulfurihydrogenibium
+## NZ_JGWU01000001 Bordetella bronchiseptica                     Bordetella
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         Caldicellulosiruptor
+## NC_009972 Herpetosiphon aurantiacus                        Herpetosiphon
+## NC_005213 Nanoarchaeum equitans                             Nanoarchaeum
+##                                                                                  species
+## AE000782 Archaeoglobus fulgidus                                   Archaeoglobus fulgidus
+## NC_000909 Methanocaldococcus jannaschii                    Methanocaldococcus jannaschii
+## NC_003272 Nostoc sp. PCC 7120                                        Nostoc sp. PCC 7120
+## AE009441 Pyrobaculum aerophilum                                   Pyrobaculum aerophilum
+## AE009950 Pyrococcus furiosus                                         Pyrococcus furiosus
+## AE009951 Fusobacterium nucleatum                                 Fusobacterium nucleatum
+## AE010299 Methanosarcina acetivorans                           Methanosarcina acetivorans
+## AE009439 Methanopyrus kandleri                                     Methanopyrus kandleri
+## NC_003911 Ruegeria pomeroyi                                            Ruegeria pomeroyi
+## AE006470 Chlorobaculum tepidum                                     Chlorobaculum tepidum
+## AE015928 Bacteroides thetaiotaomicron                       Bacteroides thetaiotaomicron
+## AL954747 Nitrosomonas europaea                                     Nitrosomonas europaea
+## BX119912 Rhodopirellula baltica                                   Rhodopirellula baltica
+## BX571656 Wolinella succinogenes                                   Wolinella succinogenes
+## AE017180 Geobacter sulfurreducens                               Geobacter sulfurreducens
+## AE017226 Treponema denticola                                         Treponema denticola
+## BX950229 Methanococcus maripaludis                             Methanococcus maripaludis
+## AE017221 Thermus thermophilus                                       Thermus thermophilus
+## BA000001 Pyrococcus horikoshii                                     Pyrococcus horikoshii
+## BA000023 Sulfolobus tokodaii                                         Sulfolobus tokodaii
+## NC_007951 Paraburkholderia xenovorans                        Paraburkholderia xenovorans
+## CP000492 Chlorobium phaeobacteroides                         Chlorobium phaeobacteroides
+## NC_008751 Desulfovibrio vulgaris                                  Desulfovibrio vulgaris
+## CP000568 Ruminiclostridium thermocellum                   Ruminiclostridium thermocellum
+## CP000561 Pyrobaculum calidifontis                               Pyrobaculum calidifontis
+## CP000609 Methanococcus maripaludis                             Methanococcus maripaludis
+## CP000607 Chlorobium phaeovibrioides                           Chlorobium phaeovibrioides
+## CP000660 Pyrobaculum arsenaticum                                 Pyrobaculum arsenaticum
+## CP000667 Salinispora tropica                                         Salinispora tropica
+## CP000679 Caldicellulosiruptor saccharolyticus       Caldicellulosiruptor saccharolyticus
+## CP000702 Thermotoga petrophila                                     Thermotoga petrophila
+## CP000139 Bacteroides vulgatus                                       Bacteroides vulgatus
+## NC_009665 Shewanella baltica                                          Shewanella baltica
+## CP000816 Ignicoccus hospitalis                                     Ignicoccus hospitalis
+## CP000850 Salinispora arenicola                                     Salinispora arenicola
+## CP000909 Chloroflexus aurantiacus                               Chloroflexus aurantiacus
+## CP000924 Thermoanaerobacter pseudethanolicus         Thermoanaerobacter pseudethanolicus
+## CP000969 Thermotoga sp. RQ2                                           Thermotoga sp. RQ2
+## CP001013 Leptothrix cholodnii                                       Leptothrix cholodnii
+## CP001071 Akkermansia muciniphila                                 Akkermansia muciniphila
+## AP009380 Porphyromonas gingivalis                               Porphyromonas gingivalis
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1              Sulfurihydrogenibium sp. YO3AOP1
+## CP001097 Chlorobium limicola                                         Chlorobium limicola
+## CP001110 Pelodictyon phaeoclathratiforme                 Pelodictyon phaeoclathratiforme
+## CP001130 Hydrogenobaculum sp. Y04AAS1                       Hydrogenobaculum sp. Y04AAS1
+## NZ_CH959311 Sulfitobacter sp. EE-36                              Sulfitobacter sp. EE-36
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1                        Sulfitobacter sp. NAS-14.1
+## CP001251 Dictyoglomus turgidum                                     Dictyoglomus turgidum
+## NC_011663 Shewanella baltica                                          Shewanella baltica
+## CP000916 Thermotoga neapolitana                                   Thermotoga neapolitana
+## NZ_DS996397 Desulfovibrio piger                                      Desulfovibrio piger
+## CP001230 Persephonella marina                                       Persephonella marina
+## CP001472 Acidobacterium capsulatum                             Acidobacterium capsulatum
+## AP009153 Gemmatimonas aurantiaca                                 Gemmatimonas aurantiaca
+## CP001941 Aciduliprofundum boonei                                 Aciduliprofundum boonei
+## NC_013968 Haloferax volcanii                                          Haloferax volcanii
+## NZ_KE136524 Enterococcus faecalis                                  Enterococcus faecalis
+## NZ_KQ961402 Zymomonas mobilis                                          Zymomonas mobilis
+## NZ_CP015081 Deinococcus radiodurans                              Deinococcus radiodurans
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense  Sulfurihydrogenibium yellowstonense
+## NZ_JGWU01000001 Bordetella bronchiseptica                      Bordetella bronchiseptica
+## NZ_FWDH01000003 Caldicellulosiruptor bescii                  Caldicellulosiruptor bescii
+## NC_009972 Herpetosiphon aurantiacus                            Herpetosiphon aurantiacus
+## NC_005213 Nanoarchaeum equitans                                    Nanoarchaeum equitans
+##                                                                                             strain
+## AE000782 Archaeoglobus fulgidus                                    Archaeoglobus fulgidus DSM 4304
+## NC_000909 Methanocaldococcus jannaschii                     Methanocaldococcus jannaschii DSM 2661
+## NC_003272 Nostoc sp. PCC 7120                                                                     
+## AE009441 Pyrobaculum aerophilum                                    Pyrobaculum aerophilum str. IM2
+## AE009950 Pyrococcus furiosus                                          Pyrococcus furiosus DSM 3638
+## AE009951 Fusobacterium nucleatum                                                                  
+## AE010299 Methanosarcina acetivorans                                 Methanosarcina acetivorans C2A
+## AE009439 Methanopyrus kandleri                                          Methanopyrus kandleri AV19
+## NC_003911 Ruegeria pomeroyi                                                Ruegeria pomeroyi DSS-3
+## AE006470 Chlorobaculum tepidum                                           Chlorobaculum tepidum TLS
+## AE015928 Bacteroides thetaiotaomicron                        Bacteroides thetaiotaomicron VPI-5482
+## AL954747 Nitrosomonas europaea                                    Nitrosomonas europaea ATCC 19718
+## BX119912 Rhodopirellula baltica                                        Rhodopirellula baltica SH 1
+## BX571656 Wolinella succinogenes                                    Wolinella succinogenes DSM 1740
+## AE017180 Geobacter sulfurreducens                                     Geobacter sulfurreducens PCA
+## AE017226 Treponema denticola                                        Treponema denticola ATCC 35405
+## BX950229 Methanococcus maripaludis                                    Methanococcus maripaludis S2
+## AE017221 Thermus thermophilus                                            Thermus thermophilus HB27
+## BA000001 Pyrococcus horikoshii                                           Pyrococcus horikoshii OT3
+## BA000023 Sulfolobus tokodaii                                            Sulfolobus tokodaii str. 7
+## NC_007951 Paraburkholderia xenovorans                            Paraburkholderia xenovorans LB400
+## CP000492 Chlorobium phaeobacteroides                           Chlorobium phaeobacteroides DSM 266
+## NC_008751 Desulfovibrio vulgaris                                        Desulfovibrio vulgaris DP4
+## CP000568 Ruminiclostridium thermocellum                  Ruminiclostridium thermocellum ATCC 27405
+## CP000561 Pyrobaculum calidifontis                               Pyrobaculum calidifontis JCM 11548
+## CP000609 Methanococcus maripaludis                                    Methanococcus maripaludis C5
+## CP000607 Chlorobium phaeovibrioides                             Chlorobium phaeovibrioides DSM 265
+## CP000660 Pyrobaculum arsenaticum                                 Pyrobaculum arsenaticum DSM 13514
+## CP000667 Salinispora tropica                                           Salinispora tropica CNB-440
+## CP000679 Caldicellulosiruptor saccharolyticus        Caldicellulosiruptor saccharolyticus DSM 8903
+## CP000702 Thermotoga petrophila                                         Thermotoga petrophila RKU-1
+## CP000139 Bacteroides vulgatus                                       Bacteroides vulgatus ATCC 8482
+## NC_009665 Shewanella baltica                                              Shewanella baltica OS185
+## CP000816 Ignicoccus hospitalis                                        Ignicoccus hospitalis KIN4/I
+## CP000850 Salinispora arenicola                                       Salinispora arenicola CNS-205
+## CP000909 Chloroflexus aurantiacus                                 Chloroflexus aurantiacus J-10-fl
+## CP000924 Thermoanaerobacter pseudethanolicus        Thermoanaerobacter pseudethanolicus ATCC 33223
+## CP000969 Thermotoga sp. RQ2                                                                       
+## CP001013 Leptothrix cholodnii                                            Leptothrix cholodnii SP-6
+## CP001071 Akkermansia muciniphila                              Akkermansia muciniphila ATCC BAA-835
+## AP009380 Porphyromonas gingivalis                              Porphyromonas gingivalis ATCC 33277
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1                                                        
+## CP001097 Chlorobium limicola                                           Chlorobium limicola DSM 245
+## CP001110 Pelodictyon phaeoclathratiforme                      Pelodictyon phaeoclathratiforme BU-1
+## CP001130 Hydrogenobaculum sp. Y04AAS1                                                             
+## NZ_CH959311 Sulfitobacter sp. EE-36                                                               
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1                                                            
+## CP001251 Dictyoglomus turgidum                                      Dictyoglomus turgidum DSM 6724
+## NC_011663 Shewanella baltica                                              Shewanella baltica OS223
+## CP000916 Thermotoga neapolitana                                    Thermotoga neapolitana DSM 4359
+## NZ_DS996397 Desulfovibrio piger                                     Desulfovibrio piger ATCC 29098
+## CP001230 Persephonella marina                                           Persephonella marina EX-H1
+## CP001472 Acidobacterium capsulatum                            Acidobacterium capsulatum ATCC 51196
+## AP009153 Gemmatimonas aurantiaca                                      Gemmatimonas aurantiaca T-27
+## CP001941 Aciduliprofundum boonei                                      Aciduliprofundum boonei T469
+## NC_013968 Haloferax volcanii                                                Haloferax volcanii DS2
+## NZ_KE136524 Enterococcus faecalis                                       Enterococcus faecalis V583
+## NZ_KQ961402 Zymomonas mobilis                                                                     
+## NZ_CP015081 Deinococcus radiodurans                                     Deinococcus radiodurans R1
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense       Sulfurihydrogenibium yellowstonense SS-5
+## NZ_JGWU01000001 Bordetella bronchiseptica                           Bordetella bronchiseptica D989
+## NZ_FWDH01000003 Caldicellulosiruptor bescii                                                       
+## NC_009972 Herpetosiphon aurantiacus                              Herpetosiphon aurantiacus DSM 785
+## NC_005213 Nanoarchaeum equitans                                       Nanoarchaeum equitans Kin4-M</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>OTU <span class="ot">=</span> <span class="fu">otu_table</span>(df, <span class="at">taxa_are_rows =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>TAX <span class="ot">=</span> <span class="fu">tax_table</span>(<span class="fu">as.matrix</span>(tax))</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>OTU</span></code></pre></div>
+<pre><code>## OTU Table:          [17 taxa and 5 samples]
+##                      taxa are rows
+##                                             ERR1136663   ERR4087400
+## CP000139 Bacteroides vulgatus             8.301477e-03 5.512089e-03
+## AE015928 Bacteroides thetaiotaomicron     2.032678e-03 3.968704e-04
+## NZ_DS996397 Desulfovibrio piger           1.076401e-03 0.000000e+00
+## CP001071 Akkermansia muciniphila          5.676425e-04 4.119893e-03
+## NZ_KE136524 Enterococcus faecalis         2.355363e-05 6.929483e-05
+## CP001472 Acidobacterium capsulatum        1.165905e-04 0.000000e+00
+## AE009951 Fusobacterium nucleatum          2.814659e-04 0.000000e+00
+## CP001013 Leptothrix cholodnii             9.421452e-06 0.000000e+00
+## NZ_JGWU01000001 Bordetella bronchiseptica 0.000000e+00 3.779718e-05
+## NZ_KQ961402 Zymomonas mobilis             0.000000e+00 0.000000e+00
+## AP009380 Porphyromonas gingivalis         0.000000e+00 0.000000e+00
+## NC_007951 Burkholderia xenovorans         0.000000e+00 0.000000e+00
+## AE017226 Treponema denticola              0.000000e+00 0.000000e+00
+## CP000850 Salinispora arenicola            0.000000e+00 0.000000e+00
+## AE006470 Chlorobium tepidum               0.000000e+00 0.000000e+00
+## AE017221 Thermus thermophilus             0.000000e+00 0.000000e+00
+## NC_011663 Shewanella baltica              0.000000e+00 0.000000e+00
+##                                             ERR4562131    SRR059888
+## CP000139 Bacteroides vulgatus             5.823024e-03 3.356448e-05
+## AE015928 Bacteroides thetaiotaomicron     4.229973e-04 0.000000e+00
+## NZ_DS996397 Desulfovibrio piger           1.548600e-04 0.000000e+00
+## CP001071 Akkermansia muciniphila          4.301667e-05 9.811156e-06
+## NZ_KE136524 Enterococcus faecalis         0.000000e+00 0.000000e+00
+## CP001472 Acidobacterium capsulatum        0.000000e+00 0.000000e+00
+## AE009951 Fusobacterium nucleatum          0.000000e+00 3.217285e-03
+## CP001013 Leptothrix cholodnii             0.000000e+00 1.587858e-04
+## NZ_JGWU01000001 Bordetella bronchiseptica 0.000000e+00 2.793598e-04
+## NZ_KQ961402 Zymomonas mobilis             3.728112e-04 0.000000e+00
+## AP009380 Porphyromonas gingivalis         5.735556e-05 2.765197e-04
+## NC_007951 Burkholderia xenovorans         2.581000e-05 0.000000e+00
+## AE017226 Treponema denticola              0.000000e+00 7.255092e-05
+## CP000850 Salinispora arenicola            0.000000e+00 3.464887e-04
+## AE006470 Chlorobium tepidum               0.000000e+00 7.539099e-05
+## AE017221 Thermus thermophilus             0.000000e+00 3.356448e-06
+## NC_011663 Shewanella baltica              0.000000e+00 0.000000e+00
+##                                             SRR9217435
+## CP000139 Bacteroides vulgatus             5.792533e-05
+## AE015928 Bacteroides thetaiotaomicron     0.000000e+00
+## NZ_DS996397 Desulfovibrio piger           0.000000e+00
+## CP001071 Akkermansia muciniphila          0.000000e+00
+## NZ_KE136524 Enterococcus faecalis         0.000000e+00
+## CP001472 Acidobacterium capsulatum        0.000000e+00
+## AE009951 Fusobacterium nucleatum          5.649507e-05
+## CP001013 Leptothrix cholodnii             1.923693e-04
+## NZ_JGWU01000001 Bordetella bronchiseptica 3.983260e-04
+## NZ_KQ961402 Zymomonas mobilis             2.932023e-05
+## AP009380 Porphyromonas gingivalis         8.581530e-06
+## NC_007951 Burkholderia xenovorans         4.290765e-06
+## AE017226 Treponema denticola              0.000000e+00
+## CP000850 Salinispora arenicola            0.000000e+00
+## AE006470 Chlorobium tepidum               0.000000e+00
+## AE017221 Thermus thermophilus             0.000000e+00
+## NC_011663 Shewanella baltica              1.623339e-04</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>TAX</span></code></pre></div>
+<pre><code>## Taxonomy Table:     [64 taxa by 8 taxonomic ranks]:
+##                                                     superkingdom
+## AE000782 Archaeoglobus fulgidus                     &quot;Archaea&quot;   
+## NC_000909 Methanocaldococcus jannaschii             &quot;Archaea&quot;   
+## NC_003272 Nostoc sp. PCC 7120                       &quot;Bacteria&quot;  
+## AE009441 Pyrobaculum aerophilum                     &quot;Archaea&quot;   
+## AE009950 Pyrococcus furiosus                        &quot;Archaea&quot;   
+## AE009951 Fusobacterium nucleatum                    &quot;Bacteria&quot;  
+## AE010299 Methanosarcina acetivorans                 &quot;Archaea&quot;   
+## AE009439 Methanopyrus kandleri                      &quot;Archaea&quot;   
+## NC_003911 Ruegeria pomeroyi                         &quot;Bacteria&quot;  
+## AE006470 Chlorobaculum tepidum                      &quot;Bacteria&quot;  
+## AE015928 Bacteroides thetaiotaomicron               &quot;Bacteria&quot;  
+## AL954747 Nitrosomonas europaea                      &quot;Bacteria&quot;  
+## BX119912 Rhodopirellula baltica                     &quot;Bacteria&quot;  
+## BX571656 Wolinella succinogenes                     &quot;Bacteria&quot;  
+## AE017180 Geobacter sulfurreducens                   &quot;Bacteria&quot;  
+## AE017226 Treponema denticola                        &quot;Bacteria&quot;  
+## BX950229 Methanococcus maripaludis                  &quot;Archaea&quot;   
+## AE017221 Thermus thermophilus                       &quot;Bacteria&quot;  
+## BA000001 Pyrococcus horikoshii                      &quot;Archaea&quot;   
+## BA000023 Sulfolobus tokodaii                        &quot;Archaea&quot;   
+## NC_007951 Paraburkholderia xenovorans               &quot;Bacteria&quot;  
+## CP000492 Chlorobium phaeobacteroides                &quot;Bacteria&quot;  
+## NC_008751 Desulfovibrio vulgaris                    &quot;Bacteria&quot;  
+## CP000568 Ruminiclostridium thermocellum             &quot;Bacteria&quot;  
+## CP000561 Pyrobaculum calidifontis                   &quot;Archaea&quot;   
+## CP000609 Methanococcus maripaludis                  &quot;Archaea&quot;   
+## CP000607 Chlorobium phaeovibrioides                 &quot;Bacteria&quot;  
+## CP000660 Pyrobaculum arsenaticum                    &quot;Archaea&quot;   
+## CP000667 Salinispora tropica                        &quot;Bacteria&quot;  
+## CP000679 Caldicellulosiruptor saccharolyticus       &quot;Bacteria&quot;  
+## CP000702 Thermotoga petrophila                      &quot;Bacteria&quot;  
+## CP000139 Bacteroides vulgatus                       &quot;Bacteria&quot;  
+## NC_009665 Shewanella baltica                        &quot;Bacteria&quot;  
+## CP000816 Ignicoccus hospitalis                      &quot;Archaea&quot;   
+## CP000850 Salinispora arenicola                      &quot;Bacteria&quot;  
+## CP000909 Chloroflexus aurantiacus                   &quot;Bacteria&quot;  
+## CP000924 Thermoanaerobacter pseudethanolicus        &quot;Bacteria&quot;  
+## CP000969 Thermotoga sp. RQ2                         &quot;Bacteria&quot;  
+## CP001013 Leptothrix cholodnii                       &quot;Bacteria&quot;  
+## CP001071 Akkermansia muciniphila                    &quot;Bacteria&quot;  
+## AP009380 Porphyromonas gingivalis                   &quot;Bacteria&quot;  
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1          &quot;Bacteria&quot;  
+## CP001097 Chlorobium limicola                        &quot;Bacteria&quot;  
+## CP001110 Pelodictyon phaeoclathratiforme            &quot;Bacteria&quot;  
+## CP001130 Hydrogenobaculum sp. Y04AAS1               &quot;Bacteria&quot;  
+## NZ_CH959311 Sulfitobacter sp. EE-36                 &quot;Bacteria&quot;  
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1              &quot;Bacteria&quot;  
+## CP001251 Dictyoglomus turgidum                      &quot;Bacteria&quot;  
+## NC_011663 Shewanella baltica                        &quot;Bacteria&quot;  
+## CP000916 Thermotoga neapolitana                     &quot;Bacteria&quot;  
+## NZ_DS996397 Desulfovibrio piger                     &quot;Bacteria&quot;  
+## CP001230 Persephonella marina                       &quot;Bacteria&quot;  
+## CP001472 Acidobacterium capsulatum                  &quot;Bacteria&quot;  
+## AP009153 Gemmatimonas aurantiaca                    &quot;Bacteria&quot;  
+## CP001941 Aciduliprofundum boonei                    &quot;Archaea&quot;   
+## NC_013968 Haloferax volcanii                        &quot;Archaea&quot;   
+## NZ_KE136524 Enterococcus faecalis                   &quot;Bacteria&quot;  
+## NZ_KQ961402 Zymomonas mobilis                       &quot;Bacteria&quot;  
+## NZ_CP015081 Deinococcus radiodurans                 &quot;Bacteria&quot;  
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense &quot;Bacteria&quot;  
+## NZ_JGWU01000001 Bordetella bronchiseptica           &quot;Bacteria&quot;  
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         &quot;Bacteria&quot;  
+## NC_009972 Herpetosiphon aurantiacus                 &quot;Bacteria&quot;  
+## NC_005213 Nanoarchaeum equitans                     &quot;Archaea&quot;   
+##                                                     phylum               
+## AE000782 Archaeoglobus fulgidus                     &quot;Euryarchaeota&quot;      
+## NC_000909 Methanocaldococcus jannaschii             &quot;Euryarchaeota&quot;      
+## NC_003272 Nostoc sp. PCC 7120                       &quot;Cyanobacteria&quot;      
+## AE009441 Pyrobaculum aerophilum                     &quot;Crenarchaeota&quot;      
+## AE009950 Pyrococcus furiosus                        &quot;Euryarchaeota&quot;      
+## AE009951 Fusobacterium nucleatum                    &quot;Fusobacteria&quot;       
+## AE010299 Methanosarcina acetivorans                 &quot;Euryarchaeota&quot;      
+## AE009439 Methanopyrus kandleri                      &quot;Euryarchaeota&quot;      
+## NC_003911 Ruegeria pomeroyi                         &quot;Proteobacteria&quot;     
+## AE006470 Chlorobaculum tepidum                      &quot;Chlorobi&quot;           
+## AE015928 Bacteroides thetaiotaomicron               &quot;Bacteroidetes&quot;      
+## AL954747 Nitrosomonas europaea                      &quot;Proteobacteria&quot;     
+## BX119912 Rhodopirellula baltica                     &quot;Planctomycetes&quot;     
+## BX571656 Wolinella succinogenes                     &quot;Proteobacteria&quot;     
+## AE017180 Geobacter sulfurreducens                   &quot;Proteobacteria&quot;     
+## AE017226 Treponema denticola                        &quot;Spirochaetes&quot;       
+## BX950229 Methanococcus maripaludis                  &quot;Euryarchaeota&quot;      
+## AE017221 Thermus thermophilus                       &quot;Deinococcus-Thermus&quot;
+## BA000001 Pyrococcus horikoshii                      &quot;Euryarchaeota&quot;      
+## BA000023 Sulfolobus tokodaii                        &quot;Crenarchaeota&quot;      
+## NC_007951 Paraburkholderia xenovorans               &quot;Proteobacteria&quot;     
+## CP000492 Chlorobium phaeobacteroides                &quot;Chlorobi&quot;           
+## NC_008751 Desulfovibrio vulgaris                    &quot;Proteobacteria&quot;     
+## CP000568 Ruminiclostridium thermocellum             &quot;Firmicutes&quot;         
+## CP000561 Pyrobaculum calidifontis                   &quot;Crenarchaeota&quot;      
+## CP000609 Methanococcus maripaludis                  &quot;Euryarchaeota&quot;      
+## CP000607 Chlorobium phaeovibrioides                 &quot;Chlorobi&quot;           
+## CP000660 Pyrobaculum arsenaticum                    &quot;Crenarchaeota&quot;      
+## CP000667 Salinispora tropica                        &quot;Actinobacteria&quot;     
+## CP000679 Caldicellulosiruptor saccharolyticus       &quot;Firmicutes&quot;         
+## CP000702 Thermotoga petrophila                      &quot;Thermotogae&quot;        
+## CP000139 Bacteroides vulgatus                       &quot;Bacteroidetes&quot;      
+## NC_009665 Shewanella baltica                        &quot;Proteobacteria&quot;     
+## CP000816 Ignicoccus hospitalis                      &quot;Crenarchaeota&quot;      
+## CP000850 Salinispora arenicola                      &quot;Actinobacteria&quot;     
+## CP000909 Chloroflexus aurantiacus                   &quot;Chloroflexi&quot;        
+## CP000924 Thermoanaerobacter pseudethanolicus        &quot;Firmicutes&quot;         
+## CP000969 Thermotoga sp. RQ2                         &quot;Thermotogae&quot;        
+## CP001013 Leptothrix cholodnii                       &quot;Proteobacteria&quot;     
+## CP001071 Akkermansia muciniphila                    &quot;Verrucomicrobia&quot;    
+## AP009380 Porphyromonas gingivalis                   &quot;Bacteroidetes&quot;      
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1          &quot;Aquificae&quot;          
+## CP001097 Chlorobium limicola                        &quot;Chlorobi&quot;           
+## CP001110 Pelodictyon phaeoclathratiforme            &quot;Chlorobi&quot;           
+## CP001130 Hydrogenobaculum sp. Y04AAS1               &quot;Aquificae&quot;          
+## NZ_CH959311 Sulfitobacter sp. EE-36                 &quot;Proteobacteria&quot;     
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1              &quot;Proteobacteria&quot;     
+## CP001251 Dictyoglomus turgidum                      &quot;Dictyoglomi&quot;        
+## NC_011663 Shewanella baltica                        &quot;Proteobacteria&quot;     
+## CP000916 Thermotoga neapolitana                     &quot;Thermotogae&quot;        
+## NZ_DS996397 Desulfovibrio piger                     &quot;Proteobacteria&quot;     
+## CP001230 Persephonella marina                       &quot;Aquificae&quot;          
+## CP001472 Acidobacterium capsulatum                  &quot;Acidobacteria&quot;      
+## AP009153 Gemmatimonas aurantiaca                    &quot;Gemmatimonadetes&quot;   
+## CP001941 Aciduliprofundum boonei                    &quot;Euryarchaeota&quot;      
+## NC_013968 Haloferax volcanii                        &quot;Euryarchaeota&quot;      
+## NZ_KE136524 Enterococcus faecalis                   &quot;Firmicutes&quot;         
+## NZ_KQ961402 Zymomonas mobilis                       &quot;Proteobacteria&quot;     
+## NZ_CP015081 Deinococcus radiodurans                 &quot;Deinococcus-Thermus&quot;
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense &quot;Aquificae&quot;          
+## NZ_JGWU01000001 Bordetella bronchiseptica           &quot;Proteobacteria&quot;     
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         &quot;Firmicutes&quot;         
+## NC_009972 Herpetosiphon aurantiacus                 &quot;Chloroflexi&quot;        
+## NC_005213 Nanoarchaeum equitans                     &quot;Nanoarchaeota&quot;      
+##                                                     class                  
+## AE000782 Archaeoglobus fulgidus                     &quot;Archaeoglobi&quot;         
+## NC_000909 Methanocaldococcus jannaschii             &quot;Methanococci&quot;         
+## NC_003272 Nostoc sp. PCC 7120                       &quot;&quot;                     
+## AE009441 Pyrobaculum aerophilum                     &quot;Thermoprotei&quot;         
+## AE009950 Pyrococcus furiosus                        &quot;Thermococci&quot;          
+## AE009951 Fusobacterium nucleatum                    &quot;Fusobacteriia&quot;        
+## AE010299 Methanosarcina acetivorans                 &quot;Methanomicrobia&quot;      
+## AE009439 Methanopyrus kandleri                      &quot;Methanopyri&quot;          
+## NC_003911 Ruegeria pomeroyi                         &quot;Alphaproteobacteria&quot;  
+## AE006470 Chlorobaculum tepidum                      &quot;Chlorobia&quot;            
+## AE015928 Bacteroides thetaiotaomicron               &quot;Bacteroidia&quot;          
+## AL954747 Nitrosomonas europaea                      &quot;Betaproteobacteria&quot;   
+## BX119912 Rhodopirellula baltica                     &quot;Planctomycetia&quot;       
+## BX571656 Wolinella succinogenes                     &quot;Epsilonproteobacteria&quot;
+## AE017180 Geobacter sulfurreducens                   &quot;Deltaproteobacteria&quot;  
+## AE017226 Treponema denticola                        &quot;Spirochaetia&quot;         
+## BX950229 Methanococcus maripaludis                  &quot;Methanococci&quot;         
+## AE017221 Thermus thermophilus                       &quot;Deinococci&quot;           
+## BA000001 Pyrococcus horikoshii                      &quot;Thermococci&quot;          
+## BA000023 Sulfolobus tokodaii                        &quot;Thermoprotei&quot;         
+## NC_007951 Paraburkholderia xenovorans               &quot;Betaproteobacteria&quot;   
+## CP000492 Chlorobium phaeobacteroides                &quot;Chlorobia&quot;            
+## NC_008751 Desulfovibrio vulgaris                    &quot;Deltaproteobacteria&quot;  
+## CP000568 Ruminiclostridium thermocellum             &quot;Clostridia&quot;           
+## CP000561 Pyrobaculum calidifontis                   &quot;Thermoprotei&quot;         
+## CP000609 Methanococcus maripaludis                  &quot;Methanococci&quot;         
+## CP000607 Chlorobium phaeovibrioides                 &quot;Chlorobia&quot;            
+## CP000660 Pyrobaculum arsenaticum                    &quot;Thermoprotei&quot;         
+## CP000667 Salinispora tropica                        &quot;Actinobacteria&quot;       
+## CP000679 Caldicellulosiruptor saccharolyticus       &quot;Clostridia&quot;           
+## CP000702 Thermotoga petrophila                      &quot;Thermotogae&quot;          
+## CP000139 Bacteroides vulgatus                       &quot;Bacteroidia&quot;          
+## NC_009665 Shewanella baltica                        &quot;Gammaproteobacteria&quot;  
+## CP000816 Ignicoccus hospitalis                      &quot;Thermoprotei&quot;         
+## CP000850 Salinispora arenicola                      &quot;Actinobacteria&quot;       
+## CP000909 Chloroflexus aurantiacus                   &quot;Chloroflexia&quot;         
+## CP000924 Thermoanaerobacter pseudethanolicus        &quot;Clostridia&quot;           
+## CP000969 Thermotoga sp. RQ2                         &quot;Thermotogae&quot;          
+## CP001013 Leptothrix cholodnii                       &quot;Betaproteobacteria&quot;   
+## CP001071 Akkermansia muciniphila                    &quot;Verrucomicrobiae&quot;     
+## AP009380 Porphyromonas gingivalis                   &quot;Bacteroidia&quot;          
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1          &quot;Aquificae&quot;            
+## CP001097 Chlorobium limicola                        &quot;Chlorobia&quot;            
+## CP001110 Pelodictyon phaeoclathratiforme            &quot;Chlorobia&quot;            
+## CP001130 Hydrogenobaculum sp. Y04AAS1               &quot;Aquificae&quot;            
+## NZ_CH959311 Sulfitobacter sp. EE-36                 &quot;Alphaproteobacteria&quot;  
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1              &quot;Alphaproteobacteria&quot;  
+## CP001251 Dictyoglomus turgidum                      &quot;Dictyoglomia&quot;         
+## NC_011663 Shewanella baltica                        &quot;Gammaproteobacteria&quot;  
+## CP000916 Thermotoga neapolitana                     &quot;Thermotogae&quot;          
+## NZ_DS996397 Desulfovibrio piger                     &quot;Deltaproteobacteria&quot;  
+## CP001230 Persephonella marina                       &quot;Aquificae&quot;            
+## CP001472 Acidobacterium capsulatum                  &quot;Acidobacteriia&quot;       
+## AP009153 Gemmatimonas aurantiaca                    &quot;Gemmatimonadetes&quot;     
+## CP001941 Aciduliprofundum boonei                    &quot;&quot;                     
+## NC_013968 Haloferax volcanii                        &quot;Halobacteria&quot;         
+## NZ_KE136524 Enterococcus faecalis                   &quot;Bacilli&quot;              
+## NZ_KQ961402 Zymomonas mobilis                       &quot;Alphaproteobacteria&quot;  
+## NZ_CP015081 Deinococcus radiodurans                 &quot;Deinococci&quot;           
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense &quot;Aquificae&quot;            
+## NZ_JGWU01000001 Bordetella bronchiseptica           &quot;Betaproteobacteria&quot;   
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         &quot;Clostridia&quot;           
+## NC_009972 Herpetosiphon aurantiacus                 &quot;Chloroflexia&quot;         
+## NC_005213 Nanoarchaeum equitans                     &quot;&quot;                     
+##                                                     order                   
+## AE000782 Archaeoglobus fulgidus                     &quot;Archaeoglobales&quot;       
+## NC_000909 Methanocaldococcus jannaschii             &quot;Methanococcales&quot;       
+## NC_003272 Nostoc sp. PCC 7120                       &quot;Nostocales&quot;            
+## AE009441 Pyrobaculum aerophilum                     &quot;Thermoproteales&quot;       
+## AE009950 Pyrococcus furiosus                        &quot;Thermococcales&quot;        
+## AE009951 Fusobacterium nucleatum                    &quot;Fusobacteriales&quot;       
+## AE010299 Methanosarcina acetivorans                 &quot;Methanosarcinales&quot;     
+## AE009439 Methanopyrus kandleri                      &quot;Methanopyrales&quot;        
+## NC_003911 Ruegeria pomeroyi                         &quot;Rhodobacterales&quot;       
+## AE006470 Chlorobaculum tepidum                      &quot;Chlorobiales&quot;          
+## AE015928 Bacteroides thetaiotaomicron               &quot;Bacteroidales&quot;         
+## AL954747 Nitrosomonas europaea                      &quot;Nitrosomonadales&quot;      
+## BX119912 Rhodopirellula baltica                     &quot;Planctomycetales&quot;      
+## BX571656 Wolinella succinogenes                     &quot;Campylobacterales&quot;     
+## AE017180 Geobacter sulfurreducens                   &quot;Desulfuromonadales&quot;    
+## AE017226 Treponema denticola                        &quot;Spirochaetales&quot;        
+## BX950229 Methanococcus maripaludis                  &quot;Methanococcales&quot;       
+## AE017221 Thermus thermophilus                       &quot;Thermales&quot;             
+## BA000001 Pyrococcus horikoshii                      &quot;Thermococcales&quot;        
+## BA000023 Sulfolobus tokodaii                        &quot;Sulfolobales&quot;          
+## NC_007951 Paraburkholderia xenovorans               &quot;Burkholderiales&quot;       
+## CP000492 Chlorobium phaeobacteroides                &quot;Chlorobiales&quot;          
+## NC_008751 Desulfovibrio vulgaris                    &quot;Desulfovibrionales&quot;    
+## CP000568 Ruminiclostridium thermocellum             &quot;Clostridiales&quot;         
+## CP000561 Pyrobaculum calidifontis                   &quot;Thermoproteales&quot;       
+## CP000609 Methanococcus maripaludis                  &quot;Methanococcales&quot;       
+## CP000607 Chlorobium phaeovibrioides                 &quot;Chlorobiales&quot;          
+## CP000660 Pyrobaculum arsenaticum                    &quot;Thermoproteales&quot;       
+## CP000667 Salinispora tropica                        &quot;Micromonosporales&quot;     
+## CP000679 Caldicellulosiruptor saccharolyticus       &quot;Thermoanaerobacterales&quot;
+## CP000702 Thermotoga petrophila                      &quot;Thermotogales&quot;         
+## CP000139 Bacteroides vulgatus                       &quot;Bacteroidales&quot;         
+## NC_009665 Shewanella baltica                        &quot;Alteromonadales&quot;       
+## CP000816 Ignicoccus hospitalis                      &quot;Desulfurococcales&quot;     
+## CP000850 Salinispora arenicola                      &quot;Micromonosporales&quot;     
+## CP000909 Chloroflexus aurantiacus                   &quot;Chloroflexales&quot;        
+## CP000924 Thermoanaerobacter pseudethanolicus        &quot;Thermoanaerobacterales&quot;
+## CP000969 Thermotoga sp. RQ2                         &quot;Thermotogales&quot;         
+## CP001013 Leptothrix cholodnii                       &quot;Burkholderiales&quot;       
+## CP001071 Akkermansia muciniphila                    &quot;Verrucomicrobiales&quot;    
+## AP009380 Porphyromonas gingivalis                   &quot;Bacteroidales&quot;         
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1          &quot;Aquificales&quot;           
+## CP001097 Chlorobium limicola                        &quot;Chlorobiales&quot;          
+## CP001110 Pelodictyon phaeoclathratiforme            &quot;Chlorobiales&quot;          
+## CP001130 Hydrogenobaculum sp. Y04AAS1               &quot;Aquificales&quot;           
+## NZ_CH959311 Sulfitobacter sp. EE-36                 &quot;Rhodobacterales&quot;       
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1              &quot;Rhodobacterales&quot;       
+## CP001251 Dictyoglomus turgidum                      &quot;Dictyoglomales&quot;        
+## NC_011663 Shewanella baltica                        &quot;Alteromonadales&quot;       
+## CP000916 Thermotoga neapolitana                     &quot;Thermotogales&quot;         
+## NZ_DS996397 Desulfovibrio piger                     &quot;Desulfovibrionales&quot;    
+## CP001230 Persephonella marina                       &quot;Aquificales&quot;           
+## CP001472 Acidobacterium capsulatum                  &quot;Acidobacteriales&quot;      
+## AP009153 Gemmatimonas aurantiaca                    &quot;Gemmatimonadales&quot;      
+## CP001941 Aciduliprofundum boonei                    &quot;&quot;                      
+## NC_013968 Haloferax volcanii                        &quot;Haloferacales&quot;         
+## NZ_KE136524 Enterococcus faecalis                   &quot;Lactobacillales&quot;       
+## NZ_KQ961402 Zymomonas mobilis                       &quot;Sphingomonadales&quot;      
+## NZ_CP015081 Deinococcus radiodurans                 &quot;Deinococcales&quot;         
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense &quot;Aquificales&quot;           
+## NZ_JGWU01000001 Bordetella bronchiseptica           &quot;Burkholderiales&quot;       
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         &quot;Thermoanaerobacterales&quot;
+## NC_009972 Herpetosiphon aurantiacus                 &quot;Herpetosiphonales&quot;     
+## NC_005213 Nanoarchaeum equitans                     &quot;Nanoarchaeales&quot;        
+##                                                     family                                             
+## AE000782 Archaeoglobus fulgidus                     &quot;Archaeoglobaceae&quot;                                 
+## NC_000909 Methanocaldococcus jannaschii             &quot;Methanocaldococcaceae&quot;                            
+## NC_003272 Nostoc sp. PCC 7120                       &quot;Nostocaceae&quot;                                      
+## AE009441 Pyrobaculum aerophilum                     &quot;Thermoproteaceae&quot;                                 
+## AE009950 Pyrococcus furiosus                        &quot;Thermococcaceae&quot;                                  
+## AE009951 Fusobacterium nucleatum                    &quot;Fusobacteriaceae&quot;                                 
+## AE010299 Methanosarcina acetivorans                 &quot;Methanosarcinaceae&quot;                               
+## AE009439 Methanopyrus kandleri                      &quot;Methanopyraceae&quot;                                  
+## NC_003911 Ruegeria pomeroyi                         &quot;Rhodobacteraceae&quot;                                 
+## AE006470 Chlorobaculum tepidum                      &quot;Chlorobiaceae&quot;                                    
+## AE015928 Bacteroides thetaiotaomicron               &quot;Bacteroidaceae&quot;                                   
+## AL954747 Nitrosomonas europaea                      &quot;Nitrosomonadaceae&quot;                                
+## BX119912 Rhodopirellula baltica                     &quot;Planctomycetaceae&quot;                                
+## BX571656 Wolinella succinogenes                     &quot;Helicobacteraceae&quot;                                
+## AE017180 Geobacter sulfurreducens                   &quot;Geobacteraceae&quot;                                   
+## AE017226 Treponema denticola                        &quot;Spirochaetaceae&quot;                                  
+## BX950229 Methanococcus maripaludis                  &quot;Methanococcaceae&quot;                                 
+## AE017221 Thermus thermophilus                       &quot;Thermaceae&quot;                                       
+## BA000001 Pyrococcus horikoshii                      &quot;Thermococcaceae&quot;                                  
+## BA000023 Sulfolobus tokodaii                        &quot;Sulfolobaceae&quot;                                    
+## NC_007951 Paraburkholderia xenovorans               &quot;Burkholderiaceae&quot;                                 
+## CP000492 Chlorobium phaeobacteroides                &quot;Chlorobiaceae&quot;                                    
+## NC_008751 Desulfovibrio vulgaris                    &quot;Desulfovibrionaceae&quot;                              
+## CP000568 Ruminiclostridium thermocellum             &quot;Ruminococcaceae&quot;                                  
+## CP000561 Pyrobaculum calidifontis                   &quot;Thermoproteaceae&quot;                                 
+## CP000609 Methanococcus maripaludis                  &quot;Methanococcaceae&quot;                                 
+## CP000607 Chlorobium phaeovibrioides                 &quot;Chlorobiaceae&quot;                                    
+## CP000660 Pyrobaculum arsenaticum                    &quot;Thermoproteaceae&quot;                                 
+## CP000667 Salinispora tropica                        &quot;Micromonosporaceae&quot;                               
+## CP000679 Caldicellulosiruptor saccharolyticus       &quot;Thermoanaerobacterales Family III. Incertae Sedis&quot;
+## CP000702 Thermotoga petrophila                      &quot;Thermotogaceae&quot;                                   
+## CP000139 Bacteroides vulgatus                       &quot;Bacteroidaceae&quot;                                   
+## NC_009665 Shewanella baltica                        &quot;Shewanellaceae&quot;                                   
+## CP000816 Ignicoccus hospitalis                      &quot;Desulfurococcaceae&quot;                               
+## CP000850 Salinispora arenicola                      &quot;Micromonosporaceae&quot;                               
+## CP000909 Chloroflexus aurantiacus                   &quot;Chloroflexaceae&quot;                                  
+## CP000924 Thermoanaerobacter pseudethanolicus        &quot;Thermoanaerobacteraceae&quot;                          
+## CP000969 Thermotoga sp. RQ2                         &quot;Thermotogaceae&quot;                                   
+## CP001013 Leptothrix cholodnii                       &quot;&quot;                                                 
+## CP001071 Akkermansia muciniphila                    &quot;Akkermansiaceae&quot;                                  
+## AP009380 Porphyromonas gingivalis                   &quot;Porphyromonadaceae&quot;                               
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1          &quot;Hydrogenothermaceae&quot;                              
+## CP001097 Chlorobium limicola                        &quot;Chlorobiaceae&quot;                                    
+## CP001110 Pelodictyon phaeoclathratiforme            &quot;Chlorobiaceae&quot;                                    
+## CP001130 Hydrogenobaculum sp. Y04AAS1               &quot;Aquificaceae&quot;                                     
+## NZ_CH959311 Sulfitobacter sp. EE-36                 &quot;Rhodobacteraceae&quot;                                 
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1              &quot;Rhodobacteraceae&quot;                                 
+## CP001251 Dictyoglomus turgidum                      &quot;Dictyoglomaceae&quot;                                  
+## NC_011663 Shewanella baltica                        &quot;Shewanellaceae&quot;                                   
+## CP000916 Thermotoga neapolitana                     &quot;Thermotogaceae&quot;                                   
+## NZ_DS996397 Desulfovibrio piger                     &quot;Desulfovibrionaceae&quot;                              
+## CP001230 Persephonella marina                       &quot;Hydrogenothermaceae&quot;                              
+## CP001472 Acidobacterium capsulatum                  &quot;Acidobacteriaceae&quot;                                
+## AP009153 Gemmatimonas aurantiaca                    &quot;Gemmatimonadaceae&quot;                                
+## CP001941 Aciduliprofundum boonei                    &quot;&quot;                                                 
+## NC_013968 Haloferax volcanii                        &quot;Haloferacaceae&quot;                                   
+## NZ_KE136524 Enterococcus faecalis                   &quot;Enterococcaceae&quot;                                  
+## NZ_KQ961402 Zymomonas mobilis                       &quot;Sphingomonadaceae&quot;                                
+## NZ_CP015081 Deinococcus radiodurans                 &quot;Deinococcaceae&quot;                                   
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense &quot;Hydrogenothermaceae&quot;                              
+## NZ_JGWU01000001 Bordetella bronchiseptica           &quot;Alcaligenaceae&quot;                                   
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         &quot;Thermoanaerobacterales Family III. Incertae Sedis&quot;
+## NC_009972 Herpetosiphon aurantiacus                 &quot;Herpetosiphonaceae&quot;                               
+## NC_005213 Nanoarchaeum equitans                     &quot;Nanoarchaeaceae&quot;                                  
+##                                                     genus                 
+## AE000782 Archaeoglobus fulgidus                     &quot;Archaeoglobus&quot;       
+## NC_000909 Methanocaldococcus jannaschii             &quot;Methanocaldococcus&quot;  
+## NC_003272 Nostoc sp. PCC 7120                       &quot;Nostoc&quot;              
+## AE009441 Pyrobaculum aerophilum                     &quot;Pyrobaculum&quot;         
+## AE009950 Pyrococcus furiosus                        &quot;Pyrococcus&quot;          
+## AE009951 Fusobacterium nucleatum                    &quot;Fusobacterium&quot;       
+## AE010299 Methanosarcina acetivorans                 &quot;Methanosarcina&quot;      
+## AE009439 Methanopyrus kandleri                      &quot;Methanopyrus&quot;        
+## NC_003911 Ruegeria pomeroyi                         &quot;Ruegeria&quot;            
+## AE006470 Chlorobaculum tepidum                      &quot;Chlorobaculum&quot;       
+## AE015928 Bacteroides thetaiotaomicron               &quot;Bacteroides&quot;         
+## AL954747 Nitrosomonas europaea                      &quot;Nitrosomonas&quot;        
+## BX119912 Rhodopirellula baltica                     &quot;Rhodopirellula&quot;      
+## BX571656 Wolinella succinogenes                     &quot;Wolinella&quot;           
+## AE017180 Geobacter sulfurreducens                   &quot;Geobacter&quot;           
+## AE017226 Treponema denticola                        &quot;Treponema&quot;           
+## BX950229 Methanococcus maripaludis                  &quot;Methanococcus&quot;       
+## AE017221 Thermus thermophilus                       &quot;Thermus&quot;             
+## BA000001 Pyrococcus horikoshii                      &quot;Pyrococcus&quot;          
+## BA000023 Sulfolobus tokodaii                        &quot;Sulfolobus&quot;          
+## NC_007951 Paraburkholderia xenovorans               &quot;Paraburkholderia&quot;    
+## CP000492 Chlorobium phaeobacteroides                &quot;Chlorobium&quot;          
+## NC_008751 Desulfovibrio vulgaris                    &quot;Desulfovibrio&quot;       
+## CP000568 Ruminiclostridium thermocellum             &quot;Ruminiclostridium&quot;   
+## CP000561 Pyrobaculum calidifontis                   &quot;Pyrobaculum&quot;         
+## CP000609 Methanococcus maripaludis                  &quot;Methanococcus&quot;       
+## CP000607 Chlorobium phaeovibrioides                 &quot;Chlorobium&quot;          
+## CP000660 Pyrobaculum arsenaticum                    &quot;Pyrobaculum&quot;         
+## CP000667 Salinispora tropica                        &quot;Salinispora&quot;         
+## CP000679 Caldicellulosiruptor saccharolyticus       &quot;Caldicellulosiruptor&quot;
+## CP000702 Thermotoga petrophila                      &quot;Thermotoga&quot;          
+## CP000139 Bacteroides vulgatus                       &quot;Bacteroides&quot;         
+## NC_009665 Shewanella baltica                        &quot;Shewanella&quot;          
+## CP000816 Ignicoccus hospitalis                      &quot;Ignicoccus&quot;          
+## CP000850 Salinispora arenicola                      &quot;Salinispora&quot;         
+## CP000909 Chloroflexus aurantiacus                   &quot;Chloroflexus&quot;        
+## CP000924 Thermoanaerobacter pseudethanolicus        &quot;Thermoanaerobacter&quot;  
+## CP000969 Thermotoga sp. RQ2                         &quot;Thermotoga&quot;          
+## CP001013 Leptothrix cholodnii                       &quot;Leptothrix&quot;          
+## CP001071 Akkermansia muciniphila                    &quot;Akkermansia&quot;         
+## AP009380 Porphyromonas gingivalis                   &quot;Porphyromonas&quot;       
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1          &quot;Sulfurihydrogenibium&quot;
+## CP001097 Chlorobium limicola                        &quot;Chlorobium&quot;          
+## CP001110 Pelodictyon phaeoclathratiforme            &quot;Pelodictyon&quot;         
+## CP001130 Hydrogenobaculum sp. Y04AAS1               &quot;Hydrogenobaculum&quot;    
+## NZ_CH959311 Sulfitobacter sp. EE-36                 &quot;Sulfitobacter&quot;       
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1              &quot;Sulfitobacter&quot;       
+## CP001251 Dictyoglomus turgidum                      &quot;Dictyoglomus&quot;        
+## NC_011663 Shewanella baltica                        &quot;Shewanella&quot;          
+## CP000916 Thermotoga neapolitana                     &quot;Thermotoga&quot;          
+## NZ_DS996397 Desulfovibrio piger                     &quot;Desulfovibrio&quot;       
+## CP001230 Persephonella marina                       &quot;Persephonella&quot;       
+## CP001472 Acidobacterium capsulatum                  &quot;Acidobacterium&quot;      
+## AP009153 Gemmatimonas aurantiaca                    &quot;Gemmatimonas&quot;        
+## CP001941 Aciduliprofundum boonei                    &quot;Aciduliprofundum&quot;    
+## NC_013968 Haloferax volcanii                        &quot;Haloferax&quot;           
+## NZ_KE136524 Enterococcus faecalis                   &quot;Enterococcus&quot;        
+## NZ_KQ961402 Zymomonas mobilis                       &quot;Zymomonas&quot;           
+## NZ_CP015081 Deinococcus radiodurans                 &quot;Deinococcus&quot;         
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense &quot;Sulfurihydrogenibium&quot;
+## NZ_JGWU01000001 Bordetella bronchiseptica           &quot;Bordetella&quot;          
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         &quot;Caldicellulosiruptor&quot;
+## NC_009972 Herpetosiphon aurantiacus                 &quot;Herpetosiphon&quot;       
+## NC_005213 Nanoarchaeum equitans                     &quot;Nanoarchaeum&quot;        
+##                                                     species                               
+## AE000782 Archaeoglobus fulgidus                     &quot;Archaeoglobus fulgidus&quot;              
+## NC_000909 Methanocaldococcus jannaschii             &quot;Methanocaldococcus jannaschii&quot;       
+## NC_003272 Nostoc sp. PCC 7120                       &quot;Nostoc sp. PCC 7120&quot;                 
+## AE009441 Pyrobaculum aerophilum                     &quot;Pyrobaculum aerophilum&quot;              
+## AE009950 Pyrococcus furiosus                        &quot;Pyrococcus furiosus&quot;                 
+## AE009951 Fusobacterium nucleatum                    &quot;Fusobacterium nucleatum&quot;             
+## AE010299 Methanosarcina acetivorans                 &quot;Methanosarcina acetivorans&quot;          
+## AE009439 Methanopyrus kandleri                      &quot;Methanopyrus kandleri&quot;               
+## NC_003911 Ruegeria pomeroyi                         &quot;Ruegeria pomeroyi&quot;                   
+## AE006470 Chlorobaculum tepidum                      &quot;Chlorobaculum tepidum&quot;               
+## AE015928 Bacteroides thetaiotaomicron               &quot;Bacteroides thetaiotaomicron&quot;        
+## AL954747 Nitrosomonas europaea                      &quot;Nitrosomonas europaea&quot;               
+## BX119912 Rhodopirellula baltica                     &quot;Rhodopirellula baltica&quot;              
+## BX571656 Wolinella succinogenes                     &quot;Wolinella succinogenes&quot;              
+## AE017180 Geobacter sulfurreducens                   &quot;Geobacter sulfurreducens&quot;            
+## AE017226 Treponema denticola                        &quot;Treponema denticola&quot;                 
+## BX950229 Methanococcus maripaludis                  &quot;Methanococcus maripaludis&quot;           
+## AE017221 Thermus thermophilus                       &quot;Thermus thermophilus&quot;                
+## BA000001 Pyrococcus horikoshii                      &quot;Pyrococcus horikoshii&quot;               
+## BA000023 Sulfolobus tokodaii                        &quot;Sulfolobus tokodaii&quot;                 
+## NC_007951 Paraburkholderia xenovorans               &quot;Paraburkholderia xenovorans&quot;         
+## CP000492 Chlorobium phaeobacteroides                &quot;Chlorobium phaeobacteroides&quot;         
+## NC_008751 Desulfovibrio vulgaris                    &quot;Desulfovibrio vulgaris&quot;              
+## CP000568 Ruminiclostridium thermocellum             &quot;Ruminiclostridium thermocellum&quot;      
+## CP000561 Pyrobaculum calidifontis                   &quot;Pyrobaculum calidifontis&quot;            
+## CP000609 Methanococcus maripaludis                  &quot;Methanococcus maripaludis&quot;           
+## CP000607 Chlorobium phaeovibrioides                 &quot;Chlorobium phaeovibrioides&quot;          
+## CP000660 Pyrobaculum arsenaticum                    &quot;Pyrobaculum arsenaticum&quot;             
+## CP000667 Salinispora tropica                        &quot;Salinispora tropica&quot;                 
+## CP000679 Caldicellulosiruptor saccharolyticus       &quot;Caldicellulosiruptor saccharolyticus&quot;
+## CP000702 Thermotoga petrophila                      &quot;Thermotoga petrophila&quot;               
+## CP000139 Bacteroides vulgatus                       &quot;Bacteroides vulgatus&quot;                
+## NC_009665 Shewanella baltica                        &quot;Shewanella baltica&quot;                  
+## CP000816 Ignicoccus hospitalis                      &quot;Ignicoccus hospitalis&quot;               
+## CP000850 Salinispora arenicola                      &quot;Salinispora arenicola&quot;               
+## CP000909 Chloroflexus aurantiacus                   &quot;Chloroflexus aurantiacus&quot;            
+## CP000924 Thermoanaerobacter pseudethanolicus        &quot;Thermoanaerobacter pseudethanolicus&quot; 
+## CP000969 Thermotoga sp. RQ2                         &quot;Thermotoga sp. RQ2&quot;                  
+## CP001013 Leptothrix cholodnii                       &quot;Leptothrix cholodnii&quot;                
+## CP001071 Akkermansia muciniphila                    &quot;Akkermansia muciniphila&quot;             
+## AP009380 Porphyromonas gingivalis                   &quot;Porphyromonas gingivalis&quot;            
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1          &quot;Sulfurihydrogenibium sp. YO3AOP1&quot;    
+## CP001097 Chlorobium limicola                        &quot;Chlorobium limicola&quot;                 
+## CP001110 Pelodictyon phaeoclathratiforme            &quot;Pelodictyon phaeoclathratiforme&quot;     
+## CP001130 Hydrogenobaculum sp. Y04AAS1               &quot;Hydrogenobaculum sp. Y04AAS1&quot;        
+## NZ_CH959311 Sulfitobacter sp. EE-36                 &quot;Sulfitobacter sp. EE-36&quot;             
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1              &quot;Sulfitobacter sp. NAS-14.1&quot;          
+## CP001251 Dictyoglomus turgidum                      &quot;Dictyoglomus turgidum&quot;               
+## NC_011663 Shewanella baltica                        &quot;Shewanella baltica&quot;                  
+## CP000916 Thermotoga neapolitana                     &quot;Thermotoga neapolitana&quot;              
+## NZ_DS996397 Desulfovibrio piger                     &quot;Desulfovibrio piger&quot;                 
+## CP001230 Persephonella marina                       &quot;Persephonella marina&quot;                
+## CP001472 Acidobacterium capsulatum                  &quot;Acidobacterium capsulatum&quot;           
+## AP009153 Gemmatimonas aurantiaca                    &quot;Gemmatimonas aurantiaca&quot;             
+## CP001941 Aciduliprofundum boonei                    &quot;Aciduliprofundum boonei&quot;             
+## NC_013968 Haloferax volcanii                        &quot;Haloferax volcanii&quot;                  
+## NZ_KE136524 Enterococcus faecalis                   &quot;Enterococcus faecalis&quot;               
+## NZ_KQ961402 Zymomonas mobilis                       &quot;Zymomonas mobilis&quot;                   
+## NZ_CP015081 Deinococcus radiodurans                 &quot;Deinococcus radiodurans&quot;             
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense &quot;Sulfurihydrogenibium yellowstonense&quot; 
+## NZ_JGWU01000001 Bordetella bronchiseptica           &quot;Bordetella bronchiseptica&quot;           
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         &quot;Caldicellulosiruptor bescii&quot;         
+## NC_009972 Herpetosiphon aurantiacus                 &quot;Herpetosiphon aurantiacus&quot;           
+## NC_005213 Nanoarchaeum equitans                     &quot;Nanoarchaeum equitans&quot;               
+##                                                     strain                                          
+## AE000782 Archaeoglobus fulgidus                     &quot;Archaeoglobus fulgidus DSM 4304&quot;               
+## NC_000909 Methanocaldococcus jannaschii             &quot;Methanocaldococcus jannaschii DSM 2661&quot;        
+## NC_003272 Nostoc sp. PCC 7120                       &quot;&quot;                                              
+## AE009441 Pyrobaculum aerophilum                     &quot;Pyrobaculum aerophilum str. IM2&quot;               
+## AE009950 Pyrococcus furiosus                        &quot;Pyrococcus furiosus DSM 3638&quot;                  
+## AE009951 Fusobacterium nucleatum                    &quot;&quot;                                              
+## AE010299 Methanosarcina acetivorans                 &quot;Methanosarcina acetivorans C2A&quot;                
+## AE009439 Methanopyrus kandleri                      &quot;Methanopyrus kandleri AV19&quot;                    
+## NC_003911 Ruegeria pomeroyi                         &quot;Ruegeria pomeroyi DSS-3&quot;                       
+## AE006470 Chlorobaculum tepidum                      &quot;Chlorobaculum tepidum TLS&quot;                     
+## AE015928 Bacteroides thetaiotaomicron               &quot;Bacteroides thetaiotaomicron VPI-5482&quot;         
+## AL954747 Nitrosomonas europaea                      &quot;Nitrosomonas europaea ATCC 19718&quot;              
+## BX119912 Rhodopirellula baltica                     &quot;Rhodopirellula baltica SH 1&quot;                   
+## BX571656 Wolinella succinogenes                     &quot;Wolinella succinogenes DSM 1740&quot;               
+## AE017180 Geobacter sulfurreducens                   &quot;Geobacter sulfurreducens PCA&quot;                  
+## AE017226 Treponema denticola                        &quot;Treponema denticola ATCC 35405&quot;                
+## BX950229 Methanococcus maripaludis                  &quot;Methanococcus maripaludis S2&quot;                  
+## AE017221 Thermus thermophilus                       &quot;Thermus thermophilus HB27&quot;                     
+## BA000001 Pyrococcus horikoshii                      &quot;Pyrococcus horikoshii OT3&quot;                     
+## BA000023 Sulfolobus tokodaii                        &quot;Sulfolobus tokodaii str. 7&quot;                    
+## NC_007951 Paraburkholderia xenovorans               &quot;Paraburkholderia xenovorans LB400&quot;             
+## CP000492 Chlorobium phaeobacteroides                &quot;Chlorobium phaeobacteroides DSM 266&quot;           
+## NC_008751 Desulfovibrio vulgaris                    &quot;Desulfovibrio vulgaris DP4&quot;                    
+## CP000568 Ruminiclostridium thermocellum             &quot;Ruminiclostridium thermocellum ATCC 27405&quot;     
+## CP000561 Pyrobaculum calidifontis                   &quot;Pyrobaculum calidifontis JCM 11548&quot;            
+## CP000609 Methanococcus maripaludis                  &quot;Methanococcus maripaludis C5&quot;                  
+## CP000607 Chlorobium phaeovibrioides                 &quot;Chlorobium phaeovibrioides DSM 265&quot;            
+## CP000660 Pyrobaculum arsenaticum                    &quot;Pyrobaculum arsenaticum DSM 13514&quot;             
+## CP000667 Salinispora tropica                        &quot;Salinispora tropica CNB-440&quot;                   
+## CP000679 Caldicellulosiruptor saccharolyticus       &quot;Caldicellulosiruptor saccharolyticus DSM 8903&quot; 
+## CP000702 Thermotoga petrophila                      &quot;Thermotoga petrophila RKU-1&quot;                   
+## CP000139 Bacteroides vulgatus                       &quot;Bacteroides vulgatus ATCC 8482&quot;                
+## NC_009665 Shewanella baltica                        &quot;Shewanella baltica OS185&quot;                      
+## CP000816 Ignicoccus hospitalis                      &quot;Ignicoccus hospitalis KIN4/I&quot;                  
+## CP000850 Salinispora arenicola                      &quot;Salinispora arenicola CNS-205&quot;                 
+## CP000909 Chloroflexus aurantiacus                   &quot;Chloroflexus aurantiacus J-10-fl&quot;              
+## CP000924 Thermoanaerobacter pseudethanolicus        &quot;Thermoanaerobacter pseudethanolicus ATCC 33223&quot;
+## CP000969 Thermotoga sp. RQ2                         &quot;&quot;                                              
+## CP001013 Leptothrix cholodnii                       &quot;Leptothrix cholodnii SP-6&quot;                     
+## CP001071 Akkermansia muciniphila                    &quot;Akkermansia muciniphila ATCC BAA-835&quot;          
+## AP009380 Porphyromonas gingivalis                   &quot;Porphyromonas gingivalis ATCC 33277&quot;           
+## NC_010730 Sulfurihydrogenibium sp. YO3AOP1          &quot;&quot;                                              
+## CP001097 Chlorobium limicola                        &quot;Chlorobium limicola DSM 245&quot;                   
+## CP001110 Pelodictyon phaeoclathratiforme            &quot;Pelodictyon phaeoclathratiforme BU-1&quot;          
+## CP001130 Hydrogenobaculum sp. Y04AAS1               &quot;&quot;                                              
+## NZ_CH959311 Sulfitobacter sp. EE-36                 &quot;&quot;                                              
+## NZ_CH959317 Sulfitobacter sp. NAS-14.1              &quot;&quot;                                              
+## CP001251 Dictyoglomus turgidum                      &quot;Dictyoglomus turgidum DSM 6724&quot;                
+## NC_011663 Shewanella baltica                        &quot;Shewanella baltica OS223&quot;                      
+## CP000916 Thermotoga neapolitana                     &quot;Thermotoga neapolitana DSM 4359&quot;               
+## NZ_DS996397 Desulfovibrio piger                     &quot;Desulfovibrio piger ATCC 29098&quot;                
+## CP001230 Persephonella marina                       &quot;Persephonella marina EX-H1&quot;                    
+## CP001472 Acidobacterium capsulatum                  &quot;Acidobacterium capsulatum ATCC 51196&quot;          
+## AP009153 Gemmatimonas aurantiaca                    &quot;Gemmatimonas aurantiaca T-27&quot;                  
+## CP001941 Aciduliprofundum boonei                    &quot;Aciduliprofundum boonei T469&quot;                  
+## NC_013968 Haloferax volcanii                        &quot;Haloferax volcanii DS2&quot;                        
+## NZ_KE136524 Enterococcus faecalis                   &quot;Enterococcus faecalis V583&quot;                    
+## NZ_KQ961402 Zymomonas mobilis                       &quot;&quot;                                              
+## NZ_CP015081 Deinococcus radiodurans                 &quot;Deinococcus radiodurans R1&quot;                    
+## NZ_ABZS01000228 Sulfurihydrogenibium yellowstonense &quot;Sulfurihydrogenibium yellowstonense SS-5&quot;      
+## NZ_JGWU01000001 Bordetella bronchiseptica           &quot;Bordetella bronchiseptica D989&quot;                
+## NZ_FWDH01000003 Caldicellulosiruptor bescii         &quot;&quot;                                              
+## NC_009972 Herpetosiphon aurantiacus                 &quot;Herpetosiphon aurantiacus DSM 785&quot;             
+## NC_005213 Nanoarchaeum equitans                     &quot;Nanoarchaeum equitans Kin4-M&quot;</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>physeq <span class="ot">=</span> <span class="fu">phyloseq</span>(OTU, TAX)</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>physeq</span></code></pre></div>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 15 taxa and 5 samples ]
+## tax_table()   Taxonomy Table:    [ 15 taxa by 8 taxonomic ranks ]</code></pre>
+
+</body>
+</html>

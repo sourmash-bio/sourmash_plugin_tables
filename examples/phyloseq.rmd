@@ -8,8 +8,8 @@ library(stringr)
 ```
 
 ```{r}
-df <- read.csv('examples/data/dense-gather.k31-s1000-t3000.csv')
-tax <- read.csv('examples/data/podar-ref.tax.csv')
+df <- read.csv('data/dense-gather.k31-s1000-t3000.csv')
+tax <- read.csv('data/podar-ref.tax.csv')
 ```
 
 # an example metadata file was generated with:
