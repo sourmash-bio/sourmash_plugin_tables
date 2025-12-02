@@ -45,9 +45,7 @@ sourmash scripts gather_tables examples/data/gather/*  --format dense -o example
 ```
 
 ```{r, echo=FALSE}
-DT::datatable(
-        read.csv('data/dense-gather.k31-s1000-t3000.csv')
-	, options = list(scrollX = TRUE))
+knitr::kable(read.csv('data/dense-gather.k31-s1000-t3000.csv'), format = 'markdown')
 ```
 
 ## R script to create sourmash phyloseq object
