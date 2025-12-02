@@ -66,10 +66,16 @@ tax <- read.csv('data/podar-ref.tax.csv')
 
 ### Manipulate the taxonomy strings in both dataframes to have matching row names
 
+View the sourmash OTU data
+
 ```{r}
 str(df)
 df[,1]
+```
 
+Remove the version id and the superfluous words
+
+```{r}
 str_view(head(df[,1]), "\\.\\d+")
 word(df[, 1], 1, 3)
 
@@ -77,23 +83,40 @@ df[,1] <- word(df[,1], 1, 3)
 df[,1]
 df[,1] <- str_remove_all(df[,1], "\\.\\d+")
 df[,1]
-df
+knitr::kable(df, format = 'markdown')
+```
+
+Those cleaned names need to be moved to row names (aka row ids)
+
+```{r}
 rownames(df) <- df[,1]
 rownames(df)
 df <- df[,-1]
 
 knitr::kable(df, format = 'markdown')
+```
 
+View the tax information
+
+```{r}
 str(tax)
 tax[,1]
 tax[,9]
+```
+
+We do not need the TaxID. We do need to match the row names of the sourmash OTU, though. Therefore, we need to collapse the accession and species name into a single string and move that string to the row names
+
+```{r}
 tax <- tax[,-2]
 
 str_view(head(tax$accession), ".*")
-#tax$ident <- str_remove_all(tax$ident, "\\..*")
 rownames(tax) <- str_glue_data(tax, "{accession} {species}")
 tax <- tax[,-1]
+```
 
+## Make the phyloseq object
+
+```{r}
 OTU = otu_table(df, taxa_are_rows = TRUE)
 TAX = tax_table(as.matrix(tax))
 

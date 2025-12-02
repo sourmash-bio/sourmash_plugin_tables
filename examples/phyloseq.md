@@ -85,6 +85,8 @@ tax <- read.csv('data/podar-ref.tax.csv')
 
 ### Manipulate the taxonomy strings in both dataframes to have matching row names
 
+View the sourmash OTU data
+
 ``` r
 str(df)
 ```
@@ -118,6 +120,8 @@ df[,1]
     ## [15] "AE006470.1 Chlorobium tepidum TLS, complete genome"                                              
     ## [16] "AE017221.1 Thermus thermophilus HB27, complete genome"                                           
     ## [17] "NC_011663.1 Shewanella baltica OS223, complete genome"
+
+Remove the version id and the superfluous words
 
 ``` r
 str_view(head(df[,1]), "\\.\\d+")
@@ -199,45 +203,30 @@ df[,1]
     ## [17] "NC_011663 Shewanella baltica"
 
 ``` r
-df
+knitr::kable(df, format = 'markdown')
 ```
 
-    ##                                   match_name   ERR1136663   ERR4087400
-    ## 1              CP000139 Bacteroides vulgatus 8.301477e-03 5.512089e-03
-    ## 2      AE015928 Bacteroides thetaiotaomicron 2.032678e-03 3.968704e-04
-    ## 3            NZ_DS996397 Desulfovibrio piger 1.076401e-03 0.000000e+00
-    ## 4           CP001071 Akkermansia muciniphila 5.676425e-04 4.119893e-03
-    ## 5          NZ_KE136524 Enterococcus faecalis 2.355363e-05 6.929483e-05
-    ## 6         CP001472 Acidobacterium capsulatum 1.165905e-04 0.000000e+00
-    ## 7           AE009951 Fusobacterium nucleatum 2.814659e-04 0.000000e+00
-    ## 8              CP001013 Leptothrix cholodnii 9.421452e-06 0.000000e+00
-    ## 9  NZ_JGWU01000001 Bordetella bronchiseptica 0.000000e+00 3.779718e-05
-    ## 10             NZ_KQ961402 Zymomonas mobilis 0.000000e+00 0.000000e+00
-    ## 11         AP009380 Porphyromonas gingivalis 0.000000e+00 0.000000e+00
-    ## 12         NC_007951 Burkholderia xenovorans 0.000000e+00 0.000000e+00
-    ## 13              AE017226 Treponema denticola 0.000000e+00 0.000000e+00
-    ## 14            CP000850 Salinispora arenicola 0.000000e+00 0.000000e+00
-    ## 15               AE006470 Chlorobium tepidum 0.000000e+00 0.000000e+00
-    ## 16             AE017221 Thermus thermophilus 0.000000e+00 0.000000e+00
-    ## 17              NC_011663 Shewanella baltica 0.000000e+00 0.000000e+00
-    ##      ERR4562131    SRR059888   SRR9217435
-    ## 1  5.823024e-03 3.356448e-05 5.792533e-05
-    ## 2  4.229973e-04 0.000000e+00 0.000000e+00
-    ## 3  1.548600e-04 0.000000e+00 0.000000e+00
-    ## 4  4.301667e-05 9.811156e-06 0.000000e+00
-    ## 5  0.000000e+00 0.000000e+00 0.000000e+00
-    ## 6  0.000000e+00 0.000000e+00 0.000000e+00
-    ## 7  0.000000e+00 3.217285e-03 5.649507e-05
-    ## 8  0.000000e+00 1.587858e-04 1.923693e-04
-    ## 9  0.000000e+00 2.793598e-04 3.983260e-04
-    ## 10 3.728112e-04 0.000000e+00 2.932023e-05
-    ## 11 5.735556e-05 2.765197e-04 8.581530e-06
-    ## 12 2.581000e-05 0.000000e+00 4.290765e-06
-    ## 13 0.000000e+00 7.255092e-05 0.000000e+00
-    ## 14 0.000000e+00 3.464887e-04 0.000000e+00
-    ## 15 0.000000e+00 7.539099e-05 0.000000e+00
-    ## 16 0.000000e+00 3.356448e-06 0.000000e+00
-    ## 17 0.000000e+00 0.000000e+00 1.623339e-04
+| match_name                                | ERR1136663 | ERR4087400 | ERR4562131 | SRR059888 | SRR9217435 |
+|:------------------------------------------|-----------:|-----------:|-----------:|----------:|-----------:|
+| CP000139 Bacteroides vulgatus             |  0.0083015 |  0.0055121 |  0.0058230 | 0.0000336 |  0.0000579 |
+| AE015928 Bacteroides thetaiotaomicron     |  0.0020327 |  0.0003969 |  0.0004230 | 0.0000000 |  0.0000000 |
+| NZ_DS996397 Desulfovibrio piger           |  0.0010764 |  0.0000000 |  0.0001549 | 0.0000000 |  0.0000000 |
+| CP001071 Akkermansia muciniphila          |  0.0005676 |  0.0041199 |  0.0000430 | 0.0000098 |  0.0000000 |
+| NZ_KE136524 Enterococcus faecalis         |  0.0000236 |  0.0000693 |  0.0000000 | 0.0000000 |  0.0000000 |
+| CP001472 Acidobacterium capsulatum        |  0.0001166 |  0.0000000 |  0.0000000 | 0.0000000 |  0.0000000 |
+| AE009951 Fusobacterium nucleatum          |  0.0002815 |  0.0000000 |  0.0000000 | 0.0032173 |  0.0000565 |
+| CP001013 Leptothrix cholodnii             |  0.0000094 |  0.0000000 |  0.0000000 | 0.0001588 |  0.0001924 |
+| NZ_JGWU01000001 Bordetella bronchiseptica |  0.0000000 |  0.0000378 |  0.0000000 | 0.0002794 |  0.0003983 |
+| NZ_KQ961402 Zymomonas mobilis             |  0.0000000 |  0.0000000 |  0.0003728 | 0.0000000 |  0.0000293 |
+| AP009380 Porphyromonas gingivalis         |  0.0000000 |  0.0000000 |  0.0000574 | 0.0002765 |  0.0000086 |
+| NC_007951 Burkholderia xenovorans         |  0.0000000 |  0.0000000 |  0.0000258 | 0.0000000 |  0.0000043 |
+| AE017226 Treponema denticola              |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000726 |  0.0000000 |
+| CP000850 Salinispora arenicola            |  0.0000000 |  0.0000000 |  0.0000000 | 0.0003465 |  0.0000000 |
+| AE006470 Chlorobium tepidum               |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000754 |  0.0000000 |
+| AE017221 Thermus thermophilus             |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000034 |  0.0000000 |
+| NC_011663 Shewanella baltica              |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000000 |  0.0001623 |
+
+Those cleaned names need to be moved to row names (aka row ids)
 
 ``` r
 rownames(df) <- df[,1]
@@ -287,6 +276,8 @@ knitr::kable(df, format = 'markdown')
 | AE006470 Chlorobium tepidum               |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000754 |  0.0000000 |
 | AE017221 Thermus thermophilus             |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000034 |  0.0000000 |
 | NC_011663 Shewanella baltica              |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000000 |  0.0001623 |
+
+View the tax information
 
 ``` r
 str(tax)
@@ -394,6 +385,10 @@ tax[,9]
     ## [63] "Herpetosiphon aurantiacus"           
     ## [64] "Nanoarchaeum equitans"
 
+We do not need the TaxID. We do need to match the row names of the
+sourmash OTU, though. Therefore, we need to collapse the accession and
+species name into a single string and move that string to the row names
+
 ``` r
 tax <- tax[,-2]
 
@@ -408,10 +403,13 @@ str_view(head(tax$accession), ".*")
     ## [6] │ <AE009951><>
 
 ``` r
-#tax$ident <- str_remove_all(tax$ident, "\\..*")
 rownames(tax) <- str_glue_data(tax, "{accession} {species}")
 tax <- tax[,-1]
+```
 
+## Make the phyloseq object
+
+``` r
 OTU = otu_table(df, taxa_are_rows = TRUE)
 TAX = tax_table(as.matrix(tax))
 
