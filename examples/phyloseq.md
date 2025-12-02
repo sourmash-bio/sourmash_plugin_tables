@@ -1,23 +1,106 @@
 
+# Sourmash phyloseq object creation
+
+## Gather
+
+The `sourmash gather` command was used to create 5 gather csv files
+found in `examples/data/gather`. The parameters used to generate these
+samples can be found in the file names.
+
+The `podar-ref.zip` database is a small toy database for easy testing.
+
+``` bash
+for sig in (awk -F, 'NR>1 {print $21}' examples/data/tiny_example.csv); do
+    sourmash gather examples/data/sigs/${sig}.sig examples/data/podar-ref.zip -k 31 --scaled 1000 --dna -o examples/data/gather/${sig}.k31-s1000-t3000.csv --threshold-bp 3000
+done
+```
+
+## Tax
+
+The taxonomy file is located in `examples/data/` and is
+`podar-red.tax.csv`.
+
+## Metadata
+
+The metadata for the 5 example signatures used in this vingette is from
+the [CuratedMetagenomicData repository on
+GitHub](https://github.com/waldronlab/curatedMetagenomicData)
+
+An example metadata file was generated with:
+
+``` bash
+head -1 data/big_metadata.csv > tiny_example.csv
+tail -n +2 data/big_metadata.csv | shuf | head -n 5 >> tiny_example.csv
+```
+
+## Sourmash gather files to table
+
+The phyloseq object expects an n by m matrix. To achieve this across a
+large number of samples, I wrote the `tables` plugin for sourmash.
+
+This plugin collects all the gather information and creates an OTU
+object from our sourmash gather data.
+
+An example of the tables plugin operation:
+
+``` bash
+sourmash scripts gather_tables examples/data/gather/*  --format dense -o examples/data/dense-gather.k31-s1000-t3000.csv --column f_unique_weighted --filter 0
+```
+
+    ##                                                                                          match_name
+    ## 1                                        CP000139.1 Bacteroides vulgatus ATCC 8482, complete genome
+    ## 2                                 AE015928.1 Bacteroides thetaiotaomicron VPI-5482, complete genome
+    ## 3              NZ_DS996397.1 Desulfovibrio piger ATCC 29098 Scfld442, whole genome shotgun sequence
+    ## 4                                  CP001071.1 Akkermansia muciniphila ATCC BAA-835, complete genome
+    ## 5        NZ_KE136524.1 Enterococcus faecalis V583 acyDH-supercont2.1, whole genome shotgun sequence
+    ## 6                                  CP001472.1 Acidobacterium capsulatum ATCC 51196, complete genome
+    ## 7                   AE009951.2 Fusobacterium nucleatum subsp. nucleatum ATCC 25586, complete genome
+    ## 8                                             CP001013.1 Leptothrix cholodnii SP-6, complete genome
+    ## 9  NZ_JGWU01000001.1 Bordetella bronchiseptica D989 ctg7180000008197, whole genome shotgun sequence
+    ## 10       NZ_KQ961402.1 Zymomonas mobilis strain ATCC 31823 Scaffold1, whole genome shotgun sequence
+    ## 11                              AP009380.1 Porphyromonas gingivalis ATCC 33277 DNA, complete genome
+    ## 12                        NC_007951.1 Burkholderia xenovorans LB400 chromosome 1, complete sequence
+    ## 13                                       AE017226.1 Treponema denticola ATCC 35405, complete genome
+    ## 14                                        CP000850.1 Salinispora arenicola CNS-205, complete genome
+    ## 15                                               AE006470.1 Chlorobium tepidum TLS, complete genome
+    ## 16                                            AE017221.1 Thermus thermophilus HB27, complete genome
+    ## 17                                            NC_011663.1 Shewanella baltica OS223, complete genome
+    ##      ERR1136663   ERR4087400   ERR4562131    SRR059888   SRR9217435
+    ## 1  8.301477e-03 5.512089e-03 5.823024e-03 3.356448e-05 5.792533e-05
+    ## 2  2.032678e-03 3.968704e-04 4.229973e-04 0.000000e+00 0.000000e+00
+    ## 3  1.076401e-03 0.000000e+00 1.548600e-04 0.000000e+00 0.000000e+00
+    ## 4  5.676425e-04 4.119893e-03 4.301667e-05 9.811156e-06 0.000000e+00
+    ## 5  2.355363e-05 6.929483e-05 0.000000e+00 0.000000e+00 0.000000e+00
+    ## 6  1.165905e-04 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+    ## 7  2.814659e-04 0.000000e+00 0.000000e+00 3.217285e-03 5.649507e-05
+    ## 8  9.421452e-06 0.000000e+00 0.000000e+00 1.587858e-04 1.923693e-04
+    ## 9  0.000000e+00 3.779718e-05 0.000000e+00 2.793598e-04 3.983260e-04
+    ## 10 0.000000e+00 0.000000e+00 3.728112e-04 0.000000e+00 2.932023e-05
+    ## 11 0.000000e+00 0.000000e+00 5.735556e-05 2.765197e-04 8.581530e-06
+    ## 12 0.000000e+00 0.000000e+00 2.581000e-05 0.000000e+00 4.290765e-06
+    ## 13 0.000000e+00 0.000000e+00 0.000000e+00 7.255092e-05 0.000000e+00
+    ## 14 0.000000e+00 0.000000e+00 0.000000e+00 3.464887e-04 0.000000e+00
+    ## 15 0.000000e+00 0.000000e+00 0.000000e+00 7.539099e-05 0.000000e+00
+    ## 16 0.000000e+00 0.000000e+00 0.000000e+00 3.356448e-06 0.000000e+00
+    ## 17 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 1.623339e-04
+
+## R script to create sourmash phyloseq object
+
+### Load necessary libraries
+
 ``` r
 library(phyloseq)
 library(stringr)
 ```
+
+### Load sourmash OTU and tax data
 
 ``` r
 df <- read.csv('data/dense-gather.k31-s1000-t3000.csv')
 tax <- read.csv('data/podar-ref.tax.csv')
 ```
 
-# an example metadata file was generated with:
-
-# head -1 data/big_metadata.csv \> tiny_example.csv
-
-# tail -n +2 data/big_metadata.csv \| shuf \| head -n 5 \>\> tiny_example.csv
-
-# an example of the tables plugin operation
-
-# sourmash scripts gather_tables examples/data/gather/\* –format dense -o examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted –filter 0
+### Manipulate the taxonomy strings in both dataframes to have matching row names
 
 ``` r
 str(df)
@@ -1500,4 +1583,265 @@ physeq
 
     ## phyloseq-class experiment-level object
     ## otu_table()   OTU Table:         [ 15 taxa and 5 samples ]
+    ## tax_table()   Taxonomy Table:    [ 15 taxa by 8 taxonomic ranks ]
+
+## Create a metadata dataframe to use with the sourmash phyloseq object
+
+Read in the csv file that contains your sample metadata
+
+``` r
+all_metadata <- read.csv("data/tiny_example.csv")
+
+metadata <- sample_data(all_metadata)
+
+str(metadata)
+```
+
+    ## 'data.frame':    5 obs. of  142 variables:
+    ## Formal class 'sample_data' [package "phyloseq"] with 4 slots
+    ##   ..@ .Data    :List of 142
+    ##   .. ..$ : chr  "ZeeviD_2015" "MetaCardis_2020_a" "MetaCardis_2020_a" "GhensiP_2019" ...
+    ##   .. ..$ : chr  "PNP_Main_553" "M0x20MCx1812" "M0x20MCx1360" "SP_101SPI_T016" ...
+    ##   .. ..$ : chr  "PNP_Main_553" "M0x20MCx1812" "M0x20MCx1360" "sub_101" ...
+    ##   .. ..$ : chr  "stool" "stool" "stool" "oralcavity" ...
+    ##   .. ..$ : chr  "no" "no" "yes" NA ...
+    ##   .. ..$ : chr  "control" "T2D" "IGT" "control" ...
+    ##   .. ..$ : chr  "healthy" "T2D" "IGT;MS" "healthy" ...
+    ##   .. ..$ : int  51 63 51 NA 27
+    ##   .. ..$ : chr  "adult" "adult" "adult" "adult" ...
+    ##   .. ..$ : chr  "female" "male" "female" NA ...
+    ##   .. ..$ : chr  "ISR" "DEU" "DEU" "ITA" ...
+    ##   .. ..$ : chr  NA "Leipzig" "Leipzig" NA ...
+    ##   .. ..$ : chr  "no" "no" "no" "no" ...
+    ##   .. ..$ : chr  "IlluminaHiSeq" "IonProton" "IonProton" "IlluminaHiSeq" ...
+    ##   .. ..$ : chr  NA NA NA NA ...
+    ##   .. ..$ : int  26590418 34880489 34880489 33127901 22699609
+    ##   .. ..$ : int  28756422 15374062 20888458 20061461 94436101
+    ##   .. ..$ : num  2.52e+09 2.33e+09 3.20e+09 1.99e+09 8.71e+09
+    ##   .. ..$ : int  20 NA NA 75 60
+    ##   .. ..$ : int  80 NA NA 100 101
+    ##   .. ..$ : chr  "ERR1136663" "ERR4562131" "ERR4087400" "SRR9217435" ...
+    ##   .. ..$ : num  NA NA 6.78 NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : chr  "no" "antidiab;metformin;dppiv" "antihta;ca2_cbl" NA ...
+    ##   .. ..$ : chr  "Jacob_Wirbel;Paolo_Manghi" "Paolo_Manghi" "Paolo_Manghi" "Paolo_Manghi" ...
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : chr  "no" NA NA NA ...
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : num  23.7 27.7 50.1 NA 23
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : chr  NA "yes" "no" "no" ...
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : chr  "rectal_swab" NA NA "subgingival_plaque" ...
+    ##   .. ..$ : chr  "no_immuno_suppressive;no_T2D;no_T1D;no_related_treatments;no_psychiatric_diseases;no_gastro_intestinal_disorder;non_celiac" NA NA NA ...
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : num  NA NA 210 NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : num  NA NA 240 NA NA
+    ##   .. ..$ : num  NA NA 5.73 NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : chr  NA NA NA "yes" ...
+    ##   .. ..$ : chr  NA NA NA "implant" ...
+    ##   .. ..$ : chr  NA NA NA "yes" ...
+    ##   .. ..$ : int  NA NA NA 4 NA
+    ##   .. ..$ : int  NA NA NA 3 NA
+    ##   .. ..$ : int  NA NA NA 4 NA
+    ##   .. ..$ : int  NA NA NA 3 NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. ..$ : logi  NA NA NA NA NA
+    ##   .. .. [list output truncated]
+    ##   ..@ names    : chr  "study_name" "sample_id" "subject_id" "body_site" ...
+    ##   ..@ row.names: chr  "sa1" "sa2" "sa3" "sa4" ...
+    ##   ..@ .S3Class : chr "data.frame"
+
+This file contained many columns we do not need. Lets remove those.
+
+``` r
+metadata <- metadata[, colSums(!is.na(metadata)) > 0]
+str(metadata)
+```
+
+    ## 'data.frame':    5 obs. of  41 variables:
+    ## Formal class 'sample_data' [package "phyloseq"] with 4 slots
+    ##   ..@ .Data    :List of 41
+    ##   .. ..$ : chr  "ZeeviD_2015" "MetaCardis_2020_a" "MetaCardis_2020_a" "GhensiP_2019" ...
+    ##   .. ..$ : chr  "PNP_Main_553" "M0x20MCx1812" "M0x20MCx1360" "SP_101SPI_T016" ...
+    ##   .. ..$ : chr  "PNP_Main_553" "M0x20MCx1812" "M0x20MCx1360" "sub_101" ...
+    ##   .. ..$ : chr  "stool" "stool" "stool" "oralcavity" ...
+    ##   .. ..$ : chr  "no" "no" "yes" NA ...
+    ##   .. ..$ : chr  "control" "T2D" "IGT" "control" ...
+    ##   .. ..$ : chr  "healthy" "T2D" "IGT;MS" "healthy" ...
+    ##   .. ..$ : int  51 63 51 NA 27
+    ##   .. ..$ : chr  "adult" "adult" "adult" "adult" ...
+    ##   .. ..$ : chr  "female" "male" "female" NA ...
+    ##   .. ..$ : chr  "ISR" "DEU" "DEU" "ITA" ...
+    ##   .. ..$ : chr  NA "Leipzig" "Leipzig" NA ...
+    ##   .. ..$ : chr  "no" "no" "no" "no" ...
+    ##   .. ..$ : chr  "IlluminaHiSeq" "IonProton" "IonProton" "IlluminaHiSeq" ...
+    ##   .. ..$ : chr  NA NA NA NA ...
+    ##   .. ..$ : int  26590418 34880489 34880489 33127901 22699609
+    ##   .. ..$ : int  28756422 15374062 20888458 20061461 94436101
+    ##   .. ..$ : num  2.52e+09 2.33e+09 3.20e+09 1.99e+09 8.71e+09
+    ##   .. ..$ : int  20 NA NA 75 60
+    ##   .. ..$ : int  80 NA NA 100 101
+    ##   .. ..$ : chr  "ERR1136663" "ERR4562131" "ERR4087400" "SRR9217435" ...
+    ##   .. ..$ : num  NA NA 6.78 NA NA
+    ##   .. ..$ : chr  "no" "antidiab;metformin;dppiv" "antihta;ca2_cbl" NA ...
+    ##   .. ..$ : chr  "Jacob_Wirbel;Paolo_Manghi" "Paolo_Manghi" "Paolo_Manghi" "Paolo_Manghi" ...
+    ##   .. ..$ : chr  "no" NA NA NA ...
+    ##   .. ..$ : num  23.7 27.7 50.1 NA 23
+    ##   .. ..$ : chr  NA "yes" "no" "no" ...
+    ##   .. ..$ : chr  "rectal_swab" NA NA "subgingival_plaque" ...
+    ##   .. ..$ : chr  "no_immuno_suppressive;no_T2D;no_T1D;no_related_treatments;no_psychiatric_diseases;no_gastro_intestinal_disorder;non_celiac" NA NA NA ...
+    ##   .. ..$ : num  NA NA 210 NA NA
+    ##   .. ..$ : num  NA NA 240 NA NA
+    ##   .. ..$ : num  NA NA 5.73 NA NA
+    ##   .. ..$ : chr  NA NA NA "yes" ...
+    ##   .. ..$ : chr  NA NA NA "implant" ...
+    ##   .. ..$ : chr  NA NA NA "yes" ...
+    ##   .. ..$ : int  NA NA NA 4 NA
+    ##   .. ..$ : int  NA NA NA 3 NA
+    ##   .. ..$ : int  NA NA NA 4 NA
+    ##   .. ..$ : int  NA NA NA 3 NA
+    ##   .. ..$ : int  NA NA 4 NA NA
+    ##   .. ..$ : chr  "PRJEB11532" "PRJEB38742" "PRJEB37249" "PRJNA547717" ...
+    ##   ..@ names    : chr  "study_name" "sample_id" "subject_id" "body_site" ...
+    ##   ..@ row.names: chr  "sa1" "sa2" "sa3" "sa4" ...
+    ##   ..@ .S3Class : chr "data.frame"
+
+Format the dataframe to work well with the sourmash phyloseq object
+
+``` r
+names(metadata) <- tolower(names(metadata))
+rownames(metadata) <- metadata$ncbi_accession
+metadata
+```
+
+    ##                   study_name      sample_id         subject_id  body_site
+    ## ERR1136663       ZeeviD_2015   PNP_Main_553       PNP_Main_553      stool
+    ## ERR4562131 MetaCardis_2020_a   M0x20MCx1812       M0x20MCx1812      stool
+    ## ERR4087400 MetaCardis_2020_a   M0x20MCx1360       M0x20MCx1360      stool
+    ## SRR9217435      GhensiP_2019 SP_101SPI_T016            sub_101 oralcavity
+    ## SRR059888           HMP_2012      SRS013723 HMP_2012_159268001 oralcavity
+    ##            antibiotics_current_use study_condition disease age age_category
+    ## ERR1136663                      no         control healthy  51        adult
+    ## ERR4562131                      no             T2D     T2D  63        adult
+    ## ERR4087400                     yes             IGT  IGT;MS  51        adult
+    ## SRR9217435                    <NA>         control healthy  NA        adult
+    ## SRR059888                     <NA>         control healthy  27        adult
+    ##            gender country location non_westernized sequencing_platform
+    ## ERR1136663 female     ISR     <NA>              no       IlluminaHiSeq
+    ## ERR4562131   male     DEU  Leipzig              no           IonProton
+    ## ERR4087400 female     DEU  Leipzig              no           IonProton
+    ## SRR9217435   <NA>     ITA     <NA>              no       IlluminaHiSeq
+    ## SRR059888    male     USA     <NA>              no       IlluminaHiSeq
+    ##            dna_extraction_kit     pmid number_reads number_bases
+    ## ERR1136663               <NA> 26590418     28756422   2515847316
+    ## ERR4562131               <NA> 34880489     15374062   2326962418
+    ## ERR4087400               <NA> 34880489     20888458   3200734644
+    ## SRR9217435               <NA> 33127901     20061461   1987501438
+    ## SRR059888              Qiagen 22699609     94436101   8712278548
+    ##            minimum_read_length median_read_length ncbi_accession hscrp
+    ## ERR1136663                  20                 80     ERR1136663    NA
+    ## ERR4562131                  NA                 NA     ERR4562131    NA
+    ## ERR4087400                  NA                 NA     ERR4087400  6.78
+    ## SRR9217435                  75                100     SRR9217435    NA
+    ## SRR059888                   60                101      SRR059888    NA
+    ##                           treatment                   curator pregnant      bmi
+    ## ERR1136663                       no Jacob_Wirbel;Paolo_Manghi       no 23.70000
+    ## ERR4562131 antidiab;metformin;dppiv              Paolo_Manghi     <NA> 27.67959
+    ## ERR4087400          antihta;ca2_cbl              Paolo_Manghi     <NA> 50.14402
+    ## SRR9217435                     <NA>              Paolo_Manghi     <NA>       NA
+    ## SRR059888                      <NA>              Paolo_Manghi     <NA> 23.00000
+    ##            smoker         body_subsite
+    ## ERR1136663   <NA>          rectal_swab
+    ## ERR4562131    yes                 <NA>
+    ## ERR4087400     no                 <NA>
+    ## SRR9217435     no   subgingival_plaque
+    ## SRR059888    <NA> supragingival_plaque
+    ##                                                                                                                    uncurated_metadata
+    ## ERR1136663 no_immuno_suppressive;no_T2D;no_T1D;no_related_treatments;no_psychiatric_diseases;no_gastro_intestinal_disorder;non_celiac
+    ## ERR4562131                                                                                                                       <NA>
+    ## ERR4087400                                                                                                                       <NA>
+    ## SRR9217435                                                                                                                       <NA>
+    ## SRR059888                                                                                                                        <NA>
+    ##                 ldl triglycerides hba1c ever_smoker dental_sample_type
+    ## ERR1136663       NA            NA    NA        <NA>               <NA>
+    ## ERR4562131       NA            NA    NA        <NA>               <NA>
+    ## ERR4087400 210.3648      240.0247  5.73        <NA>               <NA>
+    ## SRR9217435       NA            NA    NA         yes            implant
+    ## SRR059888        NA            NA    NA        <NA>               <NA>
+    ##            history_of_periodontitis ppd_m ppd_b ppd_d ppd_l bristol_score
+    ## ERR1136663                     <NA>    NA    NA    NA    NA            NA
+    ## ERR4562131                     <NA>    NA    NA    NA    NA            NA
+    ## ERR4087400                     <NA>    NA    NA    NA    NA             4
+    ## SRR9217435                      yes     4     3     4     3            NA
+    ## SRR059888                      <NA>    NA    NA    NA    NA            NA
+    ##            ncbi_bioproject
+    ## ERR1136663      PRJEB11532
+    ## ERR4562131      PRJEB38742
+    ## ERR4087400      PRJEB37249
+    ## SRR9217435     PRJNA547717
+    ## SRR059888       PRJNA48479
+
+Finally, merge the metadata with the sourmash phyloseq object
+
+``` r
+pseq_final <- merge_phyloseq(physeq, metadata)
+pseq_final
+```
+
+    ## phyloseq-class experiment-level object
+    ## otu_table()   OTU Table:         [ 15 taxa and 5 samples ]
+    ## sample_data() Sample Data:       [ 5 samples by 41 sample variables ]
     ## tax_table()   Taxonomy Table:    [ 15 taxa by 8 taxonomic ranks ]

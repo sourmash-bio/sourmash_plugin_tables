@@ -601,24 +601,84 @@ padding-top: 0px;
 
 <body>
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(phyloseq)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/dense-gather.k31-s1000-t3000.csv&#39;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>tax <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/podar-ref.tax.csv&#39;</span>)</span></code></pre></div>
-<h1 id="an-example-metadata-file-was-generated-with">an example metadata
-file was generated with:</h1>
-<h1 id="head--1-databig_metadatacsv--tiny_examplecsv">head -1
-data/big_metadata.csv &gt; tiny_example.csv</h1>
-<h1 id="tail--n-2-databig_metadatacsv--shuf--head--n-5--tiny_examplecsv">tail
--n +2 data/big_metadata.csv | shuf | head -n 5 &gt;&gt;
-tiny_example.csv</h1>
-<h1 id="an-example-of-the-tables-plugin-operation">an example of the
-tables plugin operation</h1>
-<h1 id="sourmash-scripts-gather_tables-examplesdatagather-format-dense--o-examplesdatadense-gatherk31-s1000-t3000csv-column-f_unique_weighted-filter-0">sourmash
-scripts gather_tables examples/data/gather/* –format dense -o
-examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
-–filter 0</h1>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
+<h1 id="sourmash-phyloseq-object-creation">Sourmash phyloseq object
+creation</h1>
+<h2 id="gather">Gather</h2>
+<p>The <code>sourmash gather</code> command was used to create 5 gather
+csv files found in <code>examples/data/gather</code>. The parameters
+used to generate these samples can be found in the file names.</p>
+<p>The <code>podar-ref.zip</code> database is a small toy database for
+easy testing.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="cf">for</span> sig <span class="kw">in</span> <span class="er">(</span><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $21}&#39;</span> examples/data/tiny_example.csv<span class="kw">);</span> <span class="cf">do</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>    <span class="ex">sourmash</span> gather examples/data/sigs/<span class="va">${sig}</span>.sig examples/data/podar-ref.zip <span class="at">-k</span> 31 <span class="at">--scaled</span> 1000 <span class="at">--dna</span> <span class="at">-o</span> examples/data/gather/<span class="va">${sig}</span>.k31-s1000-t3000.csv <span class="at">--threshold-bp</span> 3000</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<h2 id="tax">Tax</h2>
+<p>The taxonomy file is located in <code>examples/data/</code> and is
+<code>podar-red.tax.csv</code>.</p>
+<h2 id="metadata">Metadata</h2>
+<p>The metadata for the 5 example signatures used in this vingette is
+from the <a href="https://github.com/waldronlab/curatedMetagenomicData">CuratedMetagenomicData
+repository on GitHub</a></p>
+<p>An example metadata file was generated with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">head</span> <span class="at">-1</span> data/big_metadata.csv <span class="op">&gt;</span> tiny_example.csv</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> +2 data/big_metadata.csv <span class="kw">|</span> <span class="fu">shuf</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 5 <span class="op">&gt;&gt;</span> tiny_example.csv</span></code></pre></div>
+<h2 id="sourmash-gather-files-to-table">Sourmash gather files to
+table</h2>
+<p>The phyloseq object expects an n by m matrix. To achieve this across
+a large number of samples, I wrote the <code>tables</code> plugin for
+sourmash.</p>
+<p>This plugin collects all the gather information and creates an OTU
+object from our sourmash gather data.</p>
+<p>An example of the tables plugin operation:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">sourmash</span> scripts gather_tables examples/data/gather/<span class="pp">*</span>  <span class="at">--format</span> dense <span class="at">-o</span> examples/data/dense-gather.k31-s1000-t3000.csv <span class="at">--column</span> f_unique_weighted <span class="at">--filter</span> 0</span></code></pre></div>
+<pre><code>##                                                                                          match_name
+## 1                                        CP000139.1 Bacteroides vulgatus ATCC 8482, complete genome
+## 2                                 AE015928.1 Bacteroides thetaiotaomicron VPI-5482, complete genome
+## 3              NZ_DS996397.1 Desulfovibrio piger ATCC 29098 Scfld442, whole genome shotgun sequence
+## 4                                  CP001071.1 Akkermansia muciniphila ATCC BAA-835, complete genome
+## 5        NZ_KE136524.1 Enterococcus faecalis V583 acyDH-supercont2.1, whole genome shotgun sequence
+## 6                                  CP001472.1 Acidobacterium capsulatum ATCC 51196, complete genome
+## 7                   AE009951.2 Fusobacterium nucleatum subsp. nucleatum ATCC 25586, complete genome
+## 8                                             CP001013.1 Leptothrix cholodnii SP-6, complete genome
+## 9  NZ_JGWU01000001.1 Bordetella bronchiseptica D989 ctg7180000008197, whole genome shotgun sequence
+## 10       NZ_KQ961402.1 Zymomonas mobilis strain ATCC 31823 Scaffold1, whole genome shotgun sequence
+## 11                              AP009380.1 Porphyromonas gingivalis ATCC 33277 DNA, complete genome
+## 12                        NC_007951.1 Burkholderia xenovorans LB400 chromosome 1, complete sequence
+## 13                                       AE017226.1 Treponema denticola ATCC 35405, complete genome
+## 14                                        CP000850.1 Salinispora arenicola CNS-205, complete genome
+## 15                                               AE006470.1 Chlorobium tepidum TLS, complete genome
+## 16                                            AE017221.1 Thermus thermophilus HB27, complete genome
+## 17                                            NC_011663.1 Shewanella baltica OS223, complete genome
+##      ERR1136663   ERR4087400   ERR4562131    SRR059888   SRR9217435
+## 1  8.301477e-03 5.512089e-03 5.823024e-03 3.356448e-05 5.792533e-05
+## 2  2.032678e-03 3.968704e-04 4.229973e-04 0.000000e+00 0.000000e+00
+## 3  1.076401e-03 0.000000e+00 1.548600e-04 0.000000e+00 0.000000e+00
+## 4  5.676425e-04 4.119893e-03 4.301667e-05 9.811156e-06 0.000000e+00
+## 5  2.355363e-05 6.929483e-05 0.000000e+00 0.000000e+00 0.000000e+00
+## 6  1.165905e-04 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+## 7  2.814659e-04 0.000000e+00 0.000000e+00 3.217285e-03 5.649507e-05
+## 8  9.421452e-06 0.000000e+00 0.000000e+00 1.587858e-04 1.923693e-04
+## 9  0.000000e+00 3.779718e-05 0.000000e+00 2.793598e-04 3.983260e-04
+## 10 0.000000e+00 0.000000e+00 3.728112e-04 0.000000e+00 2.932023e-05
+## 11 0.000000e+00 0.000000e+00 5.735556e-05 2.765197e-04 8.581530e-06
+## 12 0.000000e+00 0.000000e+00 2.581000e-05 0.000000e+00 4.290765e-06
+## 13 0.000000e+00 0.000000e+00 0.000000e+00 7.255092e-05 0.000000e+00
+## 14 0.000000e+00 0.000000e+00 0.000000e+00 3.464887e-04 0.000000e+00
+## 15 0.000000e+00 0.000000e+00 0.000000e+00 7.539099e-05 0.000000e+00
+## 16 0.000000e+00 0.000000e+00 0.000000e+00 3.356448e-06 0.000000e+00
+## 17 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 1.623339e-04</code></pre>
+<h2 id="r-script-to-create-sourmash-phyloseq-object">R script to create
+sourmash phyloseq object</h2>
+<h3 id="load-necessary-libraries">Load necessary libraries</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(phyloseq)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div>
+<h3 id="load-sourmash-otu-and-tax-data">Load sourmash OTU and tax
+data</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/dense-gather.k31-s1000-t3000.csv&#39;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>tax <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/podar-ref.tax.csv&#39;</span>)</span></code></pre></div>
+<h3 id="manipulate-the-taxonomy-strings-in-both-dataframes-to-have-matching-row-names">Manipulate
+the taxonomy strings in both dataframes to have matching row names</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    17 obs. of  6 variables:
 ##  $ match_name: chr  &quot;CP000139.1 Bacteroides vulgatus ATCC 8482, complete genome&quot; &quot;AE015928.1 Bacteroides thetaiotaomicron VPI-5482, complete genome&quot; &quot;NZ_DS996397.1 Desulfovibrio piger ATCC 29098 Scfld442, whole genome shotgun sequence&quot; &quot;CP001071.1 Akkermansia muciniphila ATCC BAA-835, complete genome&quot; ...
 ##  $ ERR1136663: num  8.30e-03 2.03e-03 1.08e-03 5.68e-04 2.36e-05 ...
@@ -626,7 +686,7 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ##  $ ERR4562131: num  0.005823 0.000423 0.000155 0.000043 0 ...
 ##  $ SRR059888 : num  3.36e-05 0.00 0.00 9.81e-06 0.00 ...
 ##  $ SRR9217435: num  5.79e-05 0.00 0.00 0.00 0.00 ...</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>df[,<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>df[,<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##  [1] &quot;CP000139.1 Bacteroides vulgatus ATCC 8482, complete genome&quot;                                      
 ##  [2] &quot;AE015928.1 Bacteroides thetaiotaomicron VPI-5482, complete genome&quot;                               
 ##  [3] &quot;NZ_DS996397.1 Desulfovibrio piger ATCC 29098 Scfld442, whole genome shotgun sequence&quot;            
@@ -644,14 +704,14 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## [15] &quot;AE006470.1 Chlorobium tepidum TLS, complete genome&quot;                                              
 ## [16] &quot;AE017221.1 Thermus thermophilus HB27, complete genome&quot;                                           
 ## [17] &quot;NC_011663.1 Shewanella baltica OS223, complete genome&quot;</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">str_view</span>(<span class="fu">head</span>(df[,<span class="dv">1</span>]), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">str_view</span>(<span class="fu">head</span>(df[,<span class="dv">1</span>]), <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] │ CP000139&lt;.1&gt; Bacteroides vulgatus ATCC 8482, complete genome
 ## [2] │ AE015928&lt;.1&gt; Bacteroides thetaiotaomicron VPI-5482, complete genome
 ## [3] │ NZ_DS996397&lt;.1&gt; Desulfovibrio piger ATCC 29098 Scfld442, whole genome shotgun sequence
 ## [4] │ CP001071&lt;.1&gt; Akkermansia muciniphila ATCC BAA-835, complete genome
 ## [5] │ NZ_KE136524&lt;.1&gt; Enterococcus faecalis V583 acyDH-supercont2&lt;.1&gt;, whole genome shotgun sequence
 ## [6] │ CP001472&lt;.1&gt; Acidobacterium capsulatum ATCC 51196, complete genome</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">word</span>(df[, <span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">word</span>(df[, <span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;CP000139.1 Bacteroides vulgatus&quot;            
 ##  [2] &quot;AE015928.1 Bacteroides thetaiotaomicron&quot;    
 ##  [3] &quot;NZ_DS996397.1 Desulfovibrio piger&quot;          
@@ -669,8 +729,8 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## [15] &quot;AE006470.1 Chlorobium tepidum&quot;              
 ## [16] &quot;AE017221.1 Thermus thermophilus&quot;            
 ## [17] &quot;NC_011663.1 Shewanella baltica&quot;</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>df[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">word</span>(df[,<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">3</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>df[,<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>df[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">word</span>(df[,<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>df[,<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##  [1] &quot;CP000139.1 Bacteroides vulgatus&quot;            
 ##  [2] &quot;AE015928.1 Bacteroides thetaiotaomicron&quot;    
 ##  [3] &quot;NZ_DS996397.1 Desulfovibrio piger&quot;          
@@ -688,8 +748,8 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## [15] &quot;AE006470.1 Chlorobium tepidum&quot;              
 ## [16] &quot;AE017221.1 Thermus thermophilus&quot;            
 ## [17] &quot;NC_011663.1 Shewanella baltica&quot;</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>df[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(df[,<span class="dv">1</span>], <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>df[,<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>df[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(df[,<span class="dv">1</span>], <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">d+&quot;</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>df[,<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##  [1] &quot;CP000139 Bacteroides vulgatus&quot;            
 ##  [2] &quot;AE015928 Bacteroides thetaiotaomicron&quot;    
 ##  [3] &quot;NZ_DS996397 Desulfovibrio piger&quot;          
@@ -707,7 +767,7 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## [15] &quot;AE006470 Chlorobium tepidum&quot;              
 ## [16] &quot;AE017221 Thermus thermophilus&quot;            
 ## [17] &quot;NC_011663 Shewanella baltica&quot;</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>df</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>##                                   match_name   ERR1136663   ERR4087400
 ## 1              CP000139 Bacteroides vulgatus 8.301477e-03 5.512089e-03
 ## 2      AE015928 Bacteroides thetaiotaomicron 2.032678e-03 3.968704e-04
@@ -744,8 +804,8 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## 15 0.000000e+00 7.539099e-05 0.000000e+00
 ## 16 0.000000e+00 3.356448e-06 0.000000e+00
 ## 17 0.000000e+00 0.000000e+00 1.623339e-04</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">rownames</span>(df) <span class="ot">&lt;-</span> df[,<span class="dv">1</span>]</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="fu">rownames</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">rownames</span>(df) <span class="ot">&lt;-</span> df[,<span class="dv">1</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">rownames</span>(df)</span></code></pre></div>
 <pre><code>##  [1] &quot;CP000139 Bacteroides vulgatus&quot;            
 ##  [2] &quot;AE015928 Bacteroides thetaiotaomicron&quot;    
 ##  [3] &quot;NZ_DS996397 Desulfovibrio piger&quot;          
@@ -763,8 +823,8 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## [15] &quot;AE006470 Chlorobium tepidum&quot;              
 ## [16] &quot;AE017221 Thermus thermophilus&quot;            
 ## [17] &quot;NC_011663 Shewanella baltica&quot;</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>df</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>##                                             ERR1136663   ERR4087400
 ## CP000139 Bacteroides vulgatus             8.301477e-03 5.512089e-03
 ## AE015928 Bacteroides thetaiotaomicron     2.032678e-03 3.968704e-04
@@ -819,7 +879,7 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## AE006470 Chlorobium tepidum               0.000000e+00
 ## AE017221 Thermus thermophilus             0.000000e+00
 ## NC_011663 Shewanella baltica              1.623339e-04</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">str</span>(tax)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">str</span>(tax)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    64 obs. of  10 variables:
 ##  $ accession   : chr  &quot;AE000782&quot; &quot;NC_000909&quot; &quot;NC_003272&quot; &quot;AE009441&quot; ...
 ##  $ taxid       : int  224325 243232 103690 178306 186497 190304 188937 190192 246200 194439 ...
@@ -831,7 +891,7 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ##  $ genus       : chr  &quot;Archaeoglobus&quot; &quot;Methanocaldococcus&quot; &quot;Nostoc&quot; &quot;Pyrobaculum&quot; ...
 ##  $ species     : chr  &quot;Archaeoglobus fulgidus&quot; &quot;Methanocaldococcus jannaschii&quot; &quot;Nostoc sp. PCC 7120&quot; &quot;Pyrobaculum aerophilum&quot; ...
 ##  $ strain      : chr  &quot;Archaeoglobus fulgidus DSM 4304&quot; &quot;Methanocaldococcus jannaschii DSM 2661&quot; &quot;&quot; &quot;Pyrobaculum aerophilum str. IM2&quot; ...</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>tax[,<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>tax[,<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>##  [1] &quot;AE000782&quot;        &quot;NC_000909&quot;       &quot;NC_003272&quot;       &quot;AE009441&quot;       
 ##  [5] &quot;AE009950&quot;        &quot;AE009951&quot;        &quot;AE010299&quot;        &quot;AE009439&quot;       
 ##  [9] &quot;NC_003911&quot;       &quot;AE006470&quot;        &quot;AE015928&quot;        &quot;AL954747&quot;       
@@ -848,7 +908,7 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## [53] &quot;CP001472&quot;        &quot;AP009153&quot;        &quot;CP001941&quot;        &quot;NC_013968&quot;      
 ## [57] &quot;NZ_KE136524&quot;     &quot;NZ_KQ961402&quot;     &quot;NZ_CP015081&quot;     &quot;NZ_ABZS01000228&quot;
 ## [61] &quot;NZ_JGWU01000001&quot; &quot;NZ_FWDH01000003&quot; &quot;NC_009972&quot;       &quot;NC_005213&quot;</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>tax[,<span class="dv">9</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>tax[,<span class="dv">9</span>]</span></code></pre></div>
 <pre><code>##  [1] &quot;Archaeoglobus fulgidus&quot;              
 ##  [2] &quot;Methanocaldococcus jannaschii&quot;       
 ##  [3] &quot;Nostoc sp. PCC 7120&quot;                 
@@ -913,19 +973,19 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## [62] &quot;Caldicellulosiruptor bescii&quot;         
 ## [63] &quot;Herpetosiphon aurantiacus&quot;           
 ## [64] &quot;Nanoarchaeum equitans&quot;</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>tax <span class="ot">&lt;-</span> tax[,<span class="sc">-</span><span class="dv">2</span>]</span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="fu">str_view</span>(<span class="fu">head</span>(tax<span class="sc">$</span>accession), <span class="st">&quot;.*&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>tax <span class="ot">&lt;-</span> tax[,<span class="sc">-</span><span class="dv">2</span>]</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="fu">str_view</span>(<span class="fu">head</span>(tax<span class="sc">$</span>accession), <span class="st">&quot;.*&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] │ &lt;AE000782&gt;&lt;&gt;
 ## [2] │ &lt;NC_000909&gt;&lt;&gt;
 ## [3] │ &lt;NC_003272&gt;&lt;&gt;
 ## [4] │ &lt;AE009441&gt;&lt;&gt;
 ## [5] │ &lt;AE009950&gt;&lt;&gt;
 ## [6] │ &lt;AE009951&gt;&lt;&gt;</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co">#tax$ident &lt;- str_remove_all(tax$ident, &quot;\\..*&quot;)</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="fu">rownames</span>(tax) <span class="ot">&lt;-</span> <span class="fu">str_glue_data</span>(tax, <span class="st">&quot;{accession} {species}&quot;</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>tax <span class="ot">&lt;-</span> tax[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>tax</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co">#tax$ident &lt;- str_remove_all(tax$ident, &quot;\\..*&quot;)</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="fu">rownames</span>(tax) <span class="ot">&lt;-</span> <span class="fu">str_glue_data</span>(tax, <span class="st">&quot;{accession} {species}&quot;</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>tax <span class="ot">&lt;-</span> tax[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>tax</span></code></pre></div>
 <pre><code>##                                                     superkingdom
 ## AE000782 Archaeoglobus fulgidus                          Archaea
 ## NC_000909 Methanocaldococcus jannaschii                  Archaea
@@ -1446,10 +1506,10 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## NZ_FWDH01000003 Caldicellulosiruptor bescii                                                       
 ## NC_009972 Herpetosiphon aurantiacus                              Herpetosiphon aurantiacus DSM 785
 ## NC_005213 Nanoarchaeum equitans                                       Nanoarchaeum equitans Kin4-M</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>OTU <span class="ot">=</span> <span class="fu">otu_table</span>(df, <span class="at">taxa_are_rows =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>TAX <span class="ot">=</span> <span class="fu">tax_table</span>(<span class="fu">as.matrix</span>(tax))</span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>OTU</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>OTU <span class="ot">=</span> <span class="fu">otu_table</span>(df, <span class="at">taxa_are_rows =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>TAX <span class="ot">=</span> <span class="fu">tax_table</span>(<span class="fu">as.matrix</span>(tax))</span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>OTU</span></code></pre></div>
 <pre><code>## OTU Table:          [17 taxa and 5 samples]
 ##                      taxa are rows
 ##                                             ERR1136663   ERR4087400
@@ -1506,7 +1566,7 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## AE006470 Chlorobium tepidum               0.000000e+00
 ## AE017221 Thermus thermophilus             0.000000e+00
 ## NC_011663 Shewanella baltica              1.623339e-04</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>TAX</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a>TAX</span></code></pre></div>
 <pre><code>## Taxonomy Table:     [64 taxa by 8 taxonomic ranks]:
 ##                                                     superkingdom
 ## AE000782 Archaeoglobus fulgidus                     &quot;Archaea&quot;   
@@ -2028,10 +2088,253 @@ examples/data/dense-gather.k31-s1000-t3000.csv –column f_unique_weighted
 ## NZ_FWDH01000003 Caldicellulosiruptor bescii         &quot;&quot;                                              
 ## NC_009972 Herpetosiphon aurantiacus                 &quot;Herpetosiphon aurantiacus DSM 785&quot;             
 ## NC_005213 Nanoarchaeum equitans                     &quot;Nanoarchaeum equitans Kin4-M&quot;</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>physeq <span class="ot">=</span> <span class="fu">phyloseq</span>(OTU, TAX)</span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>physeq</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>physeq <span class="ot">=</span> <span class="fu">phyloseq</span>(OTU, TAX)</span>
+<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a>physeq</span></code></pre></div>
 <pre><code>## phyloseq-class experiment-level object
 ## otu_table()   OTU Table:         [ 15 taxa and 5 samples ]
+## tax_table()   Taxonomy Table:    [ 15 taxa by 8 taxonomic ranks ]</code></pre>
+<h2 id="create-a-metadata-dataframe-to-use-with-the-sourmash-phyloseq-object">Create
+a metadata dataframe to use with the sourmash phyloseq object</h2>
+<p>Read in the csv file that contains your sample metadata</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>all_metadata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/tiny_example.csv&quot;</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> <span class="fu">sample_data</span>(all_metadata)</span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a><span class="fu">str</span>(metadata)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    5 obs. of  142 variables:
+## Formal class &#39;sample_data&#39; [package &quot;phyloseq&quot;] with 4 slots
+##   ..@ .Data    :List of 142
+##   .. ..$ : chr  &quot;ZeeviD_2015&quot; &quot;MetaCardis_2020_a&quot; &quot;MetaCardis_2020_a&quot; &quot;GhensiP_2019&quot; ...
+##   .. ..$ : chr  &quot;PNP_Main_553&quot; &quot;M0x20MCx1812&quot; &quot;M0x20MCx1360&quot; &quot;SP_101SPI_T016&quot; ...
+##   .. ..$ : chr  &quot;PNP_Main_553&quot; &quot;M0x20MCx1812&quot; &quot;M0x20MCx1360&quot; &quot;sub_101&quot; ...
+##   .. ..$ : chr  &quot;stool&quot; &quot;stool&quot; &quot;stool&quot; &quot;oralcavity&quot; ...
+##   .. ..$ : chr  &quot;no&quot; &quot;no&quot; &quot;yes&quot; NA ...
+##   .. ..$ : chr  &quot;control&quot; &quot;T2D&quot; &quot;IGT&quot; &quot;control&quot; ...
+##   .. ..$ : chr  &quot;healthy&quot; &quot;T2D&quot; &quot;IGT;MS&quot; &quot;healthy&quot; ...
+##   .. ..$ : int  51 63 51 NA 27
+##   .. ..$ : chr  &quot;adult&quot; &quot;adult&quot; &quot;adult&quot; &quot;adult&quot; ...
+##   .. ..$ : chr  &quot;female&quot; &quot;male&quot; &quot;female&quot; NA ...
+##   .. ..$ : chr  &quot;ISR&quot; &quot;DEU&quot; &quot;DEU&quot; &quot;ITA&quot; ...
+##   .. ..$ : chr  NA &quot;Leipzig&quot; &quot;Leipzig&quot; NA ...
+##   .. ..$ : chr  &quot;no&quot; &quot;no&quot; &quot;no&quot; &quot;no&quot; ...
+##   .. ..$ : chr  &quot;IlluminaHiSeq&quot; &quot;IonProton&quot; &quot;IonProton&quot; &quot;IlluminaHiSeq&quot; ...
+##   .. ..$ : chr  NA NA NA NA ...
+##   .. ..$ : int  26590418 34880489 34880489 33127901 22699609
+##   .. ..$ : int  28756422 15374062 20888458 20061461 94436101
+##   .. ..$ : num  2.52e+09 2.33e+09 3.20e+09 1.99e+09 8.71e+09
+##   .. ..$ : int  20 NA NA 75 60
+##   .. ..$ : int  80 NA NA 100 101
+##   .. ..$ : chr  &quot;ERR1136663&quot; &quot;ERR4562131&quot; &quot;ERR4087400&quot; &quot;SRR9217435&quot; ...
+##   .. ..$ : num  NA NA 6.78 NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : chr  &quot;no&quot; &quot;antidiab;metformin;dppiv&quot; &quot;antihta;ca2_cbl&quot; NA ...
+##   .. ..$ : chr  &quot;Jacob_Wirbel;Paolo_Manghi&quot; &quot;Paolo_Manghi&quot; &quot;Paolo_Manghi&quot; &quot;Paolo_Manghi&quot; ...
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : chr  &quot;no&quot; NA NA NA ...
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : num  23.7 27.7 50.1 NA 23
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : chr  NA &quot;yes&quot; &quot;no&quot; &quot;no&quot; ...
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : chr  &quot;rectal_swab&quot; NA NA &quot;subgingival_plaque&quot; ...
+##   .. ..$ : chr  &quot;no_immuno_suppressive;no_T2D;no_T1D;no_related_treatments;no_psychiatric_diseases;no_gastro_intestinal_disorder;non_celiac&quot; NA NA NA ...
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : num  NA NA 210 NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : num  NA NA 240 NA NA
+##   .. ..$ : num  NA NA 5.73 NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : chr  NA NA NA &quot;yes&quot; ...
+##   .. ..$ : chr  NA NA NA &quot;implant&quot; ...
+##   .. ..$ : chr  NA NA NA &quot;yes&quot; ...
+##   .. ..$ : int  NA NA NA 4 NA
+##   .. ..$ : int  NA NA NA 3 NA
+##   .. ..$ : int  NA NA NA 4 NA
+##   .. ..$ : int  NA NA NA 3 NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. ..$ : logi  NA NA NA NA NA
+##   .. .. [list output truncated]
+##   ..@ names    : chr  &quot;study_name&quot; &quot;sample_id&quot; &quot;subject_id&quot; &quot;body_site&quot; ...
+##   ..@ row.names: chr  &quot;sa1&quot; &quot;sa2&quot; &quot;sa3&quot; &quot;sa4&quot; ...
+##   ..@ .S3Class : chr &quot;data.frame&quot;</code></pre>
+<p>This file contained many columns we do not need. Lets remove
+those.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> metadata[, <span class="fu">colSums</span>(<span class="sc">!</span><span class="fu">is.na</span>(metadata)) <span class="sc">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a><span class="fu">str</span>(metadata)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    5 obs. of  41 variables:
+## Formal class &#39;sample_data&#39; [package &quot;phyloseq&quot;] with 4 slots
+##   ..@ .Data    :List of 41
+##   .. ..$ : chr  &quot;ZeeviD_2015&quot; &quot;MetaCardis_2020_a&quot; &quot;MetaCardis_2020_a&quot; &quot;GhensiP_2019&quot; ...
+##   .. ..$ : chr  &quot;PNP_Main_553&quot; &quot;M0x20MCx1812&quot; &quot;M0x20MCx1360&quot; &quot;SP_101SPI_T016&quot; ...
+##   .. ..$ : chr  &quot;PNP_Main_553&quot; &quot;M0x20MCx1812&quot; &quot;M0x20MCx1360&quot; &quot;sub_101&quot; ...
+##   .. ..$ : chr  &quot;stool&quot; &quot;stool&quot; &quot;stool&quot; &quot;oralcavity&quot; ...
+##   .. ..$ : chr  &quot;no&quot; &quot;no&quot; &quot;yes&quot; NA ...
+##   .. ..$ : chr  &quot;control&quot; &quot;T2D&quot; &quot;IGT&quot; &quot;control&quot; ...
+##   .. ..$ : chr  &quot;healthy&quot; &quot;T2D&quot; &quot;IGT;MS&quot; &quot;healthy&quot; ...
+##   .. ..$ : int  51 63 51 NA 27
+##   .. ..$ : chr  &quot;adult&quot; &quot;adult&quot; &quot;adult&quot; &quot;adult&quot; ...
+##   .. ..$ : chr  &quot;female&quot; &quot;male&quot; &quot;female&quot; NA ...
+##   .. ..$ : chr  &quot;ISR&quot; &quot;DEU&quot; &quot;DEU&quot; &quot;ITA&quot; ...
+##   .. ..$ : chr  NA &quot;Leipzig&quot; &quot;Leipzig&quot; NA ...
+##   .. ..$ : chr  &quot;no&quot; &quot;no&quot; &quot;no&quot; &quot;no&quot; ...
+##   .. ..$ : chr  &quot;IlluminaHiSeq&quot; &quot;IonProton&quot; &quot;IonProton&quot; &quot;IlluminaHiSeq&quot; ...
+##   .. ..$ : chr  NA NA NA NA ...
+##   .. ..$ : int  26590418 34880489 34880489 33127901 22699609
+##   .. ..$ : int  28756422 15374062 20888458 20061461 94436101
+##   .. ..$ : num  2.52e+09 2.33e+09 3.20e+09 1.99e+09 8.71e+09
+##   .. ..$ : int  20 NA NA 75 60
+##   .. ..$ : int  80 NA NA 100 101
+##   .. ..$ : chr  &quot;ERR1136663&quot; &quot;ERR4562131&quot; &quot;ERR4087400&quot; &quot;SRR9217435&quot; ...
+##   .. ..$ : num  NA NA 6.78 NA NA
+##   .. ..$ : chr  &quot;no&quot; &quot;antidiab;metformin;dppiv&quot; &quot;antihta;ca2_cbl&quot; NA ...
+##   .. ..$ : chr  &quot;Jacob_Wirbel;Paolo_Manghi&quot; &quot;Paolo_Manghi&quot; &quot;Paolo_Manghi&quot; &quot;Paolo_Manghi&quot; ...
+##   .. ..$ : chr  &quot;no&quot; NA NA NA ...
+##   .. ..$ : num  23.7 27.7 50.1 NA 23
+##   .. ..$ : chr  NA &quot;yes&quot; &quot;no&quot; &quot;no&quot; ...
+##   .. ..$ : chr  &quot;rectal_swab&quot; NA NA &quot;subgingival_plaque&quot; ...
+##   .. ..$ : chr  &quot;no_immuno_suppressive;no_T2D;no_T1D;no_related_treatments;no_psychiatric_diseases;no_gastro_intestinal_disorder;non_celiac&quot; NA NA NA ...
+##   .. ..$ : num  NA NA 210 NA NA
+##   .. ..$ : num  NA NA 240 NA NA
+##   .. ..$ : num  NA NA 5.73 NA NA
+##   .. ..$ : chr  NA NA NA &quot;yes&quot; ...
+##   .. ..$ : chr  NA NA NA &quot;implant&quot; ...
+##   .. ..$ : chr  NA NA NA &quot;yes&quot; ...
+##   .. ..$ : int  NA NA NA 4 NA
+##   .. ..$ : int  NA NA NA 3 NA
+##   .. ..$ : int  NA NA NA 4 NA
+##   .. ..$ : int  NA NA NA 3 NA
+##   .. ..$ : int  NA NA 4 NA NA
+##   .. ..$ : chr  &quot;PRJEB11532&quot; &quot;PRJEB38742&quot; &quot;PRJEB37249&quot; &quot;PRJNA547717&quot; ...
+##   ..@ names    : chr  &quot;study_name&quot; &quot;sample_id&quot; &quot;subject_id&quot; &quot;body_site&quot; ...
+##   ..@ row.names: chr  &quot;sa1&quot; &quot;sa2&quot; &quot;sa3&quot; &quot;sa4&quot; ...
+##   ..@ .S3Class : chr &quot;data.frame&quot;</code></pre>
+<p>Format the dataframe to work well with the sourmash phyloseq
+object</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="fu">names</span>(metadata) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">names</span>(metadata))</span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a><span class="fu">rownames</span>(metadata) <span class="ot">&lt;-</span> metadata<span class="sc">$</span>ncbi_accession</span>
+<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a>metadata</span></code></pre></div>
+<pre><code>##                   study_name      sample_id         subject_id  body_site
+## ERR1136663       ZeeviD_2015   PNP_Main_553       PNP_Main_553      stool
+## ERR4562131 MetaCardis_2020_a   M0x20MCx1812       M0x20MCx1812      stool
+## ERR4087400 MetaCardis_2020_a   M0x20MCx1360       M0x20MCx1360      stool
+## SRR9217435      GhensiP_2019 SP_101SPI_T016            sub_101 oralcavity
+## SRR059888           HMP_2012      SRS013723 HMP_2012_159268001 oralcavity
+##            antibiotics_current_use study_condition disease age age_category
+## ERR1136663                      no         control healthy  51        adult
+## ERR4562131                      no             T2D     T2D  63        adult
+## ERR4087400                     yes             IGT  IGT;MS  51        adult
+## SRR9217435                    &lt;NA&gt;         control healthy  NA        adult
+## SRR059888                     &lt;NA&gt;         control healthy  27        adult
+##            gender country location non_westernized sequencing_platform
+## ERR1136663 female     ISR     &lt;NA&gt;              no       IlluminaHiSeq
+## ERR4562131   male     DEU  Leipzig              no           IonProton
+## ERR4087400 female     DEU  Leipzig              no           IonProton
+## SRR9217435   &lt;NA&gt;     ITA     &lt;NA&gt;              no       IlluminaHiSeq
+## SRR059888    male     USA     &lt;NA&gt;              no       IlluminaHiSeq
+##            dna_extraction_kit     pmid number_reads number_bases
+## ERR1136663               &lt;NA&gt; 26590418     28756422   2515847316
+## ERR4562131               &lt;NA&gt; 34880489     15374062   2326962418
+## ERR4087400               &lt;NA&gt; 34880489     20888458   3200734644
+## SRR9217435               &lt;NA&gt; 33127901     20061461   1987501438
+## SRR059888              Qiagen 22699609     94436101   8712278548
+##            minimum_read_length median_read_length ncbi_accession hscrp
+## ERR1136663                  20                 80     ERR1136663    NA
+## ERR4562131                  NA                 NA     ERR4562131    NA
+## ERR4087400                  NA                 NA     ERR4087400  6.78
+## SRR9217435                  75                100     SRR9217435    NA
+## SRR059888                   60                101      SRR059888    NA
+##                           treatment                   curator pregnant      bmi
+## ERR1136663                       no Jacob_Wirbel;Paolo_Manghi       no 23.70000
+## ERR4562131 antidiab;metformin;dppiv              Paolo_Manghi     &lt;NA&gt; 27.67959
+## ERR4087400          antihta;ca2_cbl              Paolo_Manghi     &lt;NA&gt; 50.14402
+## SRR9217435                     &lt;NA&gt;              Paolo_Manghi     &lt;NA&gt;       NA
+## SRR059888                      &lt;NA&gt;              Paolo_Manghi     &lt;NA&gt; 23.00000
+##            smoker         body_subsite
+## ERR1136663   &lt;NA&gt;          rectal_swab
+## ERR4562131    yes                 &lt;NA&gt;
+## ERR4087400     no                 &lt;NA&gt;
+## SRR9217435     no   subgingival_plaque
+## SRR059888    &lt;NA&gt; supragingival_plaque
+##                                                                                                                    uncurated_metadata
+## ERR1136663 no_immuno_suppressive;no_T2D;no_T1D;no_related_treatments;no_psychiatric_diseases;no_gastro_intestinal_disorder;non_celiac
+## ERR4562131                                                                                                                       &lt;NA&gt;
+## ERR4087400                                                                                                                       &lt;NA&gt;
+## SRR9217435                                                                                                                       &lt;NA&gt;
+## SRR059888                                                                                                                        &lt;NA&gt;
+##                 ldl triglycerides hba1c ever_smoker dental_sample_type
+## ERR1136663       NA            NA    NA        &lt;NA&gt;               &lt;NA&gt;
+## ERR4562131       NA            NA    NA        &lt;NA&gt;               &lt;NA&gt;
+## ERR4087400 210.3648      240.0247  5.73        &lt;NA&gt;               &lt;NA&gt;
+## SRR9217435       NA            NA    NA         yes            implant
+## SRR059888        NA            NA    NA        &lt;NA&gt;               &lt;NA&gt;
+##            history_of_periodontitis ppd_m ppd_b ppd_d ppd_l bristol_score
+## ERR1136663                     &lt;NA&gt;    NA    NA    NA    NA            NA
+## ERR4562131                     &lt;NA&gt;    NA    NA    NA    NA            NA
+## ERR4087400                     &lt;NA&gt;    NA    NA    NA    NA             4
+## SRR9217435                      yes     4     3     4     3            NA
+## SRR059888                      &lt;NA&gt;    NA    NA    NA    NA            NA
+##            ncbi_bioproject
+## ERR1136663      PRJEB11532
+## ERR4562131      PRJEB38742
+## ERR4087400      PRJEB37249
+## SRR9217435     PRJNA547717
+## SRR059888       PRJNA48479</code></pre>
+<p>Finally, merge the metadata with the sourmash phyloseq object</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a>pseq_final <span class="ot">&lt;-</span> <span class="fu">merge_phyloseq</span>(physeq, metadata)</span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>pseq_final</span></code></pre></div>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 15 taxa and 5 samples ]
+## sample_data() Sample Data:       [ 5 samples by 41 sample variables ]
 ## tax_table()   Taxonomy Table:    [ 15 taxa by 8 taxonomic ranks ]</code></pre>
 
 </body>

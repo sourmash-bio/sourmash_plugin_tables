@@ -2,22 +2,69 @@
 output: github_document
 ---
 
+# Sourmash phyloseq object creation
+
+## Gather
+
+The `sourmash gather` command was used to create 5 gather csv files found in `examples/data/gather`. The parameters used to generate these samples can be found in the file names.
+
+The `podar-ref.zip` database is a small toy database for easy testing.
+
+```{bash, eval=FALSE}
+for sig in (awk -F, 'NR>1 {print $21}' examples/data/tiny_example.csv); do
+    sourmash gather examples/data/sigs/${sig}.sig examples/data/podar-ref.zip -k 31 --scaled 1000 --dna -o examples/data/gather/${sig}.k31-s1000-t3000.csv --threshold-bp 3000
+done
+```
+
+## Tax
+
+The taxonomy file is located in `examples/data/` and is `podar-red.tax.csv`.
+
+## Metadata
+
+The metadata for the 5 example signatures used in this vingette is from the [CuratedMetagenomicData repository on GitHub](https://github.com/waldronlab/curatedMetagenomicData)
+
+An example metadata file was generated with:
+
+```{bash, eval=FALSE}
+head -1 data/big_metadata.csv > tiny_example.csv
+tail -n +2 data/big_metadata.csv | shuf | head -n 5 >> tiny_example.csv
+```
+
+## Sourmash gather files to table
+
+The phyloseq object expects an n by m matrix. To achieve this across a large number of samples, I wrote the `tables` plugin for sourmash.
+
+This plugin collects all the gather information and creates an OTU object from our sourmash gather data.
+
+An example of the tables plugin operation:
+
+```{bash, eval=FALSE}
+sourmash scripts gather_tables examples/data/gather/*  --format dense -o examples/data/dense-gather.k31-s1000-t3000.csv --column f_unique_weighted --filter 0
+```
+
+```{r, echo=FALSE}
+read.csv('data/dense-gather.k31-s1000-t3000.csv')
+```
+
+## R script to create sourmash phyloseq object
+
+### Load necessary libraries
+
 ```{r}
 library(phyloseq)
 library(stringr)
 ```
+
+### Load sourmash OTU and tax data
 
 ```{r}
 df <- read.csv('data/dense-gather.k31-s1000-t3000.csv')
 tax <- read.csv('data/podar-ref.tax.csv')
 ```
 
-# an example metadata file was generated with:
-# head -1 data/big_metadata.csv > tiny_example.csv
-# tail -n +2 data/big_metadata.csv | shuf | head -n 5 >> tiny_example.csv
+### Manipulate the taxonomy strings in both dataframes to have matching row names
 
-# an example of the tables plugin operation
-# sourmash scripts gather_tables examples/data/gather/*  --format dense -o examples/data/dense-gather.k31-s1000-t3000.csv --column f_unique_weighted --filter 0
 ```{r}
 str(df)
 df[,1]
@@ -54,4 +101,39 @@ TAX
 
 physeq = phyloseq(OTU, TAX)
 physeq
+```
+
+## Create a metadata dataframe to use with the sourmash phyloseq object
+
+Read in the csv file that contains your sample metadata
+
+```{r}
+
+all_metadata <- read.csv("data/tiny_example.csv")
+
+metadata <- sample_data(all_metadata)
+
+str(metadata)
+```
+
+This file contained many columns we do not need. Lets remove those.
+
+```{r}
+metadata <- metadata[, colSums(!is.na(metadata)) > 0]
+str(metadata)
+```
+
+Format the dataframe to work well with the sourmash phyloseq object
+
+```{r}
+names(metadata) <- tolower(names(metadata))
+rownames(metadata) <- metadata$ncbi_accession
+metadata
+```
+
+Finally, merge the metadata with the sourmash phyloseq object
+
+```{r}
+pseq_final <- merge_phyloseq(physeq, metadata)
+pseq_final
 ```
