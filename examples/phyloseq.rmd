@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: true
 ---
 
 # Sourmash phyloseq object creation
@@ -44,7 +45,9 @@ sourmash scripts gather_tables examples/data/gather/*  --format dense -o example
 ```
 
 ```{r, echo=FALSE}
-read.csv('data/dense-gather.k31-s1000-t3000.csv')
+DT::datatable(
+        read.csv('data/dense-gather.k31-s1000-t3000.csv')
+	, options = list(scrollX = TRUE))
 ```
 
 ## R script to create sourmash phyloseq object
@@ -80,7 +83,8 @@ df
 rownames(df) <- df[,1]
 rownames(df)
 df <- df[,-1]
-df
+
+DT::datatable(df)
 
 str(tax)
 tax[,1]
@@ -91,13 +95,9 @@ str_view(head(tax$accession), ".*")
 #tax$ident <- str_remove_all(tax$ident, "\\..*")
 rownames(tax) <- str_glue_data(tax, "{accession} {species}")
 tax <- tax[,-1]
-tax
 
 OTU = otu_table(df, taxa_are_rows = TRUE)
 TAX = tax_table(as.matrix(tax))
-
-OTU
-TAX
 
 physeq = phyloseq(OTU, TAX)
 physeq
@@ -128,7 +128,7 @@ Format the dataframe to work well with the sourmash phyloseq object
 ```{r}
 names(metadata) <- tolower(names(metadata))
 rownames(metadata) <- metadata$ncbi_accession
-metadata
+DT::datatable(metadata)
 ```
 
 Finally, merge the metadata with the sourmash phyloseq object
