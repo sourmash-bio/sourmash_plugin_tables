@@ -1,0 +1,53 @@
+---
+output: github_document
+---
+
+library(phyloseq)
+library(stringr)
+
+df <- read.csv('examples/data/dense-gather.k31-s1000-t3000.csv')
+tax <- read.csv('examples/data/podar-ref.tax.csv')
+
+# an example metadata file was generated with:
+# head -1 data/big_metadata.csv > tiny_example.csv
+# tail -n +2 data/big_metadata.csv | shuf | head -n 5 >> tiny_example.csv
+
+# an example of the tables plugin operation
+# sourmash scripts gather_tables examples/data/gather/*  --format dense -o examples/data/dense-gather.k31-s1000-t3000.csv --column f_unique_weighted --filter 0
+
+str(df)
+df[,1]
+
+str_view(head(df[,1]), "\\.\\d+")
+word(df[, 1], 1, 3)
+
+df[,1] <- word(df[,1], 1, 3)
+df[,1]
+df[,1] <- str_remove_all(df[,1], "\\.\\d+")
+df[,1]
+df
+rownames(df) <- df[,1]
+rownames(df)
+df <- df[,-1]
+df
+
+str(tax)
+tax[,1]
+tax[,9]
+tax <- tax[,-2]
+
+str_view(head(tax$accession), ".*")
+#tax$ident <- str_remove_all(tax$ident, "\\..*")
+rownames(tax) <- str_glue_data(tax, "{accession} {species}")
+tax <- tax[,-1]
+tax
+
+OTU = otu_table(df, taxa_are_rows = TRUE)
+TAX = tax_table(as.matrix(tax))
+
+OTU
+TAX
+
+physeq = phyloseq(OTU, TAX)
+physeq
+
