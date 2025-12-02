@@ -461,9 +461,12 @@ def tables_main(args):
             skipped_files.append(file)
 
     print(f"Successfully processed {len(lazy_frames)} file(s).")
-    print(f"Skipped {len(skipped_files)} file(s). Writing the file names to 'skipped-files.txt")
-    with open("skipped-files.txt", "wt") as fp:
-        print(f"{skipped_files}", file=fp)
+    if len(skipped_files) == 0:
+        print(f"Nothing to skip. Moving on...")
+    else:
+        print(f"Skipped {len(skipped_files)} file(s). Writing the file names to 'skipped-files.txt")
+        with open("skipped-files.txt", "wt") as fp:
+            print(f"{skipped_files}", file=fp)
 
     if args.verbose: print("Listing each individual dataframe...\n", dfs, '\nList of DataFrames completed.')
 
@@ -549,10 +552,25 @@ def tables_main(args):
 
 
 
-        #print(combined_df)
+        print(combined_df)
         # Create a list of data and numeric columns
         #data_cols = [col for col in combined_df.columns if col not in {'match_name', f'match_name_{args.lineage_rank}'}]
-        numeric_cols = combined_df.select(pl.col(pl.Int64) | pl.col(pl.Float64) | pl.col(pl.UInt64)).columns
+        numeric_cols = combined_df.select(
+            pl.col([
+                pl.Decimal,
+                pl.Float32,
+                pl.Float64,
+                pl.Int8,
+                pl.Int16,
+                pl.Int32,
+                pl.Int64,
+                pl.Int128,
+                pl.UInt8,
+                pl.UInt16,
+                pl.UInt32,
+                pl.UInt64,
+            ])
+        ).columns
 
 #        # Compute the maximum percentage across all input files for each taxonomic name
 #        combined_df = combined_df.with_columns(
