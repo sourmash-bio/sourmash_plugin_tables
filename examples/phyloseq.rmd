@@ -2,11 +2,15 @@
 output: github_document
 ---
 
+```{r}
 library(phyloseq)
 library(stringr)
+```
 
+```{r}
 df <- read.csv('examples/data/dense-gather.k31-s1000-t3000.csv')
 tax <- read.csv('examples/data/podar-ref.tax.csv')
+```
 
 # an example metadata file was generated with:
 # head -1 data/big_metadata.csv > tiny_example.csv
@@ -14,7 +18,7 @@ tax <- read.csv('examples/data/podar-ref.tax.csv')
 
 # an example of the tables plugin operation
 # sourmash scripts gather_tables examples/data/gather/*  --format dense -o examples/data/dense-gather.k31-s1000-t3000.csv --column f_unique_weighted --filter 0
-
+```{r}
 str(df)
 df[,1]
 
@@ -50,4 +54,4 @@ TAX
 
 physeq = phyloseq(OTU, TAX)
 physeq
-
+```
