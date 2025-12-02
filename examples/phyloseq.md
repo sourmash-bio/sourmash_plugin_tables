@@ -265,11 +265,28 @@ rownames(df)
 ``` r
 df <- df[,-1]
 
-DT::datatable(df)
+knitr::kable(df, format = 'markdown')
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-4853653c9b64d3a4362a" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-4853653c9b64d3a4362a">{"x":{"filter":"none","vertical":false,"data":[["CP000139 Bacteroides vulgatus","AE015928 Bacteroides thetaiotaomicron","NZ_DS996397 Desulfovibrio piger","CP001071 Akkermansia muciniphila","NZ_KE136524 Enterococcus faecalis","CP001472 Acidobacterium capsulatum","AE009951 Fusobacterium nucleatum","CP001013 Leptothrix cholodnii","NZ_JGWU01000001 Bordetella bronchiseptica","NZ_KQ961402 Zymomonas mobilis","AP009380 Porphyromonas gingivalis","NC_007951 Burkholderia xenovorans","AE017226 Treponema denticola","CP000850 Salinispora arenicola","AE006470 Chlorobium tepidum","AE017221 Thermus thermophilus","NC_011663 Shewanella baltica"],[0.008301477048164819,0.00203267830687083,0.001076400911054425,0.0005676424935757473,2.355363043882769e-05,0.0001165904706721971,0.0002814658837439909,9.421452175531076e-06,0,0,0,0,0,0,0,0,0],[0.005512088798175656,0.0003968703934686472,0,0.004119892656007862,6.929483060563682e-05,0,0,0,3.779718033034736e-05,0,0,0,0,0,0,0,0],[0.005823023670641407,0.0004229972870818062,0.0001548600237452036,4.301667326255657e-05,0,0,0,0,0,0.0003728111682754902,5.735556435007542e-05,2.581000395753394e-05,0,0,0,0,0],[3.356448072391872e-05,0,0,9.811155903914703e-06,0,0,0.00321728457154424,0.0001587858126554616,0.0002793597549483081,0,0.0002765196835024381,0,7.255091602631662e-05,0.0003464887163961456,7.539098747218667e-05,3.356448072391872e-06,0],[5.792532924471091e-05,0,0,0,0,0,5.649507420163164e-05,0.0001923693032941634,0.00039832602949758,2.932022838312528e-05,8.581530258475691e-06,4.290765129237846e-06,0,0,0,0,0.0001623339473894985]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>ERR1136663<\/th>\n      <th>ERR4087400<\/th>\n      <th>ERR4562131<\/th>\n      <th>SRR059888<\/th>\n      <th>SRR9217435<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"ERR1136663","targets":1},{"name":"ERR4087400","targets":2},{"name":"ERR4562131","targets":3},{"name":"SRR059888","targets":4},{"name":"SRR9217435","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+|                                           | ERR1136663 | ERR4087400 | ERR4562131 | SRR059888 | SRR9217435 |
+|:------------------------------------------|-----------:|-----------:|-----------:|----------:|-----------:|
+| CP000139 Bacteroides vulgatus             |  0.0083015 |  0.0055121 |  0.0058230 | 0.0000336 |  0.0000579 |
+| AE015928 Bacteroides thetaiotaomicron     |  0.0020327 |  0.0003969 |  0.0004230 | 0.0000000 |  0.0000000 |
+| NZ_DS996397 Desulfovibrio piger           |  0.0010764 |  0.0000000 |  0.0001549 | 0.0000000 |  0.0000000 |
+| CP001071 Akkermansia muciniphila          |  0.0005676 |  0.0041199 |  0.0000430 | 0.0000098 |  0.0000000 |
+| NZ_KE136524 Enterococcus faecalis         |  0.0000236 |  0.0000693 |  0.0000000 | 0.0000000 |  0.0000000 |
+| CP001472 Acidobacterium capsulatum        |  0.0001166 |  0.0000000 |  0.0000000 | 0.0000000 |  0.0000000 |
+| AE009951 Fusobacterium nucleatum          |  0.0002815 |  0.0000000 |  0.0000000 | 0.0032173 |  0.0000565 |
+| CP001013 Leptothrix cholodnii             |  0.0000094 |  0.0000000 |  0.0000000 | 0.0001588 |  0.0001924 |
+| NZ_JGWU01000001 Bordetella bronchiseptica |  0.0000000 |  0.0000378 |  0.0000000 | 0.0002794 |  0.0003983 |
+| NZ_KQ961402 Zymomonas mobilis             |  0.0000000 |  0.0000000 |  0.0003728 | 0.0000000 |  0.0000293 |
+| AP009380 Porphyromonas gingivalis         |  0.0000000 |  0.0000000 |  0.0000574 | 0.0002765 |  0.0000086 |
+| NC_007951 Burkholderia xenovorans         |  0.0000000 |  0.0000000 |  0.0000258 | 0.0000000 |  0.0000043 |
+| AE017226 Treponema denticola              |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000726 |  0.0000000 |
+| CP000850 Salinispora arenicola            |  0.0000000 |  0.0000000 |  0.0000000 | 0.0003465 |  0.0000000 |
+| AE006470 Chlorobium tepidum               |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000754 |  0.0000000 |
+| AE017221 Thermus thermophilus             |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000034 |  0.0000000 |
+| NC_011663 Shewanella baltica              |  0.0000000 |  0.0000000 |  0.0000000 | 0.0000000 |  0.0001623 |
 
 ``` r
 str(tax)
@@ -585,11 +602,466 @@ Format the dataframe to work well with the sourmash phyloseq object
 ``` r
 names(metadata) <- tolower(names(metadata))
 rownames(metadata) <- metadata$ncbi_accession
-DT::datatable(metadata)
+knitr::kable(metadata, format='markdown')
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-b18601fa64fe400df915" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-b18601fa64fe400df915">{"x":{"filter":"none","vertical":false,"data":[["ERR1136663","ERR4562131","ERR4087400","SRR9217435","SRR059888"],["ZeeviD_2015","MetaCardis_2020_a","MetaCardis_2020_a","GhensiP_2019","HMP_2012"],["PNP_Main_553","M0x20MCx1812","M0x20MCx1360","SP_101SPI_T016","SRS013723"],["PNP_Main_553","M0x20MCx1812","M0x20MCx1360","sub_101","HMP_2012_159268001"],["stool","stool","stool","oralcavity","oralcavity"],["no","no","yes",null,null],["control","T2D","IGT","control","control"],["healthy","T2D","IGT;MS","healthy","healthy"],[51,63,51,null,27],["adult","adult","adult","adult","adult"],["female","male","female",null,"male"],["ISR","DEU","DEU","ITA","USA"],[null,"Leipzig","Leipzig",null,null],["no","no","no","no","no"],["IlluminaHiSeq","IonProton","IonProton","IlluminaHiSeq","IlluminaHiSeq"],[null,null,null,null,"Qiagen"],[26590418,34880489,34880489,33127901,22699609],[28756422,15374062,20888458,20061461,94436101],[2515847316,2326962418,3200734644,1987501438,8712278548],[20,null,null,75,60],[80,null,null,100,101],["ERR1136663","ERR4562131","ERR4087400","SRR9217435","SRR059888"],[null,null,6.78,null,null],["no","antidiab;metformin;dppiv","antihta;ca2_cbl",null,null],["Jacob_Wirbel;Paolo_Manghi","Paolo_Manghi","Paolo_Manghi","Paolo_Manghi","Paolo_Manghi"],["no",null,null,null,null],[23.7,27.6795859109,50.1440220699,null,23],[null,"yes","no","no",null],["rectal_swab",null,null,"subgingival_plaque","supragingival_plaque"],["no_immuno_suppressive;no_T2D;no_T1D;no_related_treatments;no_psychiatric_diseases;no_gastro_intestinal_disorder;non_celiac",null,null,null,null],[null,null,210.3648,null,null],[null,null,240.0247,null,null],[null,null,5.73,null,null],[null,null,null,"yes",null],[null,null,null,"implant",null],[null,null,null,"yes",null],[null,null,null,4,null],[null,null,null,3,null],[null,null,null,4,null],[null,null,null,3,null],[null,null,4,null,null],["PRJEB11532","PRJEB38742","PRJEB37249","PRJNA547717","PRJNA48479"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>study_name<\/th>\n      <th>sample_id<\/th>\n      <th>subject_id<\/th>\n      <th>body_site<\/th>\n      <th>antibiotics_current_use<\/th>\n      <th>study_condition<\/th>\n      <th>disease<\/th>\n      <th>age<\/th>\n      <th>age_category<\/th>\n      <th>gender<\/th>\n      <th>country<\/th>\n      <th>location<\/th>\n      <th>non_westernized<\/th>\n      <th>sequencing_platform<\/th>\n      <th>dna_extraction_kit<\/th>\n      <th>pmid<\/th>\n      <th>number_reads<\/th>\n      <th>number_bases<\/th>\n      <th>minimum_read_length<\/th>\n      <th>median_read_length<\/th>\n      <th>ncbi_accession<\/th>\n      <th>hscrp<\/th>\n      <th>treatment<\/th>\n      <th>curator<\/th>\n      <th>pregnant<\/th>\n      <th>bmi<\/th>\n      <th>smoker<\/th>\n      <th>body_subsite<\/th>\n      <th>uncurated_metadata<\/th>\n      <th>ldl<\/th>\n      <th>triglycerides<\/th>\n      <th>hba1c<\/th>\n      <th>ever_smoker<\/th>\n      <th>dental_sample_type<\/th>\n      <th>history_of_periodontitis<\/th>\n      <th>ppd_m<\/th>\n      <th>ppd_b<\/th>\n      <th>ppd_d<\/th>\n      <th>ppd_l<\/th>\n      <th>bristol_score<\/th>\n      <th>ncbi_bioproject<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[8,16,17,18,19,20,22,26,30,31,32,36,37,38,39,40]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"study_name","targets":1},{"name":"sample_id","targets":2},{"name":"subject_id","targets":3},{"name":"body_site","targets":4},{"name":"antibiotics_current_use","targets":5},{"name":"study_condition","targets":6},{"name":"disease","targets":7},{"name":"age","targets":8},{"name":"age_category","targets":9},{"name":"gender","targets":10},{"name":"country","targets":11},{"name":"location","targets":12},{"name":"non_westernized","targets":13},{"name":"sequencing_platform","targets":14},{"name":"dna_extraction_kit","targets":15},{"name":"pmid","targets":16},{"name":"number_reads","targets":17},{"name":"number_bases","targets":18},{"name":"minimum_read_length","targets":19},{"name":"median_read_length","targets":20},{"name":"ncbi_accession","targets":21},{"name":"hscrp","targets":22},{"name":"treatment","targets":23},{"name":"curator","targets":24},{"name":"pregnant","targets":25},{"name":"bmi","targets":26},{"name":"smoker","targets":27},{"name":"body_subsite","targets":28},{"name":"uncurated_metadata","targets":29},{"name":"ldl","targets":30},{"name":"triglycerides","targets":31},{"name":"hba1c","targets":32},{"name":"ever_smoker","targets":33},{"name":"dental_sample_type","targets":34},{"name":"history_of_periodontitis","targets":35},{"name":"ppd_m","targets":36},{"name":"ppd_b","targets":37},{"name":"ppd_d","targets":38},{"name":"ppd_l","targets":39},{"name":"bristol_score","targets":40},{"name":"ncbi_bioproject","targets":41}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+| x                 |
+|:------------------|
+| ZeeviD_2015       |
+| MetaCardis_2020_a |
+| MetaCardis_2020_a |
+| GhensiP_2019      |
+| HMP_2012          |
+
+</td>
+<td>
+
+| x              |
+|:---------------|
+| PNP_Main_553   |
+| M0x20MCx1812   |
+| M0x20MCx1360   |
+| SP_101SPI_T016 |
+| SRS013723      |
+
+</td>
+<td>
+
+| x                  |
+|:-------------------|
+| PNP_Main_553       |
+| M0x20MCx1812       |
+| M0x20MCx1360       |
+| sub_101            |
+| HMP_2012_159268001 |
+
+</td>
+<td>
+
+| x          |
+|:-----------|
+| stool      |
+| stool      |
+| stool      |
+| oralcavity |
+| oralcavity |
+
+</td>
+<td>
+
+| x   |
+|:----|
+| no  |
+| no  |
+| yes |
+| NA  |
+| NA  |
+
+</td>
+<td>
+
+| x       |
+|:--------|
+| control |
+| T2D     |
+| IGT     |
+| control |
+| control |
+
+</td>
+<td>
+
+| x       |
+|:--------|
+| healthy |
+| T2D     |
+| IGT;MS  |
+| healthy |
+| healthy |
+
+</td>
+<td>
+
+|   x |
+|----:|
+|  51 |
+|  63 |
+|  51 |
+|  NA |
+|  27 |
+
+</td>
+<td>
+
+| x     |
+|:------|
+| adult |
+| adult |
+| adult |
+| adult |
+| adult |
+
+</td>
+<td>
+
+| x      |
+|:-------|
+| female |
+| male   |
+| female |
+| NA     |
+| male   |
+
+</td>
+<td>
+
+| x   |
+|:----|
+| ISR |
+| DEU |
+| DEU |
+| ITA |
+| USA |
+
+</td>
+<td>
+
+| x       |
+|:--------|
+| NA      |
+| Leipzig |
+| Leipzig |
+| NA      |
+| NA      |
+
+</td>
+<td>
+
+| x   |
+|:----|
+| no  |
+| no  |
+| no  |
+| no  |
+| no  |
+
+</td>
+<td>
+
+| x             |
+|:--------------|
+| IlluminaHiSeq |
+| IonProton     |
+| IonProton     |
+| IlluminaHiSeq |
+| IlluminaHiSeq |
+
+</td>
+<td>
+
+| x      |
+|:-------|
+| NA     |
+| NA     |
+| NA     |
+| NA     |
+| Qiagen |
+
+</td>
+<td>
+
+|        x |
+|---------:|
+| 26590418 |
+| 34880489 |
+| 34880489 |
+| 33127901 |
+| 22699609 |
+
+</td>
+<td>
+
+|        x |
+|---------:|
+| 28756422 |
+| 15374062 |
+| 20888458 |
+| 20061461 |
+| 94436101 |
+
+</td>
+<td>
+
+|          x |
+|-----------:|
+| 2515847316 |
+| 2326962418 |
+| 3200734644 |
+| 1987501438 |
+| 8712278548 |
+
+</td>
+<td>
+
+|   x |
+|----:|
+|  20 |
+|  NA |
+|  NA |
+|  75 |
+|  60 |
+
+</td>
+<td>
+
+|   x |
+|----:|
+|  80 |
+|  NA |
+|  NA |
+| 100 |
+| 101 |
+
+</td>
+<td>
+
+| x          |
+|:-----------|
+| ERR1136663 |
+| ERR4562131 |
+| ERR4087400 |
+| SRR9217435 |
+| SRR059888  |
+
+</td>
+<td>
+
+|    x |
+|-----:|
+|   NA |
+|   NA |
+| 6.78 |
+|   NA |
+|   NA |
+
+</td>
+<td>
+
+| x                        |
+|:-------------------------|
+| no                       |
+| antidiab;metformin;dppiv |
+| antihta;ca2_cbl          |
+| NA                       |
+| NA                       |
+
+</td>
+<td>
+
+| x                         |
+|:--------------------------|
+| Jacob_Wirbel;Paolo_Manghi |
+| Paolo_Manghi              |
+| Paolo_Manghi              |
+| Paolo_Manghi              |
+| Paolo_Manghi              |
+
+</td>
+<td>
+
+| x   |
+|:----|
+| no  |
+| NA  |
+| NA  |
+| NA  |
+| NA  |
+
+</td>
+<td>
+
+|        x |
+|---------:|
+| 23.70000 |
+| 27.67959 |
+| 50.14402 |
+|       NA |
+| 23.00000 |
+
+</td>
+<td>
+
+| x   |
+|:----|
+| NA  |
+| yes |
+| no  |
+| no  |
+| NA  |
+
+</td>
+<td>
+
+| x                    |
+|:---------------------|
+| rectal_swab          |
+| NA                   |
+| NA                   |
+| subgingival_plaque   |
+| supragingival_plaque |
+
+</td>
+<td>
+
+| x                                                                                                                          |
+|:---------------------------------------------------------------------------------------------------------------------------|
+| no_immuno_suppressive;no_T2D;no_T1D;no_related_treatments;no_psychiatric_diseases;no_gastro_intestinal_disorder;non_celiac |
+| NA                                                                                                                         |
+| NA                                                                                                                         |
+| NA                                                                                                                         |
+| NA                                                                                                                         |
+
+</td>
+<td>
+
+|        x |
+|---------:|
+|       NA |
+|       NA |
+| 210.3648 |
+|       NA |
+|       NA |
+
+</td>
+<td>
+
+|        x |
+|---------:|
+|       NA |
+|       NA |
+| 240.0247 |
+|       NA |
+|       NA |
+
+</td>
+<td>
+
+|    x |
+|-----:|
+|   NA |
+|   NA |
+| 5.73 |
+|   NA |
+|   NA |
+
+</td>
+<td>
+
+| x   |
+|:----|
+| NA  |
+| NA  |
+| NA  |
+| yes |
+| NA  |
+
+</td>
+<td>
+
+| x       |
+|:--------|
+| NA      |
+| NA      |
+| NA      |
+| implant |
+| NA      |
+
+</td>
+<td>
+
+| x   |
+|:----|
+| NA  |
+| NA  |
+| NA  |
+| yes |
+| NA  |
+
+</td>
+<td>
+
+|   x |
+|----:|
+|  NA |
+|  NA |
+|  NA |
+|   4 |
+|  NA |
+
+</td>
+<td>
+
+|   x |
+|----:|
+|  NA |
+|  NA |
+|  NA |
+|   3 |
+|  NA |
+
+</td>
+<td>
+
+|   x |
+|----:|
+|  NA |
+|  NA |
+|  NA |
+|   4 |
+|  NA |
+
+</td>
+<td>
+
+|   x |
+|----:|
+|  NA |
+|  NA |
+|  NA |
+|   3 |
+|  NA |
+
+</td>
+<td>
+
+|   x |
+|----:|
+|  NA |
+|  NA |
+|   4 |
+|  NA |
+|  NA |
+
+</td>
+<td>
+
+| x           |
+|:------------|
+| PRJEB11532  |
+| PRJEB38742  |
+| PRJEB37249  |
+| PRJNA547717 |
+| PRJNA48479  |
+
+</td>
+</tr>
+</tbody>
+</table>
 
 Finally, merge the metadata with the sourmash phyloseq object
 

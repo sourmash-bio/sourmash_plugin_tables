@@ -82,7 +82,7 @@ rownames(df) <- df[,1]
 rownames(df)
 df <- df[,-1]
 
-DT::datatable(df)
+knitr::kable(df, format = 'markdown')
 
 str(tax)
 tax[,1]
@@ -126,7 +126,7 @@ Format the dataframe to work well with the sourmash phyloseq object
 ```{r}
 names(metadata) <- tolower(names(metadata))
 rownames(metadata) <- metadata$ncbi_accession
-DT::datatable(metadata)
+knitr::kable(metadata, format='markdown')
 ```
 
 Finally, merge the metadata with the sourmash phyloseq object
